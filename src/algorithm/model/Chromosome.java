@@ -7,6 +7,8 @@ public interface Chromosome {
 	double fitness();
 	
 	int geneAmount();
+	
+	Chromosome clone();
 		
 	List<Gene> genes();
 	

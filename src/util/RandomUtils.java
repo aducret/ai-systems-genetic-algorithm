@@ -10,4 +10,7 @@ public class RandomUtils {
 		return (int)(Math.random() * (b - a + 1) + a);
 	}
 	
+	public static boolean should(double p) {
+		return Math.random() < p;
+	}
 }
