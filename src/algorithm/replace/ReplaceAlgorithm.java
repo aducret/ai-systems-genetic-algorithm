@@ -9,5 +9,5 @@ public interface ReplaceAlgorithm {
 	/*
 	 * returns the new generation
 	 * */
-	List<Chromosome> replace(List<Chromosome> currentGeneration, List<Chromosome> selectedParents, List<Chromosome> childs);
+	List<Chromosome> replace(List<Chromosome> currentGeneration, List<Chromosome> childs);
 }

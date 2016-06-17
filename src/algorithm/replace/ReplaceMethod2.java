@@ -14,22 +14,11 @@ public class ReplaceMethod2 implements ReplaceAlgorithm {
 	}
 	
 	@Override
-	public List<Chromosome> replace(List<Chromosome> currentGeneration, List<Chromosome> selectedParents, List<Chromosome> childs) {
-		if (selectedParents.size() != childs.size()) {
-			System.err.println("Selected parents and childs sizes don't match!");
-			return null;
-		}
-		
+	public List<Chromosome> replace(List<Chromosome> currentGeneration, List<Chromosome> childs) {
 		int N = currentGeneration.size();
-		int k = selectedParents.size();
+		int k = childs.size();
 		List<Chromosome> newGeneration = selector.select(currentGeneration, N-k);
 		newGeneration.addAll(childs);
-		
-		if (newGeneration.size() != N) {
-			System.err.println("The new generation has to have the same size of the old generation!");
-			return null;
-		}
-		
 		return newGeneration;
 	}
 }
