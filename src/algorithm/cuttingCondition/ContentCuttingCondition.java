@@ -1,0 +1,38 @@
+package algorithm.cuttingCondition;
+
+import java.util.List;
+
+import algorithm.model.Chromosome;
+
+/*
+ * if generationsTolerance generations pass without the max fitness being updated,
+ * isCutting will return true
+ * */
+public class ContentCuttingCondition implements CuttingCondition {
+
+	private int generationsTolerance;
+	private boolean toleranceLevelReached;
+	private int generationsWithoutUpdate;
+
+	public ContentCuttingCondition(int generationsTolerance) {
+		this.generationsTolerance = generationsTolerance;
+		generationsTolerance = 0;
+	}
+
+	@Override
+	public void onNewGenerationReached(int newGeneration, List<Chromosome> generation, Chromosome bestChromosome) {
+		generationsWithoutUpdate++;
+		if (generationsWithoutUpdate >= generationsTolerance)
+			toleranceLevelReached = true;
+	}
+
+	@Override
+	public void onBestChromosomeUpdated(Chromosome bestChromosome) {
+		generationsWithoutUpdate--;
+	}
+
+	@Override
+	public boolean isCutting() {
+		return toleranceLevelReached;
+	}
+}
