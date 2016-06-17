@@ -44,4 +44,12 @@ public class ChromosomeUtils {
 		return totalFitness;
 
 	}
+	
+	public static int getWinner(double[] cumulativeRelativeFitnesses, double number) {
+		for (int i = 0; i < cumulativeRelativeFitnesses.length; i++) {
+			if (cumulativeRelativeFitnesses[i] < number)
+				return i;
+		}
+		return -1;
+	}
 }
