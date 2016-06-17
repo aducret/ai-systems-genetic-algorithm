@@ -10,11 +10,11 @@ public class ReplaceMethod1 implements ReplaceAlgorithm {
 	public List<Chromosome> replace(List<Chromosome> currentGeneration, List<Chromosome> selectedParents,
 			List<Chromosome> childs) {
 		if (currentGeneration.size() != selectedParents.size()) {
-			System.err.println("should have selected N parents!");
+			System.err.println("Should have selected N parents!");
 			return null;
 		}
 		if (currentGeneration.size() != childs.size()) {
-			System.err.println("replace method 1 needs N childs!");
+			System.err.println("Replace method 1 needs N childs!");
 			return null;
 		}
 		return childs;
