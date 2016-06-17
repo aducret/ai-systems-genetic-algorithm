@@ -25,7 +25,7 @@ public class UniformCrossOver implements CrossOverAlgorithm {
 
 		for (int i = 0; i < firstChild.geneAmount(); i++) {
 			if (RandomUtils.should(probability))
-				ChromosomeUtils.exchange(firstChild, secondChild, i);
+				ChromosomeUtils.crossOver(firstChild, secondChild, i);
 		}
 
 		return new Pair<>(firstChild, secondChild);

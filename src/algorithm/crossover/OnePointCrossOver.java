@@ -22,7 +22,7 @@ public class OnePointCrossOver implements CrossOverAlgorithm {
 		int locus = RandomUtils.randomBetween(1, amountOfGenes);
 		int from = locus - 1;
 		int to = childs.first.geneAmount()-1;
-		ChromosomeUtils.exchange(childs.first, childs.second, from, to);
+		ChromosomeUtils.crossOver(childs.first, childs.second, from, to);
 		
 		return childs;
 	}

@@ -27,7 +27,7 @@ public class AnularCrossOver implements CrossOverAlgorithm {
 
 		for (int i = r1; i <= (r1 + l); i++) {
 			ChromosomeUtils
-					.exchange(firstChild, secondChild, i % amountOfGenes);
+					.crossOver(firstChild, secondChild, i % amountOfGenes);
 		}
 
 		return new Pair<>(firstChild, secondChild);

@@ -24,7 +24,7 @@ public class TwoPointCrossOver implements CrossOverAlgorithm {
 		int r1 = Math.min(a, b);
 		int r2 = Math.max(a, b);
 		
-		ChromosomeUtils.exchange(childs.first, childs.second, r1, r2);
+		ChromosomeUtils.crossOver(childs.first, childs.second, r1, r2);
 		return childs;
 	}
 }

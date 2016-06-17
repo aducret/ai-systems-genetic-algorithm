@@ -12,7 +12,7 @@ public class RouletteSelector implements Selector {
 	public List<Chromosome> select(List<Chromosome> chromosomes, int k) {
 		List<Chromosome> selected = new ArrayList<>();
 		double[] relativeFitnesses = ChromosomeUtils.relativeFitnesses(chromosomes);
-		double[] cumulativeRelativeFitnesses = ChromosomeUtils.cumulativeRelativeFitnesses(relativeFitnesses);
+		double[] cumulativeRelativeFitnesses = ChromosomeUtils.cumulativeProbabilities(relativeFitnesses);
 		for (int i = 0; i < k; i++) {
 			double number = Math.random();
 			int winnerIndex = ChromosomeUtils.getWinner(cumulativeRelativeFitnesses, number);
