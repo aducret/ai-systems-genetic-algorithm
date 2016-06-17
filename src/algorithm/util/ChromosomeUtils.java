@@ -1,9 +1,12 @@
 package algorithm.util;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import algorithm.model.Chromosome;
 import algorithm.model.Gene;
+import util.RandomUtils;
 
 public class ChromosomeUtils {
 	public static void exchange(Chromosome c1, Chromosome c2, int r1, int r2) {
@@ -51,5 +54,12 @@ public class ChromosomeUtils {
 				return i;
 		}
 		return -1;
+	}
+	
+	public static void mutate(Chromosome chromosome, Map<Integer, ArrayList<Gene>> geneMap, int locus) {
+		List<Gene> alleles = geneMap.get(locus);
+		int randomGeneIndex = RandomUtils.randomBetween(0, alleles.size() - 1);
+		Gene randomGene = alleles.get(randomGeneIndex);
+		chromosome.setGene(locus, randomGene);
 	}
 }
