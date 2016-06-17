@@ -6,6 +6,7 @@ import java.util.List;
 
 import model.Pair;
 import algorithm.crossover.CrossOverAlgorithm;
+import algorithm.cuttingCondition.CuttingCondition;
 import algorithm.listener.DispatcherGeneticAlgorithmListener;
 import algorithm.listener.GeneticAlgorithmListener;
 import algorithm.listener.GeneticAlgorithmLogAdapter;
@@ -53,14 +54,8 @@ public class GeneticAlgorithm {
 		int generation = 1;
 		Chromosome bestChromosome = getBestChromosome(currentGeneration);
 		dispatcher.onBestChromosomeUpdated(bestChromosome);
+		dispatcher.onNewGenerationReached(generation, currentGeneration, bestChromosome);
 		while (!isCutting()) {
-			
-			Chromosome currentBestChromosome = getBestChromosome(currentGeneration);
-			dispatcher.onNewGenerationReached(generation, currentGeneration, currentBestChromosome);
-			if (currentBestChromosome.fitness() > bestChromosome.fitness()) {
-				bestChromosome = currentBestChromosome;
-				dispatcher.onBestChromosomeUpdated(bestChromosome);
-			}
 			
 			// seleccionar individuos
 			List<Chromosome> parentsSelected = crossOverSelector.select(
@@ -91,6 +86,13 @@ public class GeneticAlgorithm {
 			currentGeneration = replaceAlgorithm.replace(currentGeneration, parentsSelected, childs);
 			
 			generation++;
+			
+			Chromosome currentBestChromosome = getBestChromosome(currentGeneration);
+			if (currentBestChromosome.fitness() > bestChromosome.fitness()) {
+				bestChromosome = currentBestChromosome;
+				dispatcher.onBestChromosomeUpdated(bestChromosome);
+			}
+			dispatcher.onNewGenerationReached(generation, currentGeneration, currentBestChromosome);
 		}
 	}
 	
