@@ -27,7 +27,7 @@ public class CompoundSelector implements Selector {
 		int k2 = k - k1;
 		List<Chromosome> ans = new ArrayList<>();
 		ans.addAll(selector1.select(chromosomes, k1));
-		ans.addAll(selector1.select(chromosomes, k2));
+		ans.addAll(selector2.select(chromosomes, k2));
 		return ans;
 	}
 }
