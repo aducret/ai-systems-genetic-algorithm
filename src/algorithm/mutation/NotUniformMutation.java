@@ -1,0 +1,27 @@
+package algorithm.mutation;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import util.RandomUtils;
+import algorithm.model.Chromosome;
+import algorithm.model.Gene;
+import algorithm.util.ChromosomeUtils;
+
+public class NotUniformMutation implements MutationAlgorithm {
+
+	private double pm;
+	
+	public NotUniformMutation(double p) {
+		this.pm = p;
+	}
+	
+	@Override
+	public void mutate(Chromosome chromosome, Map<Integer, ArrayList<Gene>> geneMap) {
+		int index = RandomUtils.randomBetween(0, chromosome.geneAmount()-1);
+		if (RandomUtils.should(pm)) {
+			ChromosomeUtils.mutate(chromosome, geneMap, index);
+		}
+	}
+	
+}

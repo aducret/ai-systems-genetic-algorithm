@@ -8,19 +8,19 @@ import algorithm.model.Gene;
 import algorithm.util.ChromosomeUtils;
 import util.RandomUtils;
 
-public class ClassicMutationAlgorithm implements MutationAlgorithm {
+public class ClassicMutation implements MutationAlgorithm {
 
-	private double p;
+	private double pm;
 	
-	public ClassicMutationAlgorithm(double p) {
-		this.p = p;
+	public ClassicMutation(double p) {
+		this.pm = p;
 	}
 	
 	@Override
 	public void mutate(Chromosome chromosome,
 			Map<Integer, ArrayList<Gene>> geneMap) {
 		for (int i = 0; i < chromosome.geneAmount(); i++) {
-			if (RandomUtils.should(p)) {
+			if (RandomUtils.should(pm)) {
 				ChromosomeUtils.mutate(chromosome, geneMap, i);
 			}
 		}
