@@ -14,6 +14,7 @@ public class Configuration {
 	public int N;
 	public int k;
 	public long seed;
+	public Multipliers multipliers;
 	public List<CuttingCondition> cuttingConditions;
 	public Selector crossOverSelector;
 	public CrossOverAlgorithm crossOverAlgorithm;
@@ -49,6 +50,11 @@ public class Configuration {
 		
 		public Builder withSeed(long seed) {
 			configuration.seed = seed;
+			return this;
+		}
+		
+		public Builder withMultipliers(Multipliers multipliers) {
+			configuration.multipliers = multipliers;
 			return this;
 		}
 		

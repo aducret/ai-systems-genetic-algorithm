@@ -37,6 +37,8 @@ import algorithm.selector.RouletteSelector;
 import algorithm.selector.Selector;
 import algorithm.selector.UniversalSelector;
 import model.Configuration;
+import model.Multipliers;
+import model.stats.Stats;
 
 public class ConfigurationParser {
 
@@ -79,6 +81,15 @@ public class ConfigurationParser {
 	private static final String REPLACE_METHOD_1 = "metodo1";
 	private static final String REPLACE_METHOD_2 = "metodo2";
 	private static final String REPLACE_METHOD_3 = "metodo3";
+
+	// multipliers
+	private static final String M_ATTACK = "m_ataque";
+	private static final String M_DEFENSE = "m_defensa";
+	private static final String M_STRENGTH = "m_fuerza";
+	private static final String M_AGILITY = "m_agilidad";
+	private static final String M_EXPERTISE = "m_pericia";
+	private static final String M_RESISTANCE = "m_resistencia";
+	private static final String M_HEALTH = "m_vida";
 
 	// global values
 	private static final String N = "N";
@@ -150,6 +161,7 @@ public class ConfigurationParser {
 
 	private static Configuration handleConfigurationMap(Map<String, String> configurationMap) {
 		Configuration.Builder builder = new Configuration.Builder();
+		handleMultipliers(configurationMap, builder);
 		handleGlobalValues(configurationMap, builder);
 		handleCuttingConditions(configurationMap, builder);
 		handleCrossOverSelector(configurationMap, builder);
@@ -166,28 +178,39 @@ public class ConfigurationParser {
 		return defaultConfigurationMap.get(key);
 	}
 
-	private static Configuration.Builder handleGlobalValues(Map<String, String> configurationMap,
-			Configuration.Builder builder) {
+	private static void handleMultipliers(Map<String, String> configurationMap, Configuration.Builder builder) {
+		Double attack = Double.valueOf(getValue(configurationMap, M_ATTACK));
+		Double defense = Double.valueOf(getValue(configurationMap, M_DEFENSE));
+		Double strength = Double.valueOf(getValue(configurationMap, M_STRENGTH));
+		Double agility = Double.valueOf(getValue(configurationMap, M_AGILITY));
+		Double expertise = Double.valueOf(getValue(configurationMap, M_EXPERTISE));
+		Double resistance = Double.valueOf(getValue(configurationMap, M_RESISTANCE));
+		Double health = Double.valueOf(getValue(configurationMap, M_HEALTH));
+		
+		Stats statsMultiplier = new Stats(strength, agility, expertise, resistance, health, 1);
+		Multipliers multipliers = new Multipliers(attack, defense, statsMultiplier);
+		builder.withMultipliers(multipliers);
+	}
+
+	private static void handleGlobalValues(Map<String, String> configurationMap, Configuration.Builder builder) {
 		Integer n = Integer.valueOf(getValue(configurationMap, N));
 		Integer k = Integer.valueOf(getValue(configurationMap, K));
 		Long seed = Long.valueOf(getValue(configurationMap, SEED));
-		return builder.withN(n).withK(k).withSeed(seed);
+		builder.withN(n).withK(k).withSeed(seed);
 	}
 
-	private static Configuration.Builder handleCuttingConditions(Map<String, String> configurationMap,
-			Configuration.Builder builder) {
+	private static void handleCuttingConditions(Map<String, String> configurationMap, Configuration.Builder builder) {
 		Integer limit = Integer.valueOf(getValue(configurationMap, CC_LIMIT));
 		Double goal = Double.valueOf(getValue(configurationMap, CC_GOAL));
 		Double structureTolerance = Double.valueOf(getValue(configurationMap, CC_STRUCTURE));
 		Integer contentTolerance = Integer.valueOf(getValue(configurationMap, CC_CONTENT));
-		return builder.addCuttingCondition(new MaxGenerationsCuttingCondition(limit))
+		builder.addCuttingCondition(new MaxGenerationsCuttingCondition(limit))
 				.addCuttingCondition(new GoalReachedCuttingCondition(goal))
 				.addCuttingCondition(new StructureCuttingCondition(structureTolerance))
 				.addCuttingCondition(new ContentCuttingCondition(contentTolerance));
 	}
 
-	private static Configuration.Builder handleCrossOverSelector(Map<String, String> configurationMap,
-			Configuration.Builder builder) {
+	private static void handleCrossOverSelector(Map<String, String> configurationMap, Configuration.Builder builder) {
 		Boolean compound = Boolean.valueOf(getValue(configurationMap, SC_COMPOUND));
 		String first = getValue(configurationMap, SC_FIRST);
 		if (compound) {
@@ -198,24 +221,22 @@ public class ConfigurationParser {
 		} else {
 			builder.withCrossOverSelector(createSelector(first, configurationMap));
 		}
-		return builder;
 	}
 
-	private static Configuration.Builder handlePairingAlgorithm(Map<String, String> configurationMap,
-			Configuration.Builder builder) {
-		return builder.withPairingAlgorithm(createPairingAlgorithm(getValue(configurationMap, AA_ALGORITHM)));
+	private static void handlePairingAlgorithm(Map<String, String> configurationMap, Configuration.Builder builder) {
+		builder.withPairingAlgorithm(createPairingAlgorithm(getValue(configurationMap, AA_ALGORITHM)));
 	}
 
-	private static Configuration.Builder handleCrossOverAlgorithm(Map<String, String> configurationMap,
+	private static void handleCrossOverAlgorithm(Map<String, String> configurationMap,
 			Configuration.Builder builder) {
 		String type = getValue(configurationMap, TC_TYPE);
-		return builder.withCrossOverAlgorithm(createCrossOverAlgorithm(type, configurationMap));
+		builder.withCrossOverAlgorithm(createCrossOverAlgorithm(type, configurationMap));
 	}
 
-	private static Configuration.Builder handleMutationAlgorithm(Map<String, String> configurationMap,
+	private static void handleMutationAlgorithm(Map<String, String> configurationMap,
 			Configuration.Builder builder) {
 		String name = getValue(configurationMap, AM_ALGORITHM);
-		return builder.withMutationAlgorithm(createMutationAlgorithm(name, configurationMap));
+		builder.withMutationAlgorithm(createMutationAlgorithm(name, configurationMap));
 	}
 
 	private static Selector getReplaceSelector(Map<String, String> configurationMap) {
@@ -233,11 +254,10 @@ public class ConfigurationParser {
 		return ans;
 	}
 
-	// TODO: add compound implementation of ReplaceAlgorithm
-	private static Configuration.Builder handleReplaceMethod(Map<String, String> configurationMap,
+	private static void handleReplaceMethod(Map<String, String> configurationMap,
 			Configuration.Builder builder) {
 		String name = getValue(configurationMap, MR_FIRST);
-		return builder.withReplaceMethod(createReplaceMethod(name, getReplaceSelector(configurationMap)));
+		builder.withReplaceMethod(createReplaceMethod(name, getReplaceSelector(configurationMap)));
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
