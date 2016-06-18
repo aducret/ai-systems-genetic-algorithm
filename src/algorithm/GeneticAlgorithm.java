@@ -83,7 +83,7 @@ public class GeneticAlgorithm {
 			}
 			
 			// generar una nueva poblacion
-			currentGeneration = replaceAlgorithm.replace(currentGeneration, parentsSelected, childs);
+			currentGeneration = replaceAlgorithm.replace(currentGeneration, childs);
 			
 			generation++;
 			
