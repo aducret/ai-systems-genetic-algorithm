@@ -18,6 +18,7 @@ import algorithm.mutation.MutationAlgorithm;
 import algorithm.mutation.NonUniformMutation;
 import algorithm.pairing.AlphaPairingAlgorithm;
 import algorithm.pairing.PairingAlgorithm;
+import algorithm.pairing.RandomPairingAlgorithm;
 import algorithm.replace.ReplaceMethod;
 import algorithm.replace.ReplaceMethod1;
 import algorithm.replace.ReplaceMethod2;
@@ -59,6 +60,7 @@ public class ConfigurationParser {
 
 	// pairing names
 	private static final String PAIRING_ALPHA = "alpha";
+	private static final String PAIRING_RANDOM = "random";
 
 	// cross over names
 	private static final String CROSS_OVER_ONE_POINT = "un_punto";
@@ -255,6 +257,8 @@ public class ConfigurationParser {
 		switch (pairingAlgorithmName) {
 		case PAIRING_ALPHA:
 			return new AlphaPairingAlgorithm();
+		case PAIRING_RANDOM:
+			return new RandomPairingAlgorithm();
 		default:
 			return null;
 		}

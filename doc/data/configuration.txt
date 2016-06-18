@@ -11,18 +11,18 @@ seed = 15
 cc_limite_generaciones = 500
 cc_objetivo = 80
 cc_estructura = 0.95
-cc_contenido = 30
+cc_contenido = 50
 
 % 3 - Metodo de seleccion para la cruza
 % opciones = {elite, roulette, ranking, universal, torneo_probabilistico, torneo_deterministico, boltzmann, random}
 sc_compuesto = true
 sc_primero = elite
 sc_segundo = roulette
-sc_porcentaje = 0.1
+sc_porcentaje = 0.05
 
 % 4 - Algoritmo de apareamiento
-% opciones = {alpha}
-aa_algoritmo = alpha
+% opciones = {alpha, random}
+aa_algoritmo = random
 
 % 5 - Tipo de cruza
 % opciones = {un_punto, dos_puntos, uniforme, anular}
@@ -32,8 +32,8 @@ tc_uniform_p = 0.25
 
 % 6 - Algoritmo de mutacion
 % opciones = {clasico, no_uniforme}
-am_algoritmo = clasico
-am_pm = 0.1
+am_algoritmo = no_uniforme
+am_pm = 0.3
 
 % 7 - Metodo de seleccion para el reemplazo
 % opciones = {elite, roulette, ranking, universal, torneo_probabilistico, torneo_deterministico, boltzmann, random}
