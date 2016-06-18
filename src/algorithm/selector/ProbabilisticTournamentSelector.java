@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import util.RandomUtils;
-import algorithm.ChromosomeComparator;
-import algorithm.model.Chromosome;
+import algorithm.chromosome.Chromosome;
+import algorithm.chromosome.ChromosomeComparator;
 
 public class ProbabilisticTournamentSelector implements Selector {
 	private double probability; // Usually 0.75
