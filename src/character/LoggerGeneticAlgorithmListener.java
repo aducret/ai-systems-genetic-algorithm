@@ -8,15 +8,12 @@ import algorithm.listener.GeneticAlgorithmListener;
 public class LoggerGeneticAlgorithmListener implements GeneticAlgorithmListener {
 
 	@Override
-	public void onNewGenerationReached(int newGeneration,
-			List<Chromosome> generation, Chromosome bestChromosome) {
-		// TODO Auto-generated method stub
-		
+	public void onNewGenerationReached(int newGeneration, List<Chromosome> generation, Chromosome bestChromosome) {
+		System.out.println("generation: " + newGeneration + ", currentBest: " + bestChromosome.fitness());
 	}
 
 	@Override
 	public void onBestChromosomeUpdated(Chromosome bestChromosome) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("best updated: " + bestChromosome.fitness());
 	}
 }

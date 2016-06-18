@@ -2,8 +2,18 @@ package character;
 
 import algorithm.GeneticAlgorithm;
 import algorithm.GeneticAlgorithmProblem;
+import algorithm.crossover.UniformCrossOver;
+import algorithm.cuttingCondition.ContentCuttingCondition;
+import algorithm.cuttingCondition.GoalReachedCuttingCondition;
+import algorithm.cuttingCondition.MaxGenerationsCuttingCondition;
+import algorithm.cuttingCondition.StructureCuttingCondition;
 import algorithm.listener.GeneticAlgorithmListener;
+import algorithm.mutation.ClassicMutation;
+import algorithm.pairing.AlphaPairingAlgorithm;
 import algorithm.replace.ReplaceMethod1;
+import algorithm.selector.CompoundSelector;
+import algorithm.selector.EliteSelector;
+import algorithm.selector.RouletteSelector;
 
 public class Main {
 
@@ -18,11 +28,17 @@ public class Main {
 		
 		GeneticAlgorithmProblem problem = new CharacterGeneticAlgorithmProblem();
 
-		// TODO: add cutting conditions
 		GeneticAlgorithm algorithm = new GeneticAlgorithm.Builder()
 				.withProblem(problem)
+				.withCuttingCondition(new MaxGenerationsCuttingCondition(500))
+				.withCuttingCondition(new GoalReachedCuttingCondition(80))
+				.withCuttingCondition(new StructureCuttingCondition(0.8))
+				.withCuttingCondition(new ContentCuttingCondition(15))
+				.withMutationAlgorithm(new ClassicMutation(0.01))
+				.withCrossOverSelector(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.15))
+				.withCrossOverAlgorithm(new UniformCrossOver(0.75, 0.4))
 				.withReplaceAlgorithm(new ReplaceMethod1())
-				.withPairingAlgorithm(null)
+				.withPairingAlgorithm(new AlphaPairingAlgorithm())
 				.build();
 
 		// Setear listeners
