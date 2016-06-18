@@ -35,7 +35,7 @@ public class CharacterListChromosome extends ListChromosome {
 			totalStats.add(characterGene.getDeltaStats());
 		}
 		polishStats(totalStats);
-		fitness = multipliers.attackMultiplier * attack(totalStats) + multipliers.defenceMultiplier * defense(totalStats);
+		fitness = multipliers.attackMultiplier * attack(totalStats) + multipliers.defenseMultiplier * defense(totalStats);
 		return fitness;
 	}
 

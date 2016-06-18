@@ -9,9 +9,9 @@ import algorithm.gene.Gene;
 
 public interface GeneticAlgorithmProblem {
 	
-	List<Chromosome> initialPopulation();
-	
 	Map<Integer, ArrayList<Gene>> geneMap();
 	
-	int getK();
+	Configuration configuration();
+	
+	Chromosome createChromosome(List<Gene> genes);
 }

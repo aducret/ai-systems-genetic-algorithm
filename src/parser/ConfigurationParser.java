@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
+import algorithm.Configuration;
 import algorithm.crossover.AnularCrossOver;
 import algorithm.crossover.CrossOverAlgorithm;
 import algorithm.crossover.OnePointCrossOver;
@@ -36,7 +37,6 @@ import algorithm.selector.RankingSelector;
 import algorithm.selector.RouletteSelector;
 import algorithm.selector.Selector;
 import algorithm.selector.UniversalSelector;
-import model.Configuration;
 import model.Multipliers;
 import model.stats.Stats;
 
@@ -82,15 +82,6 @@ public class ConfigurationParser {
 	private static final String REPLACE_METHOD_2 = "metodo2";
 	private static final String REPLACE_METHOD_3 = "metodo3";
 
-	// multipliers
-	private static final String M_ATTACK = "m_ataque";
-	private static final String M_DEFENSE = "m_defensa";
-	private static final String M_STRENGTH = "m_fuerza";
-	private static final String M_AGILITY = "m_agilidad";
-	private static final String M_EXPERTISE = "m_pericia";
-	private static final String M_RESISTANCE = "m_resistencia";
-	private static final String M_HEALTH = "m_vida";
-
 	// global values
 	private static final String N = "N";
 	private static final String K = "k";
@@ -134,31 +125,11 @@ public class ConfigurationParser {
 	private static final String MR_METHOD = "mr_metodo";
 
 	public static Configuration parse(String path) throws FileNotFoundException {
-		return handleConfigurationMap(configurationMap(path));
-	}
-
-	private static Map<String, String> configurationMap(String path) throws FileNotFoundException {
-		InputStream inputStream = new FileInputStream(path);
-		Scanner sc = new Scanner(inputStream);
-		sc.useLocale(Locale.US);
-
-		Map<String, String> configurationMap = new HashMap<>();
-		while (sc.hasNext()) {
-			String line = sc.nextLine();
-			if (line.startsWith("%") || line.trim().isEmpty())
-				continue;
-			String[] split = line.split("=");
-			String key = split[0].trim();
-			String value = split[1].trim();
-			configurationMap.put(key, value);
-		}
-		sc.close();
-		return configurationMap;
+		return handleConfigurationMap(MapParser.parseMap(path));
 	}
 
 	private static Configuration handleConfigurationMap(Map<String, String> configurationMap) {
 		Configuration.Builder builder = new Configuration.Builder();
-		handleMultipliers(configurationMap, builder);
 		handleGlobalValues(configurationMap, builder);
 		handleCuttingConditions(configurationMap, builder);
 		handleCrossOverSelector(configurationMap, builder);
@@ -173,20 +144,6 @@ public class ConfigurationParser {
 		if (configurationMap.containsKey(key))
 			return configurationMap.get(key);
 		return defaultConfigurationMap.get(key);
-	}
-
-	private static void handleMultipliers(Map<String, String> configurationMap, Configuration.Builder builder) {
-		Double attack = Double.valueOf(getValue(configurationMap, M_ATTACK));
-		Double defense = Double.valueOf(getValue(configurationMap, M_DEFENSE));
-		Double strength = Double.valueOf(getValue(configurationMap, M_STRENGTH));
-		Double agility = Double.valueOf(getValue(configurationMap, M_AGILITY));
-		Double expertise = Double.valueOf(getValue(configurationMap, M_EXPERTISE));
-		Double resistance = Double.valueOf(getValue(configurationMap, M_RESISTANCE));
-		Double health = Double.valueOf(getValue(configurationMap, M_HEALTH));
-		
-		Stats statsMultiplier = new Stats(strength, agility, expertise, resistance, health, 1);
-		Multipliers multipliers = new Multipliers(attack, defense, statsMultiplier);
-		builder.withMultipliers(multipliers);
 	}
 
 	private static void handleGlobalValues(Map<String, String> configurationMap, Configuration.Builder builder) {

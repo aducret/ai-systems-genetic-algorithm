@@ -1,4 +1,4 @@
-package model;
+package algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import algorithm.mutation.MutationAlgorithm;
 import algorithm.pairing.PairingAlgorithm;
 import algorithm.replace.ReplaceMethod;
 import algorithm.selector.Selector;
+import model.Multipliers;
 
 public class Configuration {
 	public int N;
@@ -17,8 +18,8 @@ public class Configuration {
 	public Multipliers multipliers;
 	public List<CuttingCondition> cuttingConditions;
 	public Selector crossOverSelector;
-	public CrossOverAlgorithm crossOverAlgorithm;
 	public PairingAlgorithm pairingAlgorithm;
+	public CrossOverAlgorithm crossOverAlgorithm;
 	public MutationAlgorithm mutationAlgorithm;
 	public ReplaceMethod replaceMethod;
 	
