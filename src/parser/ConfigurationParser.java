@@ -131,10 +131,7 @@ public class ConfigurationParser {
 	private static final String SR_BOLTZMANN_TEMPERATURE = "sr_boltzmann_temperatura_inicial";
 
 	// replace method
-	private static final String MR_COMPOUND = "mr_compuesto";
-	private static final String MR_FIRST = "mr_primero";
-	private static final String MR_SECOND = "mr_segundo";
-	private static final String MR_PERCENTAGE = "mr_porcentaje";
+	private static final String MR_METHOD = "mr_metodo";
 
 	public static Configuration parse(String path) throws FileNotFoundException {
 		return handleConfigurationMap(configurationMap(path));
@@ -256,7 +253,7 @@ public class ConfigurationParser {
 
 	private static void handleReplaceMethod(Map<String, String> configurationMap,
 			Configuration.Builder builder) {
-		String name = getValue(configurationMap, MR_FIRST);
+		String name = getValue(configurationMap, MR_METHOD);
 		builder.withReplaceMethod(createReplaceMethod(name, getReplaceSelector(configurationMap)));
 	}
 

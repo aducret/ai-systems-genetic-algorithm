@@ -56,7 +56,4 @@ sr_boltzmann_temperatura_inicial = 500
 
 % 8 - Metodo de reemplazo
 % opciones = {metodo1, metodo2, metodo3}
-mr_compuesto = true
-mr_primero = metodo1
-mr_segundo = metodo2
-mr_porcentaje = 0.22
+mr_metodo = metodo1

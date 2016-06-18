@@ -54,5 +54,4 @@ sr_primero = boltzmann
 
 % 8 - Metodo de reemplazo
 % opciones = {metodo1, metodo2, metodo3}
-mr_compuesto = false
-mr_primero = metodo1
+mr_metodo = metodo1
