@@ -14,6 +14,7 @@ import algorithm.replace.ReplaceMethod1;
 import algorithm.selector.CompoundSelector;
 import algorithm.selector.EliteSelector;
 import algorithm.selector.RouletteSelector;
+import algorithm.util.RandomUtils;
 
 public class Main {
 
@@ -40,6 +41,8 @@ public class Main {
 				.withReplaceAlgorithm(new ReplaceMethod1())
 				.withPairingAlgorithm(new AlphaPairingAlgorithm())
 				.build();
+		
+		RandomUtils.setSeed(132);
 
 		// Setear listeners
 		GeneticAlgorithmListener loggerListener = new LoggerGeneticAlgorithmListener();

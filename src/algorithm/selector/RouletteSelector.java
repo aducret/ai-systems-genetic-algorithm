@@ -5,6 +5,7 @@ import java.util.List;
 
 import algorithm.chromosome.Chromosome;
 import algorithm.util.ChromosomeUtils;
+import algorithm.util.RandomUtils;
 
 public class RouletteSelector implements Selector {
 
@@ -14,7 +15,7 @@ public class RouletteSelector implements Selector {
 		double[] relativeFitnesses = ChromosomeUtils.relativeFitnesses(chromosomes);
 		double[] cumulativeRelativeFitnesses = ChromosomeUtils.cumulativeProbabilities(relativeFitnesses);
 		for (int i = 0; i < k; i++) {
-			double number = Math.random();
+			double number = RandomUtils.random();
 			int winnerIndex = ChromosomeUtils.getWinner(cumulativeRelativeFitnesses, number);
 			selected.add(chromosomes.get(winnerIndex));
 		}

@@ -6,6 +6,7 @@ import java.util.List;
 import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.ChromosomeComparator;
 import algorithm.util.ChromosomeUtils;
+import algorithm.util.RandomUtils;
 
 public class RankingSelector implements Selector {
 	@Override
@@ -17,7 +18,7 @@ public class RankingSelector implements Selector {
 				.cumulativeProbabilities(relativeRankings);
 
 		for (int j = 0; j < k; j++) {
-			double number = Math.random();
+			double number = RandomUtils.random();
 			int winnerIndex = ChromosomeUtils.getWinner(
 					cummulativeProbabilities, number);
 			selected.add(chromosomes.get(winnerIndex));

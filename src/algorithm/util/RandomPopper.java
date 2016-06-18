@@ -26,7 +26,7 @@ public class RandomPopper<T> {
 
     public T randomPop() {
         if (isEmpty()) return null;
-        int selected = (int) (Math.random() * remaining);
+        int selected = (int) (RandomUtils.random() * remaining);
         T ans = list.get(indexes[selected]);
         swap(indexes, selected, remaining - 1);
         remaining--;
@@ -35,7 +35,7 @@ public class RandomPopper<T> {
     
     public T randomPeek() {
         if (isEmpty()) return null;
-        int selected = (int) (Math.random() * remaining);
+        int selected = (int) (RandomUtils.random() * remaining);
         T ans = list.get(indexes[selected]);
         return ans;
     }

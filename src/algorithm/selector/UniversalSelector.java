@@ -5,6 +5,7 @@ import java.util.List;
 
 import algorithm.chromosome.Chromosome;
 import algorithm.util.ChromosomeUtils;
+import algorithm.util.RandomUtils;
 
 public class UniversalSelector implements Selector {
 	@Override
@@ -14,7 +15,7 @@ public class UniversalSelector implements Selector {
 		double[] cumulativeRelativeFitnesses = ChromosomeUtils.cumulativeProbabilities(relativeFitnesses);
 		
 		for (int j = 1; j <= k; j++) {
-			double number = (Math.random() + j - 1) / k;
+			double number = (RandomUtils.random() + j - 1) / k;
 			int winnerIndex = ChromosomeUtils.getWinner(cumulativeRelativeFitnesses, number);
 			selected.add(chromosomes.get(winnerIndex));
 		}
