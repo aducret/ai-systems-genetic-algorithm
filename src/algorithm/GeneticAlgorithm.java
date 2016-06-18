@@ -60,7 +60,7 @@ public class GeneticAlgorithm {
 			
 			// seleccionar individuos
 			List<Chromosome> parentsSelected = crossOverSelector.select(
-					currentGeneration, problem.getK());
+					currentGeneration, problem.getK() + 1);
 			List<Chromosome> childs = new ArrayList<>();
 
 			// aparejar padres para armar K hijos

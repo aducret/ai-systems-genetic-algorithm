@@ -1,5 +1,6 @@
 package algorithm.pairing;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,10 +13,13 @@ public class AlphaPairingAlgorithm implements PairingAlgorithm {
 
 	@Override
 	public void makePairs(List<Chromosome> chromosomes, int k, Callback cb) {
-		RandomPopper<Chromosome> randomPopper = new RandomPopper<>(chromosomes);
-		Chromosome alphaChromosome = Collections.max(chromosomes, new ChromosomeComparator(true));
+		List<Chromosome> auxChromosomes = new ArrayList<>();
+		Chromosome alphaChromosome = Collections.max(auxChromosomes, new ChromosomeComparator(true));
+		auxChromosomes.remove(alphaChromosome);
+		RandomPopper<Chromosome> randomPopper = new RandomPopper<>(auxChromosomes);
+
 		for (int i = 0; i < k; i++) {
-			cb.onPairAvailable(new Pair<>(alphaChromosome, randomPopper.randomPeek()));
+			cb.onPairAvailable(new Pair<>(alphaChromosome, randomPopper.randomPop()));
 		}
 	}
 }
