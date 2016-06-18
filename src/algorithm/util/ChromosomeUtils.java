@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import algorithm.chromosome.Chromosome;
+import algorithm.chromosome.ChromosomeComparator;
 import algorithm.gene.Gene;
 import util.RandomUtils;
 
@@ -63,5 +64,13 @@ public class ChromosomeUtils {
 		int randomGeneIndex = RandomUtils.randomBetween(0, alleles.size() - 1);
 		Gene randomGene = alleles.get(randomGeneIndex);
 		chromosome.setGene(locus, randomGene);
+	}
+	
+	public static Chromosome best(Chromosome c1, Chromosome c2) {
+		return new ChromosomeComparator(false).compare(c1, c2) >= 0 ? c1 : c2; 
+	}
+	
+	public static Chromosome worst(Chromosome c1, Chromosome c2) {
+		return new ChromosomeComparator(false).compare(c1, c2) < 0 ? c1 : c2;
 	}
 }
