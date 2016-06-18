@@ -30,4 +30,9 @@ public class MaxGenerationsCuttingCondition implements CuttingCondition {
 		return maxGenerationsReached;
 	}
 
+	@Override
+	public String description() {
+		return "reached max generations: " + maxGenerations;
+	}
+
 }

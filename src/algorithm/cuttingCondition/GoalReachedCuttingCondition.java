@@ -28,4 +28,9 @@ public class GoalReachedCuttingCondition implements CuttingCondition {
 	public boolean isCutting() {
 		return goalReached;
 	}
+
+	@Override
+	public String description() {
+		return "reached goal fitness: " + goal;
+	}
 }

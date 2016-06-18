@@ -94,8 +94,11 @@ public class GeneticAlgorithm {
 
 	private boolean isCutting() {
 		for (CuttingCondition cuttingCondition : configuration.cuttingConditions) {
-			if (cuttingCondition.isCutting())
+			if (cuttingCondition.isCutting()) {
+				System.out.println("cutting description:");
+				System.out.println(cuttingCondition.description());
 				return true;
+			}
 		}
 		return false;
 	}

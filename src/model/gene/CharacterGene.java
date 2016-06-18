@@ -47,4 +47,11 @@ public class CharacterGene implements Gene {
 			return false;
 		return true;
 	}
+	
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("id: " + id + ", ");
+		builder.append("stats: " + deltaStats.toString());
+		return builder.toString();
+	}
 }

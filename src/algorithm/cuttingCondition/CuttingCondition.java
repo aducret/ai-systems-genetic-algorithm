@@ -6,4 +6,5 @@ public interface CuttingCondition extends GeneticAlgorithmListener {
 	
 	boolean isCutting();
 	
+	String description();
 }

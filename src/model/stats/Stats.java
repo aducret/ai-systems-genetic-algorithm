@@ -25,7 +25,7 @@ public class Stats {
 		this.expertise += stats.expertise;
 		this.resistance += stats.resistance;
 		this.health += stats.health;
-		this.height += height;
+		this.height += stats.height;
 		return this;
 	}
 	
@@ -81,5 +81,14 @@ public class Stats {
 		return true;
 	}
 	
-	
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("strength: " + strength);
+		builder.append(", agility: " + agility);
+		builder.append(", expertise: " + expertise);
+		builder.append(", resistance: " + resistance);
+		builder.append(", health: " + health);
+		builder.append(", height: " + height);
+		return builder.toString();
+	}
 }

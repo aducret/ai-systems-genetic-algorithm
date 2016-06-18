@@ -28,11 +28,16 @@ public class ContentCuttingCondition implements CuttingCondition {
 
 	@Override
 	public void onBestChromosomeUpdated(Chromosome bestChromosome) {
-		generationsWithoutUpdate--;
+		generationsWithoutUpdate = 0;
 	}
 
 	@Override
 	public boolean isCutting() {
 		return toleranceLevelReached;
+	}
+
+	@Override
+	public String description() {
+		return "reached " + generationsTolerance + " generations without best chromosome update";
 	}
 }

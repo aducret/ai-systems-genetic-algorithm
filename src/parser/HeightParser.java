@@ -14,8 +14,8 @@ import algorithm.gene.Gene;
 
 public class HeightParser implements GeneParser {
 	@Override
-	public List<Gene> parse(String path) throws FileNotFoundException {
-		List<Gene> genes = new ArrayList<>();
+	public ArrayList<Gene> parse(String path) throws FileNotFoundException {
+		ArrayList<Gene> genes = new ArrayList<>();
 
 		InputStream inputStream = new FileInputStream(path);
 		Scanner scanner = new Scanner(inputStream);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import algorithm.chromosome.Chromosome;
 import algorithm.listener.GeneticAlgorithmListener;
+import model.chromosome.CharacterListChromosome;
 
 public class LoggerGeneticAlgorithmListener implements GeneticAlgorithmListener {
 

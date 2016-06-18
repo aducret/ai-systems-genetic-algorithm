@@ -1,12 +1,7 @@
 package parser;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Scanner;
 
 import algorithm.Configuration;
 import algorithm.crossover.AnularCrossOver;
@@ -37,8 +32,6 @@ import algorithm.selector.RankingSelector;
 import algorithm.selector.RouletteSelector;
 import algorithm.selector.Selector;
 import algorithm.selector.UniversalSelector;
-import model.Multipliers;
-import model.stats.Stats;
 
 public class ConfigurationParser {
 
@@ -47,7 +40,7 @@ public class ConfigurationParser {
 
 	static {
 		try {
-			defaultConfigurationMap = configurationMap(DEFAULT_CONFIGURATION_PATH);
+			defaultConfigurationMap = MapParser.parseMap(DEFAULT_CONFIGURATION_PATH);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,7 +67,7 @@ public class ConfigurationParser {
 	private static final String CROSS_OVER_ANULAR = "anular";
 
 	// mutation algorithm names
-	private static final String MUTATION_CLASSIC = "classic";
+	private static final String MUTATION_CLASSIC = "clasico";
 	private static final String MUTATION_NON_UNIFORM = "no_uniforme";
 
 	// replace algorithm names
@@ -170,10 +163,10 @@ public class ConfigurationParser {
 		if (compound) {
 			String second = getValue(configurationMap, SC_SECOND);
 			Double percentage = Double.valueOf(getValue(configurationMap, SC_PERCENTAGE));
-			builder.withCrossOverSelector(new CompoundSelector(createSelector(first, configurationMap),
-					createSelector(second, configurationMap), percentage));
+			builder.withCrossOverSelector(new CompoundSelector(createCrossOverSelector(first, configurationMap),
+					createCrossOverSelector(second, configurationMap), percentage));
 		} else {
-			builder.withCrossOverSelector(createSelector(first, configurationMap));
+			builder.withCrossOverSelector(createCrossOverSelector(first, configurationMap));
 		}
 	}
 
@@ -181,14 +174,12 @@ public class ConfigurationParser {
 		builder.withPairingAlgorithm(createPairingAlgorithm(getValue(configurationMap, AA_ALGORITHM)));
 	}
 
-	private static void handleCrossOverAlgorithm(Map<String, String> configurationMap,
-			Configuration.Builder builder) {
+	private static void handleCrossOverAlgorithm(Map<String, String> configurationMap, Configuration.Builder builder) {
 		String type = getValue(configurationMap, TC_TYPE);
 		builder.withCrossOverAlgorithm(createCrossOverAlgorithm(type, configurationMap));
 	}
 
-	private static void handleMutationAlgorithm(Map<String, String> configurationMap,
-			Configuration.Builder builder) {
+	private static void handleMutationAlgorithm(Map<String, String> configurationMap, Configuration.Builder builder) {
 		String name = getValue(configurationMap, AM_ALGORITHM);
 		builder.withMutationAlgorithm(createMutationAlgorithm(name, configurationMap));
 	}
@@ -200,16 +191,15 @@ public class ConfigurationParser {
 		if (compound) {
 			String second = getValue(configurationMap, SR_SECOND);
 			Double percentage = Double.valueOf(getValue(configurationMap, SR_PERCENTAGE));
-			ans = new CompoundSelector(createSelector(first, configurationMap),
-					createSelector(second, configurationMap), percentage);
+			ans = new CompoundSelector(createReplaceSelector(first, configurationMap),
+					createReplaceSelector(second, configurationMap), percentage);
 		} else {
-			ans = createSelector(first, configurationMap);
+			ans = createReplaceSelector(first, configurationMap);
 		}
 		return ans;
 	}
 
-	private static void handleReplaceMethod(Map<String, String> configurationMap,
-			Configuration.Builder builder) {
+	private static void handleReplaceMethod(Map<String, String> configurationMap, Configuration.Builder builder) {
 		String name = getValue(configurationMap, MR_METHOD);
 		builder.withReplaceMethod(createReplaceMethod(name, getReplaceSelector(configurationMap)));
 	}
@@ -218,7 +208,31 @@ public class ConfigurationParser {
 		parse("doc/data/configuration.txt");
 	}
 
-	private static Selector createSelector(String selectorName, Map<String, String> configurationMap) {
+	private static Selector createReplaceSelector(String selectorName, Map<String, String> configurationMap) {
+		switch (selectorName) {
+		case SELECTOR_DETERMINISTIC_TOURNAMENT:
+			return new DeterministicTournamentSelector(
+					Integer.valueOf(getValue(configurationMap, SR_DETERMINISTIC_TOURNAMENT_M)));
+		case SELECTOR_BOLTZMANN:
+			return new BoltzmannSelector(Double.valueOf(getValue(configurationMap, SR_BOLTZMANN_TEMPERATURE)));
+		default:
+			return createSimpleSelector(selectorName, configurationMap);
+		}
+	}
+
+	private static Selector createCrossOverSelector(String selectorName, Map<String, String> configurationMap) {
+		switch (selectorName) {
+		case SELECTOR_DETERMINISTIC_TOURNAMENT:
+			return new DeterministicTournamentSelector(
+					Integer.valueOf(getValue(configurationMap, SC_DETERMINISTIC_TOURNAMENT_M)));
+		case SELECTOR_BOLTZMANN:
+			return new BoltzmannSelector(Double.valueOf(getValue(configurationMap, SC_BOLTZMANN_TEMPERATURE)));
+		default:
+			return createSimpleSelector(selectorName, configurationMap);
+		}
+	}
+
+	private static Selector createSimpleSelector(String selectorName, Map<String, String> configurationMap) {
 		switch (selectorName) {
 		case SELECTOR_ELITE:
 			return new EliteSelector();
@@ -230,11 +244,6 @@ public class ConfigurationParser {
 			return new UniversalSelector();
 		case SELECTOR_PROBABILISTIC_TOURNAMENT:
 			return new ProbabilisticTournamentSelector();
-		case SELECTOR_DETERMINISTIC_TOURNAMENT:
-			return new DeterministicTournamentSelector(
-					Integer.valueOf(getValue(configurationMap, SC_DETERMINISTIC_TOURNAMENT_M)));
-		case SELECTOR_BOLTZMANN:
-			return new BoltzmannSelector(Double.valueOf(getValue(configurationMap, SC_BOLTZMANN_TEMPERATURE)));
 		case SELECTOR_RANDOM:
 			return new RandomSelector();
 		default:

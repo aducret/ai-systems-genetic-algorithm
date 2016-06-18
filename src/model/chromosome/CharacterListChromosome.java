@@ -58,4 +58,17 @@ public class CharacterListChromosome extends ListChromosome {
 		double dem = 2 + Math.pow(3 * h - 5, 4) - Math.pow(3 * h - 5, 2) - h / 2.0;
 		return (totalStats.resistance + totalStats.expertise) * totalStats.health * dem;
 	}
+	
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("--CHROMOSOME--\n");
+		builder.append("fitness: " + fitness() + "\n");
+		for (Gene gene: genes()) {
+			builder.append(gene.toString());
+			builder.append("\n");
+		}
+		builder.append(multipliers);
+		builder.append("\n");
+		return builder.toString();
+	}
 }

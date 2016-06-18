@@ -29,12 +29,7 @@ public class CharacterGeneticAlgorithmProblem implements GeneticAlgorithmProblem
 	private static final String shirtsPath = "doc/data/pecheras.tsv";
 	private static final String heightsPath = "doc/data/heights.tsv";
 
-	private static final int LOCUS_WEAPONS = 0;
-	private static final int LOCUS_BOOTS = 1;
-	private static final int LOCUS_HELMETS = 2;
-	private static final int LOCUS_GLOVES = 3;
-	private static final int LOCUS_SHIRTS = 4;
-	private static final int LOCUS_HEIGHTS = 5;
+	private int genotypesAmount = 0;
 	
 	private Multipliers multipliers;
 	private Configuration configuration;
@@ -58,16 +53,16 @@ public class CharacterGeneticAlgorithmProblem implements GeneticAlgorithmProblem
 	
 	private void loadItems() throws FileNotFoundException {
 		GeneParser parser = new ItemParser();
-		geneMap.put(LOCUS_WEAPONS, parser.parse(weaponsPath));
-		geneMap.put(LOCUS_BOOTS, parser.parse(bootsPath));
-		geneMap.put(LOCUS_HELMETS, parser.parse(helmetsPath));
-		geneMap.put(LOCUS_GLOVES, parser.parse(glovesPath));
-		geneMap.put(LOCUS_SHIRTS, parser.parse(shirtsPath));
+		geneMap.put(genotypesAmount++, parser.parse(weaponsPath));
+		geneMap.put(genotypesAmount++, parser.parse(bootsPath));
+		geneMap.put(genotypesAmount++, parser.parse(helmetsPath));
+		geneMap.put(genotypesAmount++, parser.parse(glovesPath));
+		geneMap.put(genotypesAmount++, parser.parse(shirtsPath));
 	}
 	
 	private void loadHeights() throws FileNotFoundException {
 		GeneParser parser = new HeightParser();
-		geneMap.put(LOCUS_HEIGHTS, parser.parse(heightsPath));
+		geneMap.put(genotypesAmount++, parser.parse(heightsPath));
 	}
 
 	@Override

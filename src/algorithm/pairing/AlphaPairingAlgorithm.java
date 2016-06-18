@@ -13,7 +13,7 @@ public class AlphaPairingAlgorithm implements PairingAlgorithm {
 
 	@Override
 	public void makePairs(List<Chromosome> chromosomes, int k, Callback cb) {
-		List<Chromosome> auxChromosomes = new ArrayList<>();
+		List<Chromosome> auxChromosomes = new ArrayList<>(chromosomes);
 		Chromosome alphaChromosome = Collections.max(auxChromosomes, new ChromosomeComparator(true));
 		auxChromosomes.remove(alphaChromosome);
 		RandomPopper<Chromosome> randomPopper = new RandomPopper<>(auxChromosomes);

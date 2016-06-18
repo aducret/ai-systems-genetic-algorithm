@@ -14,6 +14,7 @@ public class StructureCuttingCondition implements CuttingCondition {
 	private double tolerance;
 	private boolean structureRemainsTheSame;
 	private HashSet<Chromosome> previousGeneration;
+	private double remainedTheSame;
 
 	public StructureCuttingCondition(double tolerance) {
 		this.tolerance = tolerance;
@@ -25,6 +26,7 @@ public class StructureCuttingCondition implements CuttingCondition {
 		double remainedTheSame = changePercentage(generation);
 		if (remainedTheSame > tolerance) {
 			structureRemainsTheSame = true;
+			this.remainedTheSame = remainedTheSame;
 		} else {
 			previousGeneration = new HashSet<>(generation);
 		}
@@ -46,5 +48,10 @@ public class StructureCuttingCondition implements CuttingCondition {
 				occurrences++;
 		}
 		return occurrences / ((double) currentGeneration.size());
+	}
+
+	@Override
+	public String description() {
+		return (remainedTheSame*100) + "% of the population remained the same from generation to generation";
 	}
 }
