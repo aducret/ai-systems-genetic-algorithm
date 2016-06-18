@@ -1,8 +1,6 @@
-package algorithm;
+package algorithm.chromosome;
 
 import java.util.Comparator;
-
-import algorithm.model.Chromosome;
 
 /*
  * Ordena los cromosomas de mayor a menor

@@ -3,8 +3,8 @@ package algorithm.selector;
 import java.util.ArrayList;
 import java.util.List;
 
+import algorithm.chromosome.Chromosome;
 import util.RandomUtils;
-import algorithm.model.Chromosome;
 
 public class RandomSelector implements Selector {
 

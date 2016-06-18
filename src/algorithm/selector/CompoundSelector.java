@@ -3,7 +3,7 @@ package algorithm.selector;
 import java.util.ArrayList;
 import java.util.List;
 
-import algorithm.model.Chromosome;
+import algorithm.chromosome.Chromosome;
 
 /*
  * se considera selector1 en un porcentaje de percentage, el resto de selector2

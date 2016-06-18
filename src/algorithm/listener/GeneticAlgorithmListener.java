@@ -2,7 +2,7 @@ package algorithm.listener;
 
 import java.util.List;
 
-import algorithm.model.Chromosome;
+import algorithm.chromosome.Chromosome;
 
 public interface GeneticAlgorithmListener {
 	

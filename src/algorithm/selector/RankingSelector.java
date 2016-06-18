@@ -3,8 +3,8 @@ package algorithm.selector;
 import java.util.ArrayList;
 import java.util.List;
 
-import algorithm.ChromosomeComparator;
-import algorithm.model.Chromosome;
+import algorithm.chromosome.Chromosome;
+import algorithm.chromosome.ChromosomeComparator;
 import algorithm.util.ChromosomeUtils;
 
 public class RankingSelector implements Selector {

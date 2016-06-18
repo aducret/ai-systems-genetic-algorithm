@@ -3,7 +3,7 @@ package algorithm.replace;
 import java.util.ArrayList;
 import java.util.List;
 
-import algorithm.model.Chromosome;
+import algorithm.chromosome.Chromosome;
 import algorithm.selector.Selector;
 
 public class ReplaceMethod3 implements ReplaceAlgorithm {

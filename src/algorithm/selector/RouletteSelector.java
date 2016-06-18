@@ -3,7 +3,7 @@ package algorithm.selector;
 import java.util.ArrayList;
 import java.util.List;
 
-import algorithm.model.Chromosome;
+import algorithm.chromosome.Chromosome;
 import algorithm.util.ChromosomeUtils;
 
 public class RouletteSelector implements Selector {

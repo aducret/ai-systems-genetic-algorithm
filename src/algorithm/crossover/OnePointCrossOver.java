@@ -1,8 +1,8 @@
 package algorithm.crossover;
 
 import util.RandomUtils;
-import model.Pair;
-import algorithm.model.Chromosome;
+import algorithm.chromosome.Chromosome;
+import algorithm.model.Pair;
 import algorithm.util.ChromosomeUtils;
 
 public class OnePointCrossOver implements CrossOverAlgorithm {
@@ -15,7 +15,7 @@ public class OnePointCrossOver implements CrossOverAlgorithm {
 	
 	@Override
 	public Pair<Chromosome, Chromosome> crossOver(Pair<Chromosome, Chromosome> pair) {
-		Pair<Chromosome, Chromosome> childs = new Pair<Chromosome, Chromosome>(pair.first.clone(), pair.second.clone());
+		Pair<Chromosome, Chromosome> childs = new Pair<Chromosome, Chromosome>(pair.first.cloneChromosome(), pair.second.cloneChromosome());
 		if (!RandomUtils.should(pc)) { return childs; }
 		
 		int amountOfGenes = pair.first.geneAmount();

@@ -3,7 +3,7 @@ package algorithm.cuttingCondition;
 import java.util.HashSet;
 import java.util.List;
 
-import algorithm.model.Chromosome;
+import algorithm.chromosome.Chromosome;
 
 /*
  * if tolerance percent of the population or more remains the same from

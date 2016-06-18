@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import model.Pair;
+import algorithm.chromosome.Chromosome;
+import algorithm.chromosome.ChromosomeComparator;
 import algorithm.crossover.CrossOverAlgorithm;
 import algorithm.cuttingCondition.CuttingCondition;
 import algorithm.listener.DispatcherGeneticAlgorithmListener;
 import algorithm.listener.GeneticAlgorithmListener;
 import algorithm.listener.GeneticAlgorithmLogAdapter;
 import algorithm.listener.GeneticAlgorithmLogListener;
-import algorithm.model.Chromosome;
+import algorithm.model.Pair;
 import algorithm.mutation.MutationAlgorithm;
 import algorithm.pairing.Callback;
 import algorithm.pairing.PairingAlgorithm;

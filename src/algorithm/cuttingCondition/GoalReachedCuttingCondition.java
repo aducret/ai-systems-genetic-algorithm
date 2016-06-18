@@ -2,7 +2,7 @@ package algorithm.cuttingCondition;
 
 import java.util.List;
 
-import algorithm.model.Chromosome;
+import algorithm.chromosome.Chromosome;
 
 public class GoalReachedCuttingCondition implements CuttingCondition {
 

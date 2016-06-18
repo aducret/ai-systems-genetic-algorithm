@@ -2,7 +2,7 @@ package algorithm.listener;
 
 import java.util.List;
 
-import algorithm.model.Chromosome;
+import algorithm.chromosome.Chromosome;
 
 /*
  * Esta clase implementa GeneticAlgorithmListener y en cada metodo

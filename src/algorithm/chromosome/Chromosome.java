@@ -1,6 +1,8 @@
-package algorithm.model;
+package algorithm.chromosome;
 
 import java.util.List;
+
+import algorithm.gene.Gene;
 
 public interface Chromosome {
 	
@@ -8,7 +10,7 @@ public interface Chromosome {
 	
 	int geneAmount();
 	
-	Chromosome clone();
+	Chromosome cloneChromosome();
 		
 	List<Gene> genes();
 	

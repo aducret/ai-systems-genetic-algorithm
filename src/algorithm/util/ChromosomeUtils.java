@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import algorithm.model.Chromosome;
-import algorithm.model.Gene;
+import algorithm.chromosome.Chromosome;
+import algorithm.gene.Gene;
 import util.RandomUtils;
 
 public class ChromosomeUtils {

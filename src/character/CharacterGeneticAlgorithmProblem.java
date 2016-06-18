@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import algorithm.GeneticAlgorithmProblem;
-import algorithm.model.Chromosome;
-import algorithm.model.Gene;
+import algorithm.chromosome.Chromosome;
+import algorithm.gene.Gene;
 
 public class CharacterGeneticAlgorithmProblem implements GeneticAlgorithmProblem {
 	
-	public CharacterGeneticAlgorithmProblem(String configurationFilePath) {
+	public CharacterGeneticAlgorithmProblem() {
 	}
 
 	@Override

@@ -2,8 +2,8 @@ package character;
 
 import java.util.List;
 
+import algorithm.chromosome.Chromosome;
 import algorithm.listener.GeneticAlgorithmListener;
-import algorithm.model.Chromosome;
 
 public class LoggerGeneticAlgorithmListener implements GeneticAlgorithmListener {
 

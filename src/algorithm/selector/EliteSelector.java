@@ -3,8 +3,8 @@ package algorithm.selector;
 import java.util.ArrayList;
 import java.util.List;
 
-import algorithm.ChromosomeComparator;
-import algorithm.model.Chromosome;
+import algorithm.chromosome.Chromosome;
+import algorithm.chromosome.ChromosomeComparator;
 
 public class EliteSelector implements Selector {
 
