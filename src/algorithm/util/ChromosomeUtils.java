@@ -51,7 +51,7 @@ public class ChromosomeUtils {
 
 	public static int getWinner(double[] cumulativeProbabilities, double number) {
 		for (int i = 0; i < cumulativeProbabilities.length; i++) {
-			if (cumulativeProbabilities[i] < number)
+			if (number < cumulativeProbabilities[i])
 				return i;
 		}
 		return -1;
