@@ -5,6 +5,7 @@ import java.util.List;
 
 import algorithm.chromosome.Chromosome;
 import algorithm.util.ChromosomeUtils;
+import algorithm.util.RandomUtils;
 
 public class BoltzmannSelector implements Selector {
 
@@ -21,7 +22,7 @@ public class BoltzmannSelector implements Selector {
 		double[] cumulativeProbabilities = ChromosomeUtils.cumulativeProbabilities(expectedValues);
 
 		for (int i = 0; i < k; i++) {
-			int winnerIndex = ChromosomeUtils.getWinner(cumulativeProbabilities, Math.random());
+			int winnerIndex = ChromosomeUtils.getWinner(cumulativeProbabilities, RandomUtils.random());
 			selectedChromosomes.add(chromosomes.get(winnerIndex));
 		}
 		updateTemperature();
