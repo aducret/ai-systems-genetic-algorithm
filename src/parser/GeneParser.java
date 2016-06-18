@@ -5,6 +5,6 @@ import java.util.List;
 
 import algorithm.gene.Gene;
 
-public interface Parser {
+public interface GeneParser {
 	public List<Gene> parse(String path) throws FileNotFoundException;
 }

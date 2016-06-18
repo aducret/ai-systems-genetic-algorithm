@@ -4,7 +4,7 @@ import java.util.List;
 
 import algorithm.chromosome.Chromosome;
 
-public interface ReplaceAlgorithm {
+public interface ReplaceMethod {
 	
 	/*
 	 * returns the new generation

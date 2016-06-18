@@ -11,8 +11,8 @@ import algorithm.util.RandomUtils;
 public class ProbabilisticTournamentSelector implements Selector {
 	private double probability; // Usually 0.75
 
-	public ProbabilisticTournamentSelector(double probability) {
-		this.probability = probability;
+	public ProbabilisticTournamentSelector() {
+		this.probability = 0.75;
 	}
 
 	@Override

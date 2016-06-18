@@ -5,7 +5,7 @@ import java.util.List;
 import algorithm.chromosome.Chromosome;
 import algorithm.selector.Selector;
 
-public class ReplaceMethod2 implements ReplaceAlgorithm {
+public class ReplaceMethod2 implements ReplaceMethod {
 	
 	private Selector selector;
 	

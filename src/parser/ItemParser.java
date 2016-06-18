@@ -12,7 +12,7 @@ import model.gene.CharacterGene;
 import model.stats.Stats;
 import algorithm.gene.Gene;
 
-public class ItemParser implements Parser {
+public class ItemParser implements GeneParser {
 	@Override
 	public List<Gene> parse(String path) throws FileNotFoundException {
 		List<Gene> genes = new ArrayList<>();

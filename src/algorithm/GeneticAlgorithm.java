@@ -16,7 +16,7 @@ import algorithm.model.Pair;
 import algorithm.mutation.MutationAlgorithm;
 import algorithm.pairing.Callback;
 import algorithm.pairing.PairingAlgorithm;
-import algorithm.replace.ReplaceAlgorithm;
+import algorithm.replace.ReplaceMethod;
 import algorithm.selector.EliteSelector;
 import algorithm.selector.Selector;
 
@@ -28,7 +28,7 @@ public class GeneticAlgorithm {
 	private PairingAlgorithm pairingAlgorithm;
 	private CrossOverAlgorithm crossOverAlgorithm;
 	private MutationAlgorithm mutationAlgorithm;
-	private ReplaceAlgorithm replaceAlgorithm;
+	private ReplaceMethod replaceAlgorithm;
 	
 	private Selector crossOverSelector;
 
@@ -151,7 +151,7 @@ public class GeneticAlgorithm {
 			return this;
 		}
 		
-		public Builder withReplaceAlgorithm(ReplaceAlgorithm replaceAlgorithm) {
+		public Builder withReplaceAlgorithm(ReplaceMethod replaceAlgorithm) {
 			geneticAlgorithm.replaceAlgorithm = replaceAlgorithm;
 			return this;
 		}
