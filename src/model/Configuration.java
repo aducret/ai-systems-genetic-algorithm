@@ -77,11 +77,6 @@ public class Configuration {
 			return this;
 		}
 		
-		public Builder withReplaceSelector(Selector selector) {
-			configuration.replaceSelector = selector;
-			return this;
-		}
-		
 		public Builder withReplaceMethod(ReplaceMethod replaceMethod) {
 			configuration.replaceMethod = replaceMethod;
 			return this;
