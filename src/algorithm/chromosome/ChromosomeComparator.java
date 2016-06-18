@@ -7,7 +7,7 @@ import java.util.Comparator;
  * */
 public class ChromosomeComparator implements Comparator<Chromosome> {
 
-	private static final double EPSILON = 1e-4;
+	private static final double EPSILON = 1e-6;
 	private int modifier;
 
 	public ChromosomeComparator(boolean asc) {
