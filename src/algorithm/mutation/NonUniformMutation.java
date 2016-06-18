@@ -3,10 +3,10 @@ package algorithm.mutation;
 import java.util.ArrayList;
 import java.util.Map;
 
-import util.RandomUtils;
 import algorithm.chromosome.Chromosome;
 import algorithm.gene.Gene;
 import algorithm.util.ChromosomeUtils;
+import algorithm.util.RandomUtils;
 
 public class NonUniformMutation implements MutationAlgorithm {
 

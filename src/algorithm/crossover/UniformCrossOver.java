@@ -1,9 +1,9 @@
 package algorithm.crossover;
 
-import util.RandomUtils;
 import algorithm.chromosome.Chromosome;
 import algorithm.model.Pair;
 import algorithm.util.ChromosomeUtils;
+import algorithm.util.RandomUtils;
 
 public class UniformCrossOver implements CrossOverAlgorithm {
 	private double pc;

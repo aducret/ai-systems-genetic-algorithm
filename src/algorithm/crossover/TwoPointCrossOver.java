@@ -3,7 +3,7 @@ package algorithm.crossover;
 import algorithm.chromosome.Chromosome;
 import algorithm.model.Pair;
 import algorithm.util.ChromosomeUtils;
-import util.RandomUtils;
+import algorithm.util.RandomUtils;
 
 public class TwoPointCrossOver implements CrossOverAlgorithm {
 	

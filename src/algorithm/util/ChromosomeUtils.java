@@ -7,7 +7,6 @@ import java.util.Map;
 import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.ChromosomeComparator;
 import algorithm.gene.Gene;
-import util.RandomUtils;
 
 public class ChromosomeUtils {
 	public static void crossOver(Chromosome c1, Chromosome c2, int r1, int r2) {

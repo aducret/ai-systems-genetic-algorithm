@@ -6,7 +6,7 @@ import java.util.Map;
 import algorithm.chromosome.Chromosome;
 import algorithm.gene.Gene;
 import algorithm.util.ChromosomeUtils;
-import util.RandomUtils;
+import algorithm.util.RandomUtils;
 
 public class ClassicMutation implements MutationAlgorithm {
 

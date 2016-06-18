@@ -1,4 +1,4 @@
-package util;
+package algorithm.util;
 
 public class RandomUtils {
 	
