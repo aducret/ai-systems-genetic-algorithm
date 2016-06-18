@@ -19,12 +19,15 @@ public class DispatcherGeneticAlgorithmListener implements GeneticAlgorithmListe
 	@Override
 	public void onNewGenerationReached(int newGeneration,
 			List<Chromosome> generation, Chromosome bestChromosome) {
-		// TODO Auto-generated method stub
-		
-	}
+		for (GeneticAlgorithmListener listener: listeners) {
+			listener.onNewGenerationReached(newGeneration, generation, bestChromosome);
+		}
+ 	}
 
 	@Override
 	public void onBestChromosomeUpdated(Chromosome bestChromosome) {
-		// TODO Auto-generated method stub
+		for (GeneticAlgorithmListener listener: listeners) {
+			listener.onBestChromosomeUpdated(bestChromosome);
+		}
 	}
 }
