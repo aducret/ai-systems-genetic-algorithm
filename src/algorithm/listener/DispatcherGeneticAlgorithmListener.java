@@ -26,6 +26,5 @@ public class DispatcherGeneticAlgorithmListener implements GeneticAlgorithmListe
 	@Override
 	public void onBestChromosomeUpdated(Chromosome bestChromosome) {
 		// TODO Auto-generated method stub
-		
 	}
 }

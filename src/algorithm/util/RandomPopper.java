@@ -1,6 +1,5 @@
 package algorithm.util;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class RandomPopper<T> {

@@ -13,7 +13,8 @@ import model.stats.Stats;
 public class CharacterListChromosome extends ListChromosome {
 
 	private Multipliers multipliers;
-
+	private Double fitness = null;
+	
 	public CharacterListChromosome(List<Gene> genes, Multipliers multipliers) {
 		super(genes);
 		this.multipliers = multipliers;
@@ -26,13 +27,16 @@ public class CharacterListChromosome extends ListChromosome {
 
 	@Override
 	public double fitness() {
+		if (fitness != null) { return fitness; }
+		
 		Stats totalStats = new Stats(0, 0, 0, 0, 0, 0);
 		for (Gene gene : genes()) {
 			CharacterGene characterGene = (CharacterGene) gene;
 			totalStats.add(characterGene.getDeltaStats());
 		}
 		polishStats(totalStats);
-		return multipliers.attackMultiplier * attack(totalStats) + multipliers.defenceMultiplier * defense(totalStats);
+		fitness = multipliers.attackMultiplier * attack(totalStats) + multipliers.defenceMultiplier * defense(totalStats);
+		return fitness;
 	}
 
 	private void polishStats(Stats stats) {
