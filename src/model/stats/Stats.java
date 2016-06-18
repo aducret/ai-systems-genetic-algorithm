@@ -36,4 +36,50 @@ public class Stats {
 		}
 		return first;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(agility);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(expertise);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(health);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(height);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(resistance);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(strength);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Stats other = (Stats) obj;
+		if (Double.doubleToLongBits(agility) != Double.doubleToLongBits(other.agility))
+			return false;
+		if (Double.doubleToLongBits(expertise) != Double.doubleToLongBits(other.expertise))
+			return false;
+		if (Double.doubleToLongBits(health) != Double.doubleToLongBits(other.health))
+			return false;
+		if (Double.doubleToLongBits(height) != Double.doubleToLongBits(other.height))
+			return false;
+		if (Double.doubleToLongBits(resistance) != Double.doubleToLongBits(other.resistance))
+			return false;
+		if (Double.doubleToLongBits(strength) != Double.doubleToLongBits(other.strength))
+			return false;
+		return true;
+	}
+	
+	
 }
