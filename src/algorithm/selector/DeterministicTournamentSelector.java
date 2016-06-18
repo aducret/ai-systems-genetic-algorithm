@@ -21,8 +21,7 @@ public class DeterministicTournamentSelector implements Selector {
 		List<Chromosome> selectedChromosome = new ArrayList<Chromosome>(k);
 		while (selectedChromosome.size() < k) {
 			List<Chromosome> randomChromosomes = randomSelector.select(chromosomes, m);
-			Collections.max(randomChromosomes, new ChromosomeComparator(true));
-			selectedChromosome.add(randomChromosomes.get(0));
+			selectedChromosome.add(Collections.max(randomChromosomes, new ChromosomeComparator(true)));
 		}
 		return selectedChromosome;
 	}

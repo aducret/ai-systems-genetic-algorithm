@@ -21,12 +21,10 @@ public class ProbabilisticTournamentSelector implements Selector {
 
 		for (int i = 0; i < k; i++) {
 			List<Chromosome> randomChromosomes = new RandomSelector().select(chromosomes, 2);
-			Collections.max(randomChromosomes, new ChromosomeComparator(true));
-			
 			if (RandomUtils.should(probability)) {
-				selected.add(randomChromosomes.get(0));
+				selected.add(Collections.max(randomChromosomes, new ChromosomeComparator(true)));
 			} else {
-				selected.add(randomChromosomes.get(1));
+				selected.add(Collections.min(randomChromosomes, new ChromosomeComparator(true)));
 			}
 		}
 
