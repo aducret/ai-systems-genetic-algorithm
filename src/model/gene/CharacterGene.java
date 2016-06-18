@@ -8,6 +8,7 @@ public class CharacterGene implements Gene {
 	private int id;
 	
 	public CharacterGene(int id, Stats deltaStats) {
+		this.id = id;
 		this.deltaStats = deltaStats;
 	}
 	
