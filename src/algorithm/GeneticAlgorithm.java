@@ -43,6 +43,7 @@ public class GeneticAlgorithm {
 		List<Chromosome> currentGeneration = generateRandomePopulation(configuration.N);
 		int generation = 1;
 		Chromosome bestChromosome = getBestChromosome(currentGeneration);
+		Chromosome currentBestChromosome = getBestChromosome(currentGeneration);
 		dispatcher.onBestChromosomeUpdated(bestChromosome);
 		dispatcher.onNewGenerationReached(generation, currentGeneration, bestChromosome);
 		while (!isCutting()) {
@@ -78,14 +79,14 @@ public class GeneticAlgorithm {
 			currentGeneration = configuration.replaceMethod.replace(currentGeneration, childs);
 
 			generation++;
-
-			Chromosome currentBestChromosome = getBestChromosome(currentGeneration);
+			currentBestChromosome = getBestChromosome(currentGeneration);
 			if (currentBestChromosome.fitness() > bestChromosome.fitness()) {
 				bestChromosome = currentBestChromosome;
 				dispatcher.onBestChromosomeUpdated(bestChromosome);
 			}
 			dispatcher.onNewGenerationReached(generation, currentGeneration, currentBestChromosome);
 		}
+		dispatcher.onGeneticAlgorithmFinished(currentBestChromosome);
 	}
 
 	private Chromosome getBestChromosome(List<Chromosome> chromosomes) {

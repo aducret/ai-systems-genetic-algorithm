@@ -33,4 +33,7 @@ public class GoalReachedCuttingCondition implements CuttingCondition {
 	public String description() {
 		return "reached goal fitness: " + goal;
 	}
+
+	@Override
+	public void onGeneticAlgorithmFinished(Chromosome chromosome) { }
 }

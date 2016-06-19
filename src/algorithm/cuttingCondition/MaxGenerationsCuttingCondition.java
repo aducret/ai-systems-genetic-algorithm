@@ -35,4 +35,7 @@ public class MaxGenerationsCuttingCondition implements CuttingCondition {
 		return "reached max generations: " + maxGenerations;
 	}
 
+	@Override
+	public void onGeneticAlgorithmFinished(Chromosome chromosome) {	}
+
 }

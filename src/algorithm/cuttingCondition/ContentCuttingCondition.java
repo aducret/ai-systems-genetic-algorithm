@@ -40,4 +40,7 @@ public class ContentCuttingCondition implements CuttingCondition {
 	public String description() {
 		return "reached " + generationsTolerance + " generations without best chromosome update";
 	}
+
+	@Override
+	public void onGeneticAlgorithmFinished(Chromosome chromosome) {	}
 }

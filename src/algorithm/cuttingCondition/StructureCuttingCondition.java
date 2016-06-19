@@ -54,4 +54,7 @@ public class StructureCuttingCondition implements CuttingCondition {
 	public String description() {
 		return (remainedTheSame*100) + "% of the population remained the same from generation to generation";
 	}
+
+	@Override
+	public void onGeneticAlgorithmFinished(Chromosome chromosome) {	}
 }

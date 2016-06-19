@@ -4,7 +4,6 @@ import java.util.List;
 
 import algorithm.chromosome.Chromosome;
 import algorithm.listener.GeneticAlgorithmListener;
-import model.chromosome.CharacterListChromosome;
 
 public class LoggerGeneticAlgorithmListener implements GeneticAlgorithmListener {
 
@@ -16,5 +15,11 @@ public class LoggerGeneticAlgorithmListener implements GeneticAlgorithmListener 
 	@Override
 	public void onBestChromosomeUpdated(Chromosome bestChromosome) {
 		System.out.println("best updated: " + bestChromosome.fitness());
+	}
+
+	@Override
+	public void onGeneticAlgorithmFinished(Chromosome chromosome) {
+		System.out.println("Algorithm finished, best chromosome: ");
+		System.out.println(chromosome);
 	}
 }
