@@ -1,6 +1,5 @@
 package plot;
 
-import java.awt.Color;
 import java.util.List;
 
 import org.knowm.xchart.SwingWrapper;
@@ -32,14 +31,9 @@ public class ErrorBarsPlotter {
 
 	    // Customize Chart
 	    chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
-//	    chart.getStyler().setChartTitleVisible(false);
-//	    chart.getStyler().setLegendVisible(false);
-//	    chart.getStyler().setAxisTitlesVisible(false);
-//	    chart.getStyler().setXAxisDecimalPattern("0.0000000");
 
 	    // Series
 	    XYSeries series = chart.addSeries(legend, x, y, errorBars);
-//	    series.setMarkerColor(Color.RED);
 	    series.setMarker(SeriesMarkers.NONE);
 	    
 	    new SwingWrapper<XYChart>(chart).displayChart();
