@@ -82,13 +82,8 @@ public class PlotterListener implements GeneticAlgorithmListener {
 			avgGenerations.add(mean);
 			errorAvgGeneartions.add(std);
 			chromosomesNumber.add((double)c);
-			if (c == chromosomesFitness.size() -1) {
-				System.out.println(mean);
-				System.out.println(std);
-			}
 		}
 		errorBarsPlotter = new ErrorBarsPlotter("Chromosome position", "AVG Fitness", "AVG chromosome fitness VS chromosome position", "AVG chromosome fitness");
-		System.out.println(chromosomesFitness.get(chromosomesFitness.size()-1));
 		errorBarsPlotter.plot(chromosomesNumber, avgGenerations, errorAvgGeneartions);
 	}
 }

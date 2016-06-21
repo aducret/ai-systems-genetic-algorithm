@@ -3,14 +3,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % 1 - Valores globales
-N = 10000
-k = 4500
+N = 200
+k = 20
 seed = 15
 
 % 2 - Condiciones de corte
 cc_limite_generaciones = 500
 cc_objetivo = 80
-cc_estructura = 1
+cc_estructura = 0.95
 cc_contenido = 50
 
 % 3 - Metodo de seleccion para la cruza
