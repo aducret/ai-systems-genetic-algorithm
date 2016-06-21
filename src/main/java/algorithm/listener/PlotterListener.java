@@ -63,13 +63,16 @@ public class PlotterListener implements GeneticAlgorithmListener {
 	public void onBestChromosomeUpdated(Chromosome bestChromosome) { }
 
 	@Override
-	public void onGeneticAlgorithmFinished(Chromosome currentbestChromosome, Chromosome bestChromosome) { 
-		FunctionPlotter plotter = new FunctionPlotter();
+	public void onGeneticAlgorithmFinished(Chromosome currentbestChromosome, Chromosome bestChromosome) {
+		// Plotting best chromosome fitness
+		FunctionPlotter plotter = new FunctionPlotter("Generation", "Fitness", "Best fitness VS generation", "Best chromosome fitness");
 		plotter.plot(generations, fitness);
 		
-		ErrorBarsPlotter errorBarsPlotter = new ErrorBarsPlotter();
+		// Plotting avgFitness
+		ErrorBarsPlotter errorBarsPlotter = new ErrorBarsPlotter("Generation", "AVG fitness", "AVG Fitness VS generation", "AVG fitness per generation");
 		errorBarsPlotter.plot(generations, avgFitness, errorAvgFitness);
-		
+
+		// Plotting avgGeneration  
 		List<Double> chromosomesNumber = new ArrayList<Double>();
 		List<Double> avgGenerations = new ArrayList<Double>(chromosomesFitness.get(0).size());
 		List<Double> errorAvgGeneartions = new ArrayList<Double>(chromosomesFitness.get(0).size());
@@ -84,6 +87,7 @@ public class PlotterListener implements GeneticAlgorithmListener {
 				System.out.println(std);
 			}
 		}
+		errorBarsPlotter = new ErrorBarsPlotter("Chromosome position", "AVG Fitness", "AVG chromosome fitness VS chromosome position", "AVG chromosome fitness");
 		System.out.println(chromosomesFitness.get(chromosomesFitness.size()-1));
 		errorBarsPlotter.plot(chromosomesNumber, avgGenerations, errorAvgGeneartions);
 	}
