@@ -4,13 +4,13 @@
 
 % 1 - Valores globales
 N = 10000
-k = 2500
+k = 4500
 seed = 15
 
 % 2 - Condiciones de corte
 cc_limite_generaciones = 500
 cc_objetivo = 80
-cc_estructura = 0.95
+cc_estructura = 1
 cc_contenido = 50
 
 % 3 - Metodo de seleccion para la cruza
@@ -18,7 +18,7 @@ cc_contenido = 50
 sc_compuesto = true
 sc_primero = elite
 sc_segundo = roulette
-sc_porcentaje = 0.05
+sc_porcentaje = 0
 
 % 4 - Algoritmo de apareamiento
 % opciones = {alpha, random}
@@ -33,7 +33,7 @@ tc_uniform_p = 0.25
 % 6 - Algoritmo de mutacion
 % opciones = {clasico, no_uniforme}
 am_algoritmo = no_uniforme
-am_pm = 0.3
+am_pm = 1
 
 % 7 - Metodo de seleccion para el reemplazo
 % opciones = {elite, roulette, ranking, universal, torneo_probabilistico, torneo_deterministico, boltzmann, random}

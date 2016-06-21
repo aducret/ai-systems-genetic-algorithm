@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import algorithm.GeneticAlgorithm;
 import algorithm.GeneticAlgorithmProblem;
 import algorithm.listener.GeneticAlgorithmListener;
+import algorithm.listener.PlotterListener;
 
 public class Main {
 
@@ -16,7 +17,9 @@ public class Main {
 		// Setear listeners
 		GeneticAlgorithmListener loggerListener = new LoggerGeneticAlgorithmListener();
 		algorithm.addListener(loggerListener);
-
+		PlotterListener plotterListener = new PlotterListener();
+		algorithm.addListener(plotterListener);
+		
 		algorithm.start();
 	}
 
