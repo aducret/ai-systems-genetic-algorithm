@@ -55,7 +55,7 @@ public class PlotterListener implements GeneticAlgorithmListener {
 		for (double value: values) {
 			result += Math.pow((value - mean), 2);
 		}
-		result /= (values.size() - 1);
+		result /= values.size();
 		return Math.sqrt(result);
 	}
 	
