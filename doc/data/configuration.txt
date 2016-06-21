@@ -41,5 +41,6 @@ sr_compuesto = false
 sr_primero = roulette
 
 % 8 - Metodo de reemplazo
-% opciones = {metodo1, metodo2, metodo3}
-mr_metodo = metodo2
+% opciones = {metodo1, metodo2, metodo3, gap}
+mr_metodo = gap
+mr_metodo_gap_g = 0.5

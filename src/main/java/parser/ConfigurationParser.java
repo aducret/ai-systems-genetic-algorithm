@@ -19,6 +19,7 @@ import algorithm.mutation.NonUniformMutation;
 import algorithm.pairing.AlphaPairingAlgorithm;
 import algorithm.pairing.PairingAlgorithm;
 import algorithm.pairing.RandomPairingAlgorithm;
+import algorithm.replace.GAPReplaceMethod;
 import algorithm.replace.ReplaceMethod;
 import algorithm.replace.ReplaceMethod1;
 import algorithm.replace.ReplaceMethod2;
@@ -76,6 +77,7 @@ public class ConfigurationParser {
 	private static final String REPLACE_METHOD_1 = "metodo1";
 	private static final String REPLACE_METHOD_2 = "metodo2";
 	private static final String REPLACE_METHOD_3 = "metodo3";
+	private static final String REPLACE_METHOD_GAP = "gap";
 
 	// global values
 	private static final String N = "N";
@@ -118,6 +120,7 @@ public class ConfigurationParser {
 
 	// replace method
 	private static final String MR_METHOD = "mr_metodo";
+	private static final String MR_METHOD_GAP_G = "mr_metodo_gap_g";
 
 	public static Configuration parse(String path) throws FileNotFoundException {
 		return handleConfigurationMap(MapParser.parseMap(path));
@@ -203,7 +206,7 @@ public class ConfigurationParser {
 
 	private static void handleReplaceMethod(Map<String, String> configurationMap, Configuration.Builder builder) {
 		String name = getValue(configurationMap, MR_METHOD);
-		builder.withReplaceMethod(createReplaceMethod(name, getReplaceSelector(configurationMap)));
+		builder.withReplaceMethod(createReplaceMethod(name, configurationMap));
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
@@ -294,7 +297,8 @@ public class ConfigurationParser {
 		}
 	}
 
-	private static ReplaceMethod createReplaceMethod(String replaceMethodName, Selector selector) {
+	private static ReplaceMethod createReplaceMethod(String replaceMethodName, Map<String, String> configurationMap) {
+		Selector selector = getReplaceSelector(configurationMap);
 		switch (replaceMethodName) {
 		case REPLACE_METHOD_1:
 			return new ReplaceMethod1();
@@ -302,6 +306,8 @@ public class ConfigurationParser {
 			return new ReplaceMethod2(selector);
 		case REPLACE_METHOD_3:
 			return new ReplaceMethod3(selector);
+		case REPLACE_METHOD_GAP:
+			return new GAPReplaceMethod(Double.valueOf(getValue(configurationMap, MR_METHOD_GAP_G)), selector);
 		default:
 			return null;
 		}

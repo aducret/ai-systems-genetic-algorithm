@@ -6,11 +6,11 @@ import java.util.List;
 import algorithm.chromosome.Chromosome;
 import algorithm.selector.Selector;
 
-public class GAPMethod implements ReplaceMethod {
+public class GAPReplaceMethod implements ReplaceMethod {
 	private double G;
 	private Selector selector;
 	
-	public GAPMethod(double G, Selector selector) {
+	public GAPReplaceMethod(double G, Selector selector) {
 		this.G = G;
 		this.selector = selector;
 	}
@@ -20,10 +20,6 @@ public class GAPMethod implements ReplaceMethod {
 		int N = currentGeneration.size();
 		int amountOfParents = (int) Math.floor((1 - G) * N);
 		int amountOfChilds = (int) Math.ceil(G * N);
-		
-		if (amountOfChilds + amountOfParents != N) {
-			System.err.println("WTF!");
-		}
 		
 		List<Chromosome> newGeneration = new ArrayList<Chromosome>(N); 
 		newGeneration.addAll(selector.select(currentGeneration, amountOfParents));
