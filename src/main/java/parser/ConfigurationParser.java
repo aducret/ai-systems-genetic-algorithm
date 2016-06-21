@@ -19,6 +19,7 @@ import algorithm.mutation.NonUniformMutation;
 import algorithm.pairing.AlphaPairingAlgorithm;
 import algorithm.pairing.PairingAlgorithm;
 import algorithm.pairing.RandomPairingAlgorithm;
+import algorithm.pairing.SelectorPairingAlgorithm;
 import algorithm.replace.GAPReplaceMethod;
 import algorithm.replace.ReplaceMethod;
 import algorithm.replace.ReplaceMethod1;
@@ -53,6 +54,7 @@ public class ConfigurationParser {
 	// pairing names
 	private static final String PAIRING_ALPHA = "alpha";
 	private static final String PAIRING_RANDOM = "random";
+	private static final String PAIRING_SELECTOR = "selector";
 
 	// cross over names
 	private static final String CROSS_OVER_ONE_POINT = "un_punto";
@@ -91,6 +93,10 @@ public class ConfigurationParser {
 
 	// pairing algorithm
 	private static final String AA_ALGORITHM = "aa_algoritmo";
+	private static final String AA_COMPOUND = "aa_compuesto";
+	private static final String AA_FIRST = "aa_primero";
+	private static final String AA_SECOND = "aa_segundo";
+	private static final String AA_PERCENTAGE = "aa_porcentaje";
 
 	// cross over method
 	private static final String TC_TYPE = "tc_tipo";
@@ -168,7 +174,7 @@ public class ConfigurationParser {
 	}
 
 	private static void handlePairingAlgorithm(Map<String, String> configurationMap, Configuration.Builder builder) {
-		builder.withPairingAlgorithm(createPairingAlgorithm(getValue(configurationMap, AA_ALGORITHM)));
+		builder.withPairingAlgorithm(createPairingAlgorithm(getValue(configurationMap, AA_ALGORITHM), configurationMap));
 	}
 
 	private static void handleCrossOverAlgorithm(Map<String, String> configurationMap, Configuration.Builder builder) {
@@ -188,10 +194,10 @@ public class ConfigurationParser {
 		if (compound) {
 			String second = getValue(configurationMap, SR_SECOND);
 			Double percentage = Double.valueOf(getValue(configurationMap, SR_PERCENTAGE));
-			ans = new CompoundSelector(createReplaceSelector(first, configurationMap),
-					createReplaceSelector(second, configurationMap), percentage);
+			ans = new CompoundSelector(createSelector(first, configurationMap),
+					createSelector(second, configurationMap), percentage);
 		} else {
-			ans = createReplaceSelector(first, configurationMap);
+			ans = createSelector(first, configurationMap);
 		}
 		return ans;
 	}
@@ -201,7 +207,7 @@ public class ConfigurationParser {
 		builder.withReplaceMethod(createReplaceMethod(name, configurationMap));
 	}
 
-	private static Selector createReplaceSelector(String selectorName, Map<String, String> configurationMap) {
+	private static Selector createSelector(String selectorName, Map<String, String> configurationMap) {
 		switch (selectorName) {
 		case SELECTOR_DETERMINISTIC_TOURNAMENT:
 			return new DeterministicTournamentSelector(
@@ -209,7 +215,7 @@ public class ConfigurationParser {
 		case SELECTOR_BOLTZMANN:
 			return new BoltzmannSelector(Double.valueOf(getValue(configurationMap, SR_BOLTZMANN_TEMPERATURE)));
 		default:
-			return createSimpleSelector(selectorName, configurationMap);
+			return createSimpleSelector(selectorName);
 		}
 	}
 
@@ -221,11 +227,11 @@ public class ConfigurationParser {
 		case SELECTOR_BOLTZMANN:
 			return new BoltzmannSelector(Double.valueOf(getValue(configurationMap, SC_BOLTZMANN_TEMPERATURE)));
 		default:
-			return createSimpleSelector(selectorName, configurationMap);
+			return createSimpleSelector(selectorName);
 		}
 	}
 
-	private static Selector createSimpleSelector(String selectorName, Map<String, String> configurationMap) {
+	private static Selector createSimpleSelector(String selectorName) {
 		switch (selectorName) {
 		case SELECTOR_ELITE:
 			return new EliteSelector();
@@ -244,12 +250,22 @@ public class ConfigurationParser {
 		}
 	}
 
-	private static PairingAlgorithm createPairingAlgorithm(String pairingAlgorithmName) {
+	private static PairingAlgorithm createPairingAlgorithm(String pairingAlgorithmName, Map<String, String> configurationMap) {
 		switch (pairingAlgorithmName) {
 		case PAIRING_ALPHA:
 			return new AlphaPairingAlgorithm();
 		case PAIRING_RANDOM:
 			return new RandomPairingAlgorithm();
+		case PAIRING_SELECTOR:
+			Boolean compound = Boolean.valueOf(getValue(configurationMap, AA_COMPOUND));
+			String first = getValue(configurationMap, AA_FIRST);
+			if (compound) {
+				String second = getValue(configurationMap, AA_SECOND);
+				Double percentage = Double.valueOf(getValue(configurationMap, AA_PERCENTAGE));
+				return new SelectorPairingAlgorithm(new CompoundSelector(createSelector(first, configurationMap), createSelector(second, configurationMap), percentage));
+			} else {
+				return new SelectorPairingAlgorithm(createSimpleSelector(first));
+			}
 		default:
 			return null;
 		}

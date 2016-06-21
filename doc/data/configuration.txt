@@ -21,8 +21,11 @@ sc_segundo = roulette
 sc_porcentaje = 0
 
 % 4 - Algoritmo de apareamiento
-% opciones = {alpha, random}
-aa_algoritmo = random
+% opciones = {alpha, random, selector}
+aa_algoritmo = selector
+aa_primero = ranking
+aa_segundo = torneo_probabilistico
+aa_porcentaje = 0.5
 
 % 5 - Tipo de cruza
 % opciones = {un_punto, dos_puntos, uniforme, anular}
