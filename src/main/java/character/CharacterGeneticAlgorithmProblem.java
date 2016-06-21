@@ -20,23 +20,24 @@ import parser.MultipliersParser;
 
 public class CharacterGeneticAlgorithmProblem implements GeneticAlgorithmProblem {
 	
-	private static final String multipliersPath = "doc/data/multipliers.txt";
-	private static final String configurationPath = "doc/data/configuration.txt";
-	private static final String weaponsPath = "doc/data/armas.tsv";
-	private static final String bootsPath = "doc/data/botas.tsv";
-	private static final String helmetsPath = "doc/data/cascos.tsv";
-	private static final String glovesPath = "doc/data/guantes.tsv";
-	private static final String shirtsPath = "doc/data/pecheras.tsv";
-	private static final String heightsPath = "doc/data/heights.tsv";
+	private static final String multipliersPath = "multipliers.txt";
+	private static final String configurationPath = "configuration.txt";
+	private static final String weaponsPath = "armas.tsv";
+	private static final String bootsPath = "botas.tsv";
+	private static final String helmetsPath = "cascos.tsv";
+	private static final String glovesPath = "guantes.tsv";
+	private static final String shirtsPath = "pecheras.tsv";
+	private static final String heightsPath = "heights.tsv";
 
 	private int genotypesAmount = 0;
-	
+	private String dirFilepath = "/doc/data/";
 	private Multipliers multipliers;
 	private Configuration configuration;
 	private Map<Integer, ArrayList<Gene>> geneMap;
 	
-	public CharacterGeneticAlgorithmProblem() throws FileNotFoundException {
-		geneMap = new HashMap<>();
+	public CharacterGeneticAlgorithmProblem(String dirFilepath) throws FileNotFoundException {
+		this.dirFilepath = dirFilepath;
+		this.geneMap = new HashMap<>();
 		loadMultipliers();
 		loadConfigurationFile();
 		loadItems();
@@ -44,25 +45,25 @@ public class CharacterGeneticAlgorithmProblem implements GeneticAlgorithmProblem
 	}
 	
 	private void loadMultipliers() throws FileNotFoundException {
-		multipliers = MultipliersParser.parse(multipliersPath);
+		multipliers = MultipliersParser.parse(dirFilepath + multipliersPath);
 	}
 	
 	private void loadConfigurationFile() throws FileNotFoundException {
-		configuration = ConfigurationParser.parse(configurationPath);
+		configuration = ConfigurationParser.parse(dirFilepath, dirFilepath + configurationPath);
 	}
 	
 	private void loadItems() throws FileNotFoundException {
 		GeneParser parser = new ItemParser();
-		geneMap.put(genotypesAmount++, parser.parse(weaponsPath));
-		geneMap.put(genotypesAmount++, parser.parse(bootsPath));
-		geneMap.put(genotypesAmount++, parser.parse(helmetsPath));
-		geneMap.put(genotypesAmount++, parser.parse(glovesPath));
-		geneMap.put(genotypesAmount++, parser.parse(shirtsPath));
+		geneMap.put(genotypesAmount++, parser.parse(dirFilepath + weaponsPath));
+		geneMap.put(genotypesAmount++, parser.parse(dirFilepath + bootsPath));
+		geneMap.put(genotypesAmount++, parser.parse(dirFilepath + helmetsPath));
+		geneMap.put(genotypesAmount++, parser.parse(dirFilepath + glovesPath));
+		geneMap.put(genotypesAmount++, parser.parse(dirFilepath + shirtsPath));
 	}
 	
 	private void loadHeights() throws FileNotFoundException {
 		GeneParser parser = new HeightParser();
-		geneMap.put(genotypesAmount++, parser.parse(heightsPath));
+		geneMap.put(genotypesAmount++, parser.parse(dirFilepath + heightsPath));
 	}
 
 	@Override

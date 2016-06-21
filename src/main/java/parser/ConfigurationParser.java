@@ -37,17 +37,8 @@ import algorithm.selector.UniversalSelector;
 
 public class ConfigurationParser {
 
-	private static final String DEFAULT_CONFIGURATION_PATH = "doc/data/defaultConfiguration.txt";
+	private static final String DEFAULT_CONFIGURATION_PATH = "defaultConfiguration.txt";
 	private static Map<String, String> defaultConfigurationMap;
-
-	static {
-		try {
-			defaultConfigurationMap = MapParser.parseMap(DEFAULT_CONFIGURATION_PATH);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	// selector names
 	private static final String SELECTOR_ELITE = "elite";
@@ -121,8 +112,9 @@ public class ConfigurationParser {
 	// replace method
 	private static final String MR_METHOD = "mr_metodo";
 	private static final String MR_METHOD_GAP_G = "mr_metodo_gap_g";
-
-	public static Configuration parse(String path) throws FileNotFoundException {
+	
+	public static Configuration parse(String dirFilepath, String path) throws FileNotFoundException {
+		defaultConfigurationMap = MapParser.parseMap(dirFilepath + DEFAULT_CONFIGURATION_PATH);
 		return handleConfigurationMap(MapParser.parseMap(path));
 	}
 
@@ -207,10 +199,6 @@ public class ConfigurationParser {
 	private static void handleReplaceMethod(Map<String, String> configurationMap, Configuration.Builder builder) {
 		String name = getValue(configurationMap, MR_METHOD);
 		builder.withReplaceMethod(createReplaceMethod(name, configurationMap));
-	}
-
-	public static void main(String[] args) throws FileNotFoundException {
-		parse("doc/data/configuration.txt");
 	}
 
 	private static Selector createReplaceSelector(String selectorName, Map<String, String> configurationMap) {

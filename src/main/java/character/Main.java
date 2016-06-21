@@ -10,8 +10,15 @@ import algorithm.listener.PlotterListener;
 public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException {
-		
-		GeneticAlgorithmProblem problem = new CharacterGeneticAlgorithmProblem();
+		String dirFilepath = isRunningInEclipse() ? "doc/data/" : "./";
+		if (args.length != 0) {
+			dirFilepath = args[0];
+			if (dirFilepath.lastIndexOf('/') != dirFilepath.length()) {
+				dirFilepath += "/";
+			}
+		}
+        
+		GeneticAlgorithmProblem problem = new CharacterGeneticAlgorithmProblem(dirFilepath);
 		GeneticAlgorithm algorithm = new GeneticAlgorithm(problem);		
 
 		// Setear listeners
@@ -22,5 +29,9 @@ public class Main {
 		
 		algorithm.start();
 	}
-
+	
+	private static boolean isRunningInEclipse() {
+		return !Main.class.getResource("Main.class").toString().contains("jar:");
+	}
+	
 }
