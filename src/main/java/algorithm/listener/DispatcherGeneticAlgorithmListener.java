@@ -32,9 +32,9 @@ public class DispatcherGeneticAlgorithmListener implements GeneticAlgorithmListe
 	}
 
 	@Override
-	public void onGeneticAlgorithmFinished(Chromosome chromosome) {
+	public void onGeneticAlgorithmFinished(Chromosome currentBestChromosome, Chromosome bestChromosome) {
 		for (GeneticAlgorithmListener listener: listeners) {
-			listener.onGeneticAlgorithmFinished(chromosome);
+			listener.onGeneticAlgorithmFinished(currentBestChromosome, bestChromosome);
 		}		
 	}
 }

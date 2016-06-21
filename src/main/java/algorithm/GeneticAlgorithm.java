@@ -86,8 +86,7 @@ public class GeneticAlgorithm {
 			}
 			dispatcher.onNewGenerationReached(generation, currentGeneration, currentBestChromosome);
 		}
-		dispatcher.onGeneticAlgorithmFinished(currentBestChromosome);
-		dispatcher.onGeneticAlgorithmFinished(bestChromosome);
+		dispatcher.onGeneticAlgorithmFinished(currentBestChromosome, bestChromosome);
 	}
 
 	private Chromosome getBestChromosome(List<Chromosome> chromosomes) {

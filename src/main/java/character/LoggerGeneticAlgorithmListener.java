@@ -18,8 +18,12 @@ public class LoggerGeneticAlgorithmListener implements GeneticAlgorithmListener 
 	}
 
 	@Override
-	public void onGeneticAlgorithmFinished(Chromosome chromosome) {
-		System.out.println("Algorithm finished, best chromosome: ");
-		System.out.println(chromosome);
+	public void onGeneticAlgorithmFinished(Chromosome currentBestChromosome, Chromosome bestChromosome) {
+		System.out.println();
+		System.out.println("Algorithm finished, best chromosome for last generation: ");
+		System.out.println(currentBestChromosome);
+		
+		System.out.println("best chromosome:");
+		System.out.println(bestChromosome);
 	}
 }

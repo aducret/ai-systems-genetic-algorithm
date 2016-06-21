@@ -42,5 +42,5 @@ public class ContentCuttingCondition implements CuttingCondition {
 	}
 
 	@Override
-	public void onGeneticAlgorithmFinished(Chromosome chromosome) {	}
+	public void onGeneticAlgorithmFinished(Chromosome currentBestChromosome, Chromosome bestChromosome) {	}
 }

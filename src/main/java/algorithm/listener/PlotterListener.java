@@ -45,7 +45,7 @@ public class PlotterListener implements GeneticAlgorithmListener {
 	public void onBestChromosomeUpdated(Chromosome bestChromosome) { }
 
 	@Override
-	public void onGeneticAlgorithmFinished(Chromosome chromosome) { 
+	public void onGeneticAlgorithmFinished(Chromosome currentbestChromosome, Chromosome bestChromosome) { 
 		FunctionPlotter plotter = new FunctionPlotter();
 		plotter.plot(generations, fitness);
 		

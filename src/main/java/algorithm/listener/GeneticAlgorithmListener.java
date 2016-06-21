@@ -10,5 +10,5 @@ public interface GeneticAlgorithmListener {
 	
 	void onBestChromosomeUpdated(Chromosome bestChromosome);
 	
-	void onGeneticAlgorithmFinished(Chromosome chromosome);
+	void onGeneticAlgorithmFinished(Chromosome currentBestChromosome, Chromosome bestChromosome);
 }
