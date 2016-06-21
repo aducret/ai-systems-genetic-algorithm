@@ -53,6 +53,5 @@ sr_torneo_deterministico_m = 3
 sr_boltzmann_temperatura_inicial = 500
 
 % 8 - Metodo de reemplazo
-% opciones = {metodo1, metodo2, metodo3, gap}
+% opciones = {metodo1, metodo2, metodo3}
 mr_metodo = metodo2
-mr_metodo_gap_g = 0.5

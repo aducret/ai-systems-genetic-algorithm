@@ -20,7 +20,6 @@ import algorithm.pairing.AlphaPairingAlgorithm;
 import algorithm.pairing.PairingAlgorithm;
 import algorithm.pairing.RandomPairingAlgorithm;
 import algorithm.pairing.SelectorPairingAlgorithm;
-import algorithm.replace.GAPReplaceMethod;
 import algorithm.replace.ReplaceMethod;
 import algorithm.replace.ReplaceMethod1;
 import algorithm.replace.ReplaceMethod2;
@@ -70,7 +69,6 @@ public class ConfigurationParser {
 	private static final String REPLACE_METHOD_1 = "metodo1";
 	private static final String REPLACE_METHOD_2 = "metodo2";
 	private static final String REPLACE_METHOD_3 = "metodo3";
-	private static final String REPLACE_METHOD_GAP = "gap";
 
 	// global values
 	private static final String N = "N";
@@ -119,7 +117,6 @@ public class ConfigurationParser {
 
 	// replace method
 	private static final String MR_METHOD = "mr_metodo";
-	private static final String MR_METHOD_GAP_G = "mr_metodo_gap_g";
 	
 	public static Configuration parse(String dirFilepath, String path) throws FileNotFoundException {
 		defaultConfigurationMap = MapParser.parseMap(dirFilepath + DEFAULT_CONFIGURATION_PATH);
@@ -324,8 +321,6 @@ public class ConfigurationParser {
 			return new ReplaceMethod2(selector);
 		case REPLACE_METHOD_3:
 			return new ReplaceMethod3(selector);
-		case REPLACE_METHOD_GAP:
-			return new GAPReplaceMethod(Double.valueOf(getValue(configurationMap, MR_METHOD_GAP_G)), selector);
 		default:
 			return null;
 		}
