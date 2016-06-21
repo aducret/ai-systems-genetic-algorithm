@@ -1,4 +1,4 @@
-package character;
+package main;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class CharacterGeneticAlgorithmProblem implements GeneticAlgorithmProblem
 	private static final String heightsPath = "heights.tsv";
 
 	private int genotypesAmount = 0;
-	private String dirFilepath = "/doc/data/";
+	private String dirFilepath = "doc/data/";
 	private Multipliers multipliers;
 	private Configuration configuration;
 	private Map<Integer, ArrayList<Gene>> geneMap;
