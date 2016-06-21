@@ -97,6 +97,8 @@ public class ConfigurationParser {
 	private static final String AA_FIRST = "aa_primero";
 	private static final String AA_SECOND = "aa_segundo";
 	private static final String AA_PERCENTAGE = "aa_porcentaje";
+	private static final String AA_DETERMINISTIC_TOURNAMENT_M = "aa_torneo_deterministico_m";
+	private static final String AA_BOLTZMANN_TEMPERATURE = "AA_boltzmann_temperatura_inicial";
 
 	// cross over method
 	private static final String TC_TYPE = "tc_tipo";
@@ -194,10 +196,10 @@ public class ConfigurationParser {
 		if (compound) {
 			String second = getValue(configurationMap, SR_SECOND);
 			Double percentage = Double.valueOf(getValue(configurationMap, SR_PERCENTAGE));
-			ans = new CompoundSelector(createSelector(first, configurationMap),
-					createSelector(second, configurationMap), percentage);
+			ans = new CompoundSelector(createReplaceSelector(first, configurationMap),
+					createReplaceSelector(second, configurationMap), percentage);
 		} else {
-			ans = createSelector(first, configurationMap);
+			ans = createReplaceSelector(first, configurationMap);
 		}
 		return ans;
 	}
@@ -207,7 +209,7 @@ public class ConfigurationParser {
 		builder.withReplaceMethod(createReplaceMethod(name, configurationMap));
 	}
 
-	private static Selector createSelector(String selectorName, Map<String, String> configurationMap) {
+	private static Selector createReplaceSelector(String selectorName, Map<String, String> configurationMap) {
 		switch (selectorName) {
 		case SELECTOR_DETERMINISTIC_TOURNAMENT:
 			return new DeterministicTournamentSelector(
@@ -218,7 +220,19 @@ public class ConfigurationParser {
 			return createSimpleSelector(selectorName);
 		}
 	}
-
+	
+	private static Selector createPairingSelector(String selectorName, Map<String, String> configurationMap) {
+		switch (selectorName) {
+		case SELECTOR_DETERMINISTIC_TOURNAMENT:
+			return new DeterministicTournamentSelector(
+					Integer.valueOf(getValue(configurationMap, AA_DETERMINISTIC_TOURNAMENT_M)));
+		case SELECTOR_BOLTZMANN:
+			return new BoltzmannSelector(Double.valueOf(getValue(configurationMap, AA_BOLTZMANN_TEMPERATURE)));
+		default:
+			return createSimpleSelector(selectorName);
+		}
+	}
+	
 	private static Selector createCrossOverSelector(String selectorName, Map<String, String> configurationMap) {
 		switch (selectorName) {
 		case SELECTOR_DETERMINISTIC_TOURNAMENT:
@@ -262,7 +276,7 @@ public class ConfigurationParser {
 			if (compound) {
 				String second = getValue(configurationMap, AA_SECOND);
 				Double percentage = Double.valueOf(getValue(configurationMap, AA_PERCENTAGE));
-				return new SelectorPairingAlgorithm(new CompoundSelector(createSelector(first, configurationMap), createSelector(second, configurationMap), percentage));
+				return new SelectorPairingAlgorithm(new CompoundSelector(createPairingSelector(first, configurationMap), createReplaceSelector(second, configurationMap), percentage));
 			} else {
 				return new SelectorPairingAlgorithm(createSimpleSelector(first));
 			}
