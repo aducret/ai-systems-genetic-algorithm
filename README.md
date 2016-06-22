@@ -12,7 +12,9 @@ git clone git@bitbucket.org:itba/sia-2016-08.git
 cd sia-2016-08
 ```
 ## Build JAR
+You need to install maven and then build the jar.
 ```
+sudo apt-get -y install maven 
 mvn clean package
 ```
 Move the jar where you want and copy the tsv and txt files (configuration files, multipliers, heights and items).
@@ -32,7 +34,8 @@ java -jar ./ai_systems_genetic_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.ja
 ## Configuration file
 In the configuration file you can indicate the parameters for the algorithm. A example configuration file is added in `doc/data/configuration.txt` and the default configuration will be in  `doc/data/defaultConfiguration.txt`. In case a parameter is missing, it will be loaded from the default configuration file.
 
-The implementation approach of this problem is generic, so you can change the character multiplayers from the `doc/data/multipliers.txt` file.
+## Multipliers
+The implementation approach of this problem is generic, so you can change the character multiplaiers from the `doc/data/multipliers.txt` file.
 
 ### Collaborators
 
