@@ -14,7 +14,7 @@ public class EliteSelector implements Selector {
 		clonedChromosomes.sort(new ChromosomeComparator(false));
 		List<Chromosome> ans = new ArrayList<>();
 		for (int i = 0; i < k; i++) {
-			ans.add(clonedChromosomes.get(i));
+			ans.add(clonedChromosomes.get(i % chromosomes.size()));
 		}
 		return ans;
 	}
