@@ -49,7 +49,7 @@ sc_primero = elite
 sc_segundo = roulette
 
 % el selector compuesto sera sc_porcentaje * sc_primero + (1 - sc_porcentaje) * sc_segundo
-sc_porcentaje = 0
+sc_porcentaje = 0.15
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% 4 - Algoritmo de apareamiento %%%%
@@ -80,10 +80,10 @@ tc_uniform_p = 0.25
 
 % opciones = {clasico, no_uniforme}
 % algoritmo de mutacion a utilizar
-am_algoritmo = no_uniforme
+am_algoritmo = clasico
 
 % probabilidad de mutacion (se utiliza el mismo valor para algoritmo clasico y no_uniforme)
-am_pm = 1
+am_pm = 0.1
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% 7 - Metodo de seleccion para el reemplazo %%%%
