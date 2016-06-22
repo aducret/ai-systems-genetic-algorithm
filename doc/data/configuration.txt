@@ -2,47 +2,101 @@
 %% Archivo de configuracion para el trabajo practico especial 3, Algoritmos Geneticos %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% 1 - Valores globales
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% 1 - Valores globales %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% cantidad de individuos en cada generacion
 N = 200
+
+% cantidad de individuos a seleccionar para el entrecruzamiento
 k = 20
+
+% semilla para la ejecucion del algoritmo genetico
 seed = 15
 
-% 2 - Condiciones de corte
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% 2 - Condiciones de corte %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% el algoritmo genetico no durara mas de cc_limite_generaciones generaciones
 cc_limite_generaciones = 500
+
+% el algoritmo frenara si se encuentra un individuo de aptitud cc_objetivo o superior
 cc_objetivo = 80
+
+% (1 - cc_estructura) es la minima brecha generacional permitida. si en algun salto de generacion
+% la brecha generacional es menor a (1 - cc_estructura), corta el algoritmo
 cc_estructura = 0.95
+
+% si pasan cc_contenido generaciones sin actualizarse la aptitud maxima, el algoritmo corta
 cc_contenido = 50
 
-% 3 - Metodo de seleccion para la cruza
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% 3 - Metodo de seleccion para la cruza %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % opciones = {elite, roulette, ranking, universal, torneo_probabilistico, torneo_deterministico, boltzmann, random}
+% torneo_deterministico y boltzmann tienen parametros adicionales (ver defaultConfiguration.txt)
+
+% boolean que determina si el selector es compuesto (si es false, sc_segundo y sc_porcentaje no son necesarios)
 sc_compuesto = true
+
+% indica el primer metodo de seleccion
 sc_primero = elite
+
+% indica el segundo metodo de seleccion
 sc_segundo = roulette
+
+% el selector compuesto sera sc_porcentaje * sc_primero + (1 - sc_porcentaje) * sc_segundo
 sc_porcentaje = 0
 
-% 4 - Algoritmo de apareamiento
-% opciones = {alpha, random, selector}
-aa_algoritmo = selector
-aa_primero = ranking
-aa_segundo = torneo_probabilistico
-aa_porcentaje = 0.5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% 4 - Algoritmo de apareamiento %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% 5 - Tipo de cruza
+% algoritmo para agrupar individuos en parejas de a dos (utilizado luego de la primer seleccion)
+% opciones = {alpha, random, selector}
+% en caso de usar selector, la configuracion es similar a la realizada en la seccion anterior (ver defaultConfiguration.txt)
+aa_algoritmo = random
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% 5 - Tipo de cruza %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % opciones = {un_punto, dos_puntos, uniforme, anular}
+% tipo de entrecruzamiento
 tc_tipo = uniforme
+
+% probabilidad de entrecruzamiento
 tc_pc = 0.75
+
+% este parametro es propio del tipo de entrecruzamiento uniforme (no es necesario si se elige otro)
 tc_uniform_p = 0.25
 
-% 6 - Algoritmo de mutacion
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% 6 - Algoritmo de mutacion %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % opciones = {clasico, no_uniforme}
+% algoritmo de mutacion a utilizar
 am_algoritmo = no_uniforme
+
+% probabilidad de mutacion (se utiliza el mismo valor para algoritmo clasico y no_uniforme)
 am_pm = 1
 
-% 7 - Metodo de seleccion para el reemplazo
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% 7 - Metodo de seleccion para el reemplazo %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % opciones = {elite, roulette, ranking, universal, torneo_probabilistico, torneo_deterministico, boltzmann, random}
+% la configuracion es analoga a la seccion 3
 sr_compuesto = false
 sr_primero = roulette
 
-% 8 - Metodo de reemplazo
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% 8 - Metodo de reemplazo %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % opciones = {metodo1, metodo2, metodo3}
 mr_metodo = metodo2
