@@ -24,6 +24,7 @@ public class FunctionPlotter {
 
 	public void plot(List<Double> x, List<Double> y) {
 	    XYChart chart = QuickChart.getChart(title, xlabel, ylabel, legend, x, y);
+	    chart.setWidth(800);
 	    SwingWrapper<XYChart> plotter = new SwingWrapper<>(chart);
 	    plotter.displayChart();
 	}

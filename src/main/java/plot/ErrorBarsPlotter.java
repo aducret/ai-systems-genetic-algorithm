@@ -1,5 +1,6 @@
 package plot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.knowm.xchart.SwingWrapper;
@@ -7,6 +8,7 @@ import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
+import org.knowm.xchart.style.markers.Marker;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
 public class ErrorBarsPlotter {
@@ -33,8 +35,24 @@ public class ErrorBarsPlotter {
 	    chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
 
 	    // Series
-	    XYSeries series = chart.addSeries(legend, x, y, errorBars);
-	    series.setMarker(SeriesMarkers.NONE);
+	    XYSeries series;
+	    if (errorBars.size() <= 300) {
+	    	series = chart.addSeries(legend, x, y, errorBars);
+	    	series.setMarker(SeriesMarkers.NONE);
+	    } else { 
+	    	series = chart.addSeries(legend, x, y);
+	    	series.setMarker(SeriesMarkers.NONE);
+	    	List<Double> yMinusStd = new ArrayList<Double>();
+	    	List<Double> yPlusStd = new ArrayList<Double>();
+	    	for (int i = 0; i < errorBars.size(); i++) {
+	    		yMinusStd.add(y.get(i) - errorBars.get(i));
+	    		yPlusStd.add(y.get(i) + errorBars.get(i));
+	    	}
+	    	series = chart.addSeries(legend + " - std", x, yMinusStd);
+	    	series.setMarker(SeriesMarkers.NONE);
+	    	series = chart.addSeries(legend + " + std", x, yPlusStd);
+	    	series.setMarker(SeriesMarkers.NONE);
+		}
 	    
 	    new SwingWrapper<XYChart>(chart).displayChart();
 	}
