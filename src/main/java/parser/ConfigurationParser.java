@@ -48,7 +48,7 @@ public class ConfigurationParser {
 	private static final String SELECTOR_PROBABILISTIC_TOURNAMENT = "torneo_probabilistico";
 	private static final String SELECTOR_DETERMINISTIC_TOURNAMENT = "torneo_deterministico";
 	private static final String SELECTOR_BOLTZMANN = "boltzmann";
-	private static final String SELECTOR_RANDOM = "selector_random";
+	private static final String SELECTOR_RANDOM = "random";
 
 	// pairing names
 	private static final String PAIRING_ALPHA = "alpha";
