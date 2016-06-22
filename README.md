@@ -20,8 +20,8 @@ mvn clean package
 Move the jar where you want and copy the tsv and txt files (configuration files, multipliers, heights and items).
 ```
 cp target/ai_systems_genetic_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.jar ~/
-cp target/*.txt ~/
-cp target/*.tsv ~/
+cp doc/data/*.txt ~/
+cp doc/data/*.tsv ~/
 ```
 ## Run JAR
 The first argument indicates the directory where the tsv and txt files are. The default value is `./` if you are running a jar  or `doc/data/` if you are running in eclipse.
