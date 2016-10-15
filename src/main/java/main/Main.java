@@ -25,7 +25,7 @@ public class Main {
 		GeneticAlgorithmListener loggerListener = new LoggerGeneticAlgorithmListener();
 		algorithm.addListener(loggerListener);
 		PlotterListener plotterListener = new PlotterListener();
-		algorithm.addListener(plotterListener);
+		//algorithm.addListener(plotterListener);
 		
 		algorithm.start();
 	}

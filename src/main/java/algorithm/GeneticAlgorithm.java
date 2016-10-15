@@ -3,12 +3,10 @@ package algorithm;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.ChromosomeComparator;
 import algorithm.cuttingCondition.CuttingCondition;
-import algorithm.gene.Gene;
 import algorithm.listener.DispatcherGeneticAlgorithmListener;
 import algorithm.listener.GeneticAlgorithmListener;
 import algorithm.model.Pair;
@@ -62,8 +60,8 @@ public class GeneticAlgorithm {
 									.crossOver(parents);
 
 							// muto y agrego a la lista de hijos
-							configuration.mutationAlgorithm.mutate(childsPair.first, problem.geneMap());
-							configuration.mutationAlgorithm.mutate(childsPair.second, problem.geneMap());
+							configuration.mutationAlgorithm.mutate(childsPair.first);
+							configuration.mutationAlgorithm.mutate(childsPair.second);
 
 							childs.add(childsPair.first);
 							childs.add(childsPair.second);
@@ -107,22 +105,11 @@ public class GeneticAlgorithm {
 	public void addListener(GeneticAlgorithmListener listener) {
 		listeners.add(listener);
 	}
-
-	private Chromosome generateRandomChromosome() {
-		Map<Integer, ArrayList<Gene>> geneMap = problem.geneMap();
-		List<Gene> genes = new ArrayList<>();
-		int genesPerChromosome = geneMap.keySet().size();
-		for (int i = 0; i < genesPerChromosome; i++) {
-			List<Gene> alleles = geneMap.get(i);
-			genes.add(alleles.get(RandomUtils.randomBetween(0, alleles.size() - 1)));
-		}
-		return problem.createChromosome(genes);
-	}
 	
 	private List<Chromosome> generateRandomePopulation(int N) {
 		List<Chromosome> chromosomes = new ArrayList<>();
 		for (int i = 0; i < N; i++) {
-			chromosomes.add(generateRandomChromosome());
+			chromosomes.add(problem.createRandom());
 		}
 		return chromosomes;
 	}

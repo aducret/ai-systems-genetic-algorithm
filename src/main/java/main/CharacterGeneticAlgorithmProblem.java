@@ -65,11 +65,6 @@ public class CharacterGeneticAlgorithmProblem implements GeneticAlgorithmProblem
 		GeneParser parser = new HeightParser();
 		geneMap.put(genotypesAmount++, parser.parse(dirFilepath + heightsPath));
 	}
-
-	@Override
-	public Map<Integer, ArrayList<Gene>> geneMap() {
-		return geneMap;
-	}
 	
 	@Override
 	public Configuration configuration() {
@@ -77,7 +72,8 @@ public class CharacterGeneticAlgorithmProblem implements GeneticAlgorithmProblem
 	}
 
 	@Override
-	public Chromosome createChromosome(List<Gene> genes) {
-		return new CharacterListChromosome(genes, multipliers);
+	public Chromosome createRandom() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

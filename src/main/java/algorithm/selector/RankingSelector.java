@@ -1,6 +1,7 @@
 package algorithm.selector;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import algorithm.chromosome.Chromosome;
@@ -12,7 +13,7 @@ public class RankingSelector implements Selector {
 	@Override
 	public List<Chromosome> select(List<Chromosome> chromosomes, int k) {
 		List<Chromosome> selected = new ArrayList<>();
-		chromosomes.sort(new ChromosomeComparator(true));
+		Collections.sort(chromosomes, new ChromosomeComparator(true));
 		double[] relativeRankings = relativeRankings(chromosomes);
 		double[] cummulativeProbabilities = ChromosomeUtils
 				.cumulativeProbabilities(relativeRankings);
