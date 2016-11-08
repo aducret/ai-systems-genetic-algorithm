@@ -16,6 +16,13 @@ public class GAPAChromosome extends ListChromosome {
 	private Person[] people;
 	private int[][] restrictions;
 	
+	/**
+	 * 
+	 * @param people are the people from the company
+	 * @param restrictions is an Nx2 matrix containing N restrictions where each
+	 * restriction consists of 2 indexes: i1 & i2 meaning "the person at index i1 must be
+	 * close to the person at index i2"
+	 */
 	public GAPAChromosome(Person[] people, int[][] restrictions) {
 		super(createGenes(people));
 		this.people = people;

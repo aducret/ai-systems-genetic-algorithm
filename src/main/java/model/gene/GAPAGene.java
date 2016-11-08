@@ -5,7 +5,7 @@ import structures.Person;
 
 public class GAPAGene implements Gene {
 
-	public Person person;
+	public final Person person;
 	
 	public GAPAGene(Person person) {
 		this.person = person;

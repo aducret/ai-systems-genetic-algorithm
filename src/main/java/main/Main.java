@@ -18,7 +18,8 @@ public class Main {
 			}
 		}
         
-		GeneticAlgorithmProblem problem = new CharacterGeneticAlgorithmProblem(dirFilepath);
+//		GeneticAlgorithmProblem problem = new CharacterGeneticAlgorithmProblem(dirFilepath);
+		GeneticAlgorithmProblem problem = new GAPAProblem();
 		GeneticAlgorithm algorithm = new GeneticAlgorithm(problem);		
 
 		// Setear listeners
