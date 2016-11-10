@@ -7,6 +7,7 @@ import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.ListChromosome;
 import algorithm.gene.Gene;
 import model.gene.GAPAGene;
+import structures.Node;
 import structures.NodeUtils;
 import structures.Person;
 import util.BitUtils;
@@ -17,16 +18,22 @@ public class GAPAChromosome extends ListChromosome {
 	private int[][] restrictions;
 	
 	/**
+	 * Used in GAPAMutationAlgorithm
+	 */
+	private List<Node> totalSeats;
+	
+	/**
 	 * 
 	 * @param people are the people from the company
 	 * @param restrictions is an Nx2 matrix containing N restrictions where each
 	 * restriction consists of 2 indexes: i1 & i2 meaning "the person at index i1 must be
 	 * close to the person at index i2"
 	 */
-	public GAPAChromosome(Person[] people, int[][] restrictions) {
+	public GAPAChromosome(Person[] people, int[][] restrictions, List<Node> totalSeats) {
 		super(createGenes(people));
 		this.people = people;
 		this.restrictions = restrictions;
+		this.totalSeats = totalSeats;
 	}
 
 	@Override
@@ -53,7 +60,7 @@ public class GAPAChromosome extends ListChromosome {
 		for (int i = 0; i < clone.length; i++) {
 			clone[i] = people[i].clone();
 		}
-		return new GAPAChromosome(clone, restrictions);
+		return new GAPAChromosome(clone, restrictions, totalSeats);
 	}
 	
 	private static List<Gene> createGenes(Person[] people) {
@@ -62,5 +69,30 @@ public class GAPAChromosome extends ListChromosome {
 			genes.add(new GAPAGene(person));
 		}
 		return genes;
+	}
+	
+	public Person[] getPeople() {
+		return people;
+	}
+	
+	public List<Node> getTotalSeats() {
+		return totalSeats;
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		String separator = "";
+		for (Person person: people) {
+			sb.append(separator);
+			sb.append("{");
+			
+			sb.append(person.id + " seats in " + person.workingSpace.id);
+			
+			sb.append("}");
+			separator = ", ";
+		}
+		sb.append("}");
+		return sb.toString();
 	}
 }
