@@ -6,7 +6,6 @@ import algorithm.Configuration;
 import algorithm.GeneticAlgorithmProblem;
 import algorithm.chromosome.Chromosome;
 import algorithm.crossover.GAPACrossOver;
-import algorithm.crossover.NoCrossOver;
 import algorithm.cuttingCondition.ContentCuttingCondition;
 import algorithm.cuttingCondition.GoalReachedCuttingCondition;
 import algorithm.cuttingCondition.MaxGenerationsCuttingCondition;
