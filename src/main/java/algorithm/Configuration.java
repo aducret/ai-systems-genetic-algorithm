@@ -14,7 +14,7 @@ import model.Multipliers;
 public class Configuration {
 	public int N;
 	public int k;
-	public long seed;
+	public Long seed = null;
 	public Multipliers multipliers;
 	public List<CuttingCondition> cuttingConditions;
 	public Selector crossOverSelector;

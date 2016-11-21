@@ -27,7 +27,10 @@ public class GeneticAlgorithm {
 		this.listeners = new ArrayList<>();
 		this.dispatcher = new DispatcherGeneticAlgorithmListener(listeners);
 
-		RandomUtils.setSeed(configuration.seed);
+		if (configuration.seed != null) {
+			RandomUtils.setSeed(configuration.seed);
+		}
+		
 		subscribeCuttingConditions();
 	}
 

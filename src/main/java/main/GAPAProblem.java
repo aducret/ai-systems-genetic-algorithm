@@ -53,7 +53,7 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 		return new Configuration.Builder()
 				.withN(10)
 				.withK(4)
-				.withSeed(1)
+				.withSeed(2)
 				.withCrossOverSelector(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.15))
 				.withPairingAlgorithm(new RandomPairingAlgorithm())
 				.withCrossOverAlgorithm(new GAPACrossOver())
