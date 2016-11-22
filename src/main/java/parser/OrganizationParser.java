@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -78,28 +80,26 @@ public class OrganizationParser {
 		scanner.useLocale(Locale.US);
 		
 		List<String> employees = new ArrayList<>();
-		List<List<String>> projects = new ArrayList<>();
-		String lastProjectName = "";
-		List<String> lastProjectMembers = new ArrayList<>();
+		Map<String, List<String>> projects = new TreeMap<>();
 		while(scanner.hasNext()) {
 			String line = scanner.nextLine();
 			String[] components = line.trim().split(" ");
 			String employee = components[0];
-			String projectName = components[1];
-			
-			if (lastProjectName.equals(projectName)) {
-				lastProjectMembers.add(employee);
-			} else {
-				lastProjectName = projectName;
-				lastProjectMembers = new ArrayList<>();
-				lastProjectMembers.add(employee);
-				projects.add(lastProjectMembers);
-			}
 			employees.add(employee);
+			
+			for(String projectName: components) {
+				if (projects.containsKey(projectName)) {
+					projects.get(projectName).add(employee);
+				} else {
+					List<String> newProject = new ArrayList<>();
+					newProject.add(employee);
+					projects.put(projectName, newProject);
+				}
+			}
 		}
 		
 		List<Pair<Integer, Integer>> restrictions = new ArrayList<>();
-		for(List<String> project: projects) {
+		for(List<String> project: projects.values()) {
 			for(String employee: project) {
 				for (String employee2: project) {
 					if (employee.equals(employee2))
@@ -109,25 +109,17 @@ public class OrganizationParser {
 				}
 			}
 		}
-		
 		scanner.close();
 		return new Pair<List<String>, List<Pair<Integer, Integer>>>(employees, restrictions);
 	}
 	
-	public void print(Node node) {
-		System.out.print("{" + node);
-		
-		if (node.isLeaf())
-			return;
-		
-		for (Node child: node.childs) {
-			print(child);
-		}
-	}
-	
 	public static void main(String[] args) throws FileNotFoundException {
 		OrganizationParser op = new OrganizationParser();
-		op.parse("./org.txt", "./emp.txt");
+		Triple<List<String>, Node, List<Pair<Integer, Integer>>> result = op.parse("./org.txt", "./emp.txt");
+		System.out.println("Employees: ");
+		System.out.println(result.first);
+		System.out.println("Restrictions: ");
+		System.out.println(result.third);
 	}
 	
 }	

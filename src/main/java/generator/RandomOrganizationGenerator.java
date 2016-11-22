@@ -3,6 +3,9 @@ package generator;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import algorithm.util.RandomUtils;
 
@@ -24,8 +27,12 @@ public class RandomOrganizationGenerator {
 	private int maxAmountOfWorkstation = 8;
 	
 	private float workstationOccupiedPercentage = 1;
+	
 	private int minAmountOfEmployeesPerProject = 3;
 	private int maxAmountOfEmployeesPerProject = 8;
+	
+	private int minAmountOfProjectPerEmployee = 1;
+	private int maxAmountOfProjectPerEmployee = 3;
 	
 	public void createRandomOrganization(String organizationPath, String employeesPath) throws IOException {
 		int numberOfWorkstation = generateRandomOrganization(organizationPath);
@@ -85,30 +92,47 @@ public class RandomOrganizationGenerator {
 			file.createNewFile();
 		PrintWriter writer = new PrintWriter(file, "UTF-8");
 		
-		int numberOfEmployees = (int) (workstationNumber * workstationOccupiedPercentage);
+		int amountOfEmployees = (int) (workstationNumber * workstationOccupiedPercentage);
+		int amountOfProjects = (int) (amountOfEmployees / maxAmountOfEmployeesPerProject);
+		List<String> projectNames = initializaProjectNames(amountOfProjects); 
 		int projectNumber = 1;
 		int employeedNumber = 1;
 		
-		while (numberOfEmployees > 0 && numberOfEmployees >= maxAmountOfEmployeesPerProject) {
+		while (amountOfEmployees > 0 && amountOfEmployees >= maxAmountOfEmployeesPerProject) {
 			int projectSize = RandomUtils.randomBetween(minAmountOfEmployeesPerProject, maxAmountOfEmployeesPerProject);
 			int auxProjectSize = projectSize;
 			while (auxProjectSize > 0) {
-				writer.println("Employeed_" + employeedNumber + " #project" + projectNumber);
+				writer.print("Employeed_" + employeedNumber + " #Project" + projectNumber);
+				int amountOfProjectPerEmployee = RandomUtils.randomBetween(minAmountOfProjectPerEmployee, maxAmountOfProjectPerEmployee);
+				while(amountOfProjectPerEmployee > 1) {
+					writer.print(" " + projectNames.get(RandomUtils.randomBetween(0, projectNames.size()-1)));
+					amountOfProjectPerEmployee--;
+				}
+				writer.println();
 				employeedNumber++;
 				auxProjectSize--;
 			}
-			numberOfEmployees -= projectSize;
+			amountOfEmployees -= projectSize;
 			projectNumber++;
 		}
-		if (numberOfEmployees != 0) {
-			while (numberOfEmployees > 0) {
+		if (amountOfEmployees != 0) {
+			while (amountOfEmployees > 0) {
 				writer.println("Employeed_" + employeedNumber + " #project" + projectNumber);
 				employeedNumber++;
-				numberOfEmployees--;
+				amountOfEmployees--;
 			}
 		}
 		
 		writer.close();
+	}
+	
+	private List<String> initializaProjectNames(int amountOfProjects) {
+		List<String> projectNames = new ArrayList<>();
+		for (int i = 1; i <= amountOfProjects; i++) {
+			projectNames.add("#Project" + i);
+		}
+		
+		return projectNames;
 	}
 	
 	public static class Builder {
@@ -181,6 +205,16 @@ public class RandomOrganizationGenerator {
 		
 		public Builder withMaxAmountOfEmployeesPerProject(int max) {
 			generator.maxAmountOfEmployeesPerProject = max;
+			return this;
+		}
+		
+		public Builder withMinAmountOfProjectPerEmployee(int min) {
+			generator.minAmountOfProjectPerEmployee = min;
+			return this;
+		}
+		
+		public Builder withMaxAmountOfProjectPerEmployee(int max) {
+			generator.maxAmountOfProjectPerEmployee = max;
 			return this;
 		}
 		

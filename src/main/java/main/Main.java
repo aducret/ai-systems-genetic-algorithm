@@ -1,7 +1,6 @@
 package main;
 
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.List;
 
 import algorithm.GeneticAlgorithm;
