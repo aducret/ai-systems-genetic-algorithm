@@ -6,6 +6,7 @@ import java.util.List;
 import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.ListChromosome;
 import algorithm.gene.Gene;
+import algorithm.model.Pair;
 import model.gene.GAPAGene;
 import structures.Node;
 import structures.NodeUtils;
@@ -15,7 +16,7 @@ import util.BitUtils;
 public class GAPAChromosome extends ListChromosome {
 
 	private Person[] people;
-	private int[][] restrictions;
+	private List<Pair<Integer, Integer>> restrictions;
 	
 	/**
 	 * Used in GAPAMutationAlgorithm
@@ -29,7 +30,7 @@ public class GAPAChromosome extends ListChromosome {
 	 * restriction consists of 2 indexes: i1 & i2 meaning "the person at index i1 must be
 	 * close to the person at index i2"
 	 */
-	public GAPAChromosome(Person[] people, int[][] restrictions, List<Node> totalSeats) {
+	public GAPAChromosome(Person[] people, List<Pair<Integer, Integer>> restrictions, List<Node> totalSeats) {
 		super(createGenes(people));
 		this.people = people;
 		this.restrictions = restrictions;
@@ -43,9 +44,9 @@ public class GAPAChromosome extends ListChromosome {
 		
 		int acum = 0;
 		
-		for (int i = 0; i < restrictions.length; i++) {
-			int index1 = restrictions[i][0];
-			int index2 = restrictions[i][1];
+		for (int i = 0; i < restrictions.size(); i++) {
+			int index1 = restrictions.get(i).first;
+			int index2 = restrictions.get(i).second;
 			Person p1 = people[index1];
 			Person p2 = people[index2];
 			acum += NodeUtils.distanceBetween(p1.workingSpace, p2.workingSpace);

@@ -10,6 +10,7 @@ import algorithm.cuttingCondition.ContentCuttingCondition;
 import algorithm.cuttingCondition.GoalReachedCuttingCondition;
 import algorithm.cuttingCondition.MaxGenerationsCuttingCondition;
 import algorithm.cuttingCondition.StructureCuttingCondition;
+import algorithm.model.Pair;
 import algorithm.mutation.GAPAMutationAlgorithm;
 import algorithm.pairing.RandomPairingAlgorithm;
 import algorithm.replace.ReplaceMethod2;
@@ -25,7 +26,7 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 
 	private List<String> employees;
 	private List<Node> seats;
-	private int[][] restrictions;
+	private List<Pair<Integer, Integer>> restrictions;
 	
 	/**
 	 * TODO: move parameters to a configuration file and receive file name as parameter
@@ -33,7 +34,7 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 	 * @param seats should be a call to NodeUtils.leafs(root)
 	 * @param restrictions look at {@link GAPAChromosome}
 	 */
-	public GAPAProblem(List<String> employees, List<Node> seats, int[][] restrictions) {
+	public GAPAProblem(List<String> employees, List<Node> seats, List<Pair<Integer, Integer>> restrictions) {
 		if  (seats.size() < employees.size())
 			throw new IllegalArgumentException("can't have fewer seats than people");
 		this.employees = employees;
