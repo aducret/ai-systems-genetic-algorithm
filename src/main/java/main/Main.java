@@ -43,7 +43,7 @@ public class Main {
 	
 	private static GAPAProblem createGAPA() throws FileNotFoundException {
 		OrganizationParser op = new OrganizationParser();
-		Triple<List<String>, Node, List<Pair<Integer, Integer>>> result = op.parse("./org.txt", "./emp.txt");
+		Triple<List<String>, Node, List<Pair<Integer, Integer>>> result = op.parse("./doc/gapa/ej1_org", "./doc/gapa/ej1_emp");
 		
 		return new GAPAProblem(result.first, NodeUtils.leafs(result.second), result.third);
 	}

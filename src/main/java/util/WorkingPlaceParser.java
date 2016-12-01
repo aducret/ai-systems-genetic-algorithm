@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.concurrent.SynchronousQueue;
 
 import structures.Node;
 
@@ -49,6 +50,7 @@ public class WorkingPlaceParser {
 	
 	public static String fullId(Node node) {
 		if (node == null) return "";
-		return fullId(node.parent) + node.id;
+		return fullId(node.parent) + "-" + node.id;
 	}
+	
 }

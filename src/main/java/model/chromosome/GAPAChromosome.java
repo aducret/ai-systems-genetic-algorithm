@@ -12,6 +12,7 @@ import structures.Node;
 import structures.NodeUtils;
 import structures.Person;
 import util.BitUtils;
+import util.WorkingPlaceParser;
 
 public class GAPAChromosome extends ListChromosome {
 
@@ -88,7 +89,7 @@ public class GAPAChromosome extends ListChromosome {
 			sb.append(separator);
 			sb.append("{");
 			
-			sb.append(person.id + " seats in " + person.workingSpace.id);
+			sb.append(person.id + " seats in " + WorkingPlaceParser.fullId(person.workingSpace));
 			
 			sb.append("}");
 			separator = ", ";
