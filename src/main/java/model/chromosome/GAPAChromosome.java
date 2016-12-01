@@ -52,7 +52,7 @@ public class GAPAChromosome extends ListChromosome {
 			acum += NodeUtils.distanceBetween(p1.workingSpace, p2.workingSpace);
 		}
 		
-		return 1.0/BitUtils.biggestBitIndex(acum);
+		return 1.0/acum;
 	}
 
 	@Override
