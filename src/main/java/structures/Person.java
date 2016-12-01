@@ -1,8 +1,12 @@
 package structures;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Person {
 	public final String id;
 	public Node workingSpace;
+	public Map<String, Integer> projectSizes = new HashMap<>(); 
 	
 	public Person(String id) {
 		this.id = id;
@@ -37,5 +41,10 @@ public class Person {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return id.toString() + "(" + projectSizes.toString() + ")";
 	}
 }

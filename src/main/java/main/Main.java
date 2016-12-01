@@ -11,6 +11,7 @@ import algorithm.model.Triple;
 import parser.OrganizationParser;
 import structures.Node;
 import structures.NodeUtils;
+import structures.Person;
 
 public class Main {
 
@@ -43,7 +44,7 @@ public class Main {
 	
 	private static GAPAProblem createGAPA() throws FileNotFoundException {
 		OrganizationParser op = new OrganizationParser();
-		Triple<List<String>, Node, List<Pair<Integer, Integer>>> result = op.parse("./doc/gapa/ej1_org", "./doc/gapa/ej1_emp");
+		Triple<List<Person>, Node, List<Pair<Integer, Integer>>> result = op.parse("./doc/gapa/ej1_org", "./doc/gapa/ej1_emp");
 		
 		return new GAPAProblem(result.first, NodeUtils.leafs(result.second), result.third);
 	}

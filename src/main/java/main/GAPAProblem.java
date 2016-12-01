@@ -24,7 +24,7 @@ import structures.Person;
 
 public class GAPAProblem implements GeneticAlgorithmProblem {
 
-	private List<String> employees;
+	private List<Person> employees;
 	private List<Node> seats;
 	private List<Pair<Integer, Integer>> restrictions;
 	
@@ -34,7 +34,7 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 	 * @param seats should be a call to NodeUtils.leafs(root)
 	 * @param restrictions look at {@link GAPAChromosome}
 	 */
-	public GAPAProblem(List<String> employees, List<Node> seats, List<Pair<Integer, Integer>> restrictions) {
+	public GAPAProblem(List<Person> employees, List<Node> seats, List<Pair<Integer, Integer>> restrictions) {
 		if  (seats.size() < employees.size())
 			throw new IllegalArgumentException("can't have fewer seats than people");
 		this.employees = employees;
@@ -71,7 +71,7 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 		RandomPopper<Node> rp = new RandomPopper<>(seats);
 		Person[] people = new Person[employees.size()];
 		for (int i = 0; i < employees.size(); i++) {
-			people[i] = new Person(employees.get(i));
+			people[i] = employees.get(i);
 			people[i].workingSpace = rp.randomPop();
 		}
 		return new GAPAChromosome(people, restrictions, seats);

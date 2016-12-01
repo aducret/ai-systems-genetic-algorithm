@@ -11,7 +11,6 @@ import model.gene.GAPAGene;
 import structures.Node;
 import structures.NodeUtils;
 import structures.Person;
-import util.BitUtils;
 import util.WorkingPlaceParser;
 
 public class GAPAChromosome extends ListChromosome {
