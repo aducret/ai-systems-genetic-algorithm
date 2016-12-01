@@ -100,11 +100,9 @@ public class OrganizationParser {
 		
 		List<Pair<Integer, Integer>> restrictions = new ArrayList<>();
 		for(List<String> project: projects.values()) {
-			for(String employee: project) {
-				for (String employee2: project) {
-					if (employee.equals(employee2))
-						continue;
-					Pair<Integer, Integer> restriction = new Pair<>(employees.indexOf(employee), employees.indexOf(employee2));
+			for(int i = 0; i < project.size(); i++) {
+				for (int j = i + 1; j < project.size(); j++) {
+					Pair<Integer, Integer> restriction = new Pair<>(employees.indexOf(project.get(i)), employees.indexOf(project.get(j)));
 					restrictions.add(restriction);
 				}
 			}
