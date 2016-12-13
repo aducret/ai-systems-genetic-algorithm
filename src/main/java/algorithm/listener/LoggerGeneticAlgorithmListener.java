@@ -1,9 +1,8 @@
-package main;
+package algorithm.listener;
 
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.listener.GeneticAlgorithmListener;
+import model.chromosome.Chromosome;
 
 public class LoggerGeneticAlgorithmListener implements GeneticAlgorithmListener {
 

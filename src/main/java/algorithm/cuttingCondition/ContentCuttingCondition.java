@@ -2,7 +2,7 @@ package algorithm.cuttingCondition;
 
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
+import model.chromosome.Chromosome;
 
 /*
  * if generationsTolerance generations pass without the max fitness being updated,

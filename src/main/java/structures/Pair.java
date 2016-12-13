@@ -1,4 +1,4 @@
-package algorithm.model;
+package structures;
 
 public class Pair<F, S> {
 	public F first;

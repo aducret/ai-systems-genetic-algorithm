@@ -1,23 +1,24 @@
-package structures;
+package model;
 
-import java.util.HashMap;
-import java.util.Map;
+import structures.Node;
+import util.WorkingPlaceParser;
 
 public class Person {
-	public final String id;
-	public Node workingSpace;
-	public Map<String, Integer> projectSizes = new HashMap<>(); 
 	
-	public Person(String id) {
+	public final String id;
+	public Node seat;
+	public String[] projects; 
+			
+	public Person(String id, String[] projects) {
 		this.id = id;
+		this.projects = projects;
 	}
 	
 	public Person clone() {
-		Person clone = new Person(id);
-		clone.workingSpace = this.workingSpace;
+		Person clone = new Person(id, projects);
 		return clone;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -45,6 +46,7 @@ public class Person {
 	
 	@Override
 	public String toString() {
-		return id.toString() + "(" + projectSizes.toString() + ")";
+		return id.toString() + "{" + WorkingPlaceParser.fullId(seat) + "}";
 	}
+	
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.chromosome.ChromosomeComparator;
+import model.chromosome.Chromosome;
+import model.chromosome.ChromosomeComparator;
 
 public class EliteSelector implements Selector {
 

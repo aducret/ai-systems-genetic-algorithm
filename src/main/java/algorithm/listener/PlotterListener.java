@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import model.chromosome.Chromosome;
+import model.chromosome.ChromosomeComparator;
 import plot.ErrorBarsPlotter;
 import plot.FunctionPlotter;
-import algorithm.chromosome.Chromosome;
-import algorithm.chromosome.ChromosomeComparator;
 
 public class PlotterListener implements GeneticAlgorithmListener {
 	

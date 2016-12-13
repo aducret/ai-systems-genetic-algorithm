@@ -1,18 +1,22 @@
 package algorithm.pairing;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.model.Pair;
-import algorithm.util.RandomPopper;
+import model.chromosome.Chromosome;
+import structures.Pair;
+import util.RandomPopper;
 
 public class RandomPairingAlgorithm implements PairingAlgorithm {
 
 	@Override
 	public void makePairs(List<Chromosome> chromosomes, int k, Callback cb) {
-		RandomPopper<Chromosome> randomPopper = new RandomPopper<>(chromosomes);
+		List<Chromosome> chromosomesCloned = new ArrayList<>(chromosomes);
+		RandomPopper<Chromosome> randomPopper = new RandomPopper<>(chromosomesCloned);
 		for (int i = 0; i < k; i++) {
-			cb.onPairAvailable(new Pair<>(randomPopper.randomPop(), randomPopper.randomPop()));
+			Chromosome c1 = randomPopper.randomPop();
+			Chromosome c2 = randomPopper.randomPop();
+			cb.onPairAvailable(new Pair<>(c1, c2));
 		}
 	}
 }

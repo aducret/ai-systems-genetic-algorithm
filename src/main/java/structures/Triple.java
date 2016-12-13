@@ -1,4 +1,4 @@
-package algorithm.model;
+package structures;
 
 public class Triple<F, S, T> {
 	public F first;

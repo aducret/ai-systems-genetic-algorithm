@@ -3,19 +3,19 @@ Floor
 		table1
 			c1
 			c2
-			c3
-			c4
-			c5
 		table2
 			c1
 			c2	
 			c3
-			c4
 	room2	
 		table3
 			c1
 			c2
 			c3
+			c4
 		table4
 			c1
-			c2	
+			c2
+			c3
+			c4
+			c5	

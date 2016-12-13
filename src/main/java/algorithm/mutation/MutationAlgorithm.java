@@ -1,6 +1,6 @@
 package algorithm.mutation;
 
-import algorithm.chromosome.Chromosome;
+import model.chromosome.Chromosome;
 
 public interface MutationAlgorithm {
 	

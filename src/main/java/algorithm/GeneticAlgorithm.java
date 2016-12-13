@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.chromosome.ChromosomeComparator;
 import algorithm.cuttingCondition.CuttingCondition;
 import algorithm.listener.DispatcherGeneticAlgorithmListener;
 import algorithm.listener.GeneticAlgorithmListener;
-import algorithm.model.Pair;
 import algorithm.pairing.Callback;
-import algorithm.util.RandomUtils;
+import model.chromosome.Chromosome;
+import model.chromosome.ChromosomeComparator;
+import structures.Pair;
+import util.RandomUtils;
 
 public class GeneticAlgorithm {
 
@@ -112,7 +112,8 @@ public class GeneticAlgorithm {
 	private List<Chromosome> generateRandomePopulation(int N) {
 		List<Chromosome> chromosomes = new ArrayList<>();
 		for (int i = 0; i < N; i++) {
-			chromosomes.add(problem.createRandom());
+			Chromosome randomChromosom = problem.createRandom();
+			chromosomes.add(randomChromosom);
 		}
 		return chromosomes;
 	}

@@ -3,7 +3,7 @@ package parser;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import algorithm.gene.Gene;
+import model.gene.Gene;
 
 public interface GeneParser {
 	public ArrayList<Gene> parse(String path) throws FileNotFoundException;

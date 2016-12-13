@@ -3,21 +3,22 @@ package algorithm.selector;
 import java.util.ArrayList;
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.util.ChromosomeUtils;
-import algorithm.util.RandomUtils;
+import model.chromosome.Chromosome;
+import util.ChromosomeUtils;
+import util.RandomUtils;
 
 public class RouletteSelector implements Selector {
 
 	@Override
 	public List<Chromosome> select(List<Chromosome> chromosomes, int k) {
+		List<Chromosome> chromosomesCloned = new ArrayList<>(chromosomes);
 		List<Chromosome> selected = new ArrayList<>();
-		double[] relativeFitnesses = ChromosomeUtils.relativeFitnesses(chromosomes);
+		double[] relativeFitnesses = ChromosomeUtils.relativeFitnesses(chromosomesCloned);
 		double[] cumulativeRelativeFitnesses = ChromosomeUtils.cumulativeProbabilities(relativeFitnesses);
 		for (int i = 0; i < k; i++) {
 			double number = RandomUtils.random();
 			int winnerIndex = ChromosomeUtils.getWinner(cumulativeRelativeFitnesses, number);
-			selected.add(chromosomes.get(winnerIndex));
+			selected.add(chromosomesCloned.get(winnerIndex));
 		}
  		return selected;
 	}
