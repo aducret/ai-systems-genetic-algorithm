@@ -1,12 +1,12 @@
-package algorithm.util;
+package util;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.chromosome.ChromosomeComparator;
-import algorithm.gene.Gene;
+import model.chromosome.Chromosome;
+import model.chromosome.ChromosomeComparator;
+import model.gene.Gene;
 
 public class ChromosomeUtils {
 	public static void crossOver(Chromosome c1, Chromosome c2, int r1, int r2) {

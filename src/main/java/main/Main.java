@@ -6,12 +6,13 @@ import java.util.List;
 import algorithm.GeneticAlgorithm;
 import algorithm.GeneticAlgorithmProblem;
 import algorithm.listener.GeneticAlgorithmListener;
-import algorithm.model.Pair;
-import algorithm.model.Triple;
+import algorithm.listener.LoggerGeneticAlgorithmListener;
+import model.Person;
 import parser.OrganizationParser;
 import structures.Node;
-import structures.NodeUtils;
-import structures.Person;
+import structures.Pair;
+import structures.Triple;
+import util.NodeUtils;
 
 public class Main {
 
@@ -24,7 +25,6 @@ public class Main {
 			}
 		}
         
-//		GeneticAlgorithmProblem problem = new CharacterGeneticAlgorithmProblem(dirFilepath);
 		GeneticAlgorithmProblem problem = createGAPA();
 		GeneticAlgorithm algorithm = new GeneticAlgorithm(problem);		
 
@@ -43,9 +43,10 @@ public class Main {
 	
 	
 	private static GAPAProblem createGAPA() throws FileNotFoundException {
-		OrganizationParser op = new OrganizationParser();
-		Triple<List<Person>, Node, List<Pair<Integer, Integer>>> result = op.parse("./doc/gapa/ej1_org", "./doc/gapa/ej1_emp");
+		OrganizationParser organizationParser = new OrganizationParser();
+		Triple<List<Person>, Node, List<Pair<Integer, Integer>>> result = organizationParser.parse("./doc/gapa/ej1_org", "./doc/gapa/ej1_emp");
 		
 		return new GAPAProblem(result.first, NodeUtils.leafs(result.second), result.third);
 	}
+	
 }

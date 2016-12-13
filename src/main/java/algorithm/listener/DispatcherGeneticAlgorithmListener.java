@@ -2,7 +2,7 @@ package algorithm.listener;
 
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
+import model.chromosome.Chromosome;
 
 /*
  * Esta clase implementa GeneticAlgorithmListener y en cada metodo
@@ -37,4 +37,5 @@ public class DispatcherGeneticAlgorithmListener implements GeneticAlgorithmListe
 			listener.onGeneticAlgorithmFinished(currentBestChromosome, bestChromosome);
 		}		
 	}
+
 }

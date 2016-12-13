@@ -1,7 +1,6 @@
 package model.gene;
 
-import algorithm.gene.Gene;
-import structures.Person;
+import model.Person;
 
 public class GAPAGene implements Gene {
 
@@ -10,4 +9,5 @@ public class GAPAGene implements Gene {
 	public GAPAGene(Person person) {
 		this.person = person;
 	}
+	
 }

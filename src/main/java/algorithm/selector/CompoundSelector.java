@@ -3,7 +3,7 @@ package algorithm.selector;
 import java.util.ArrayList;
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
+import model.chromosome.Chromosome;
 
 /*
  * se considera selector1 en un porcentaje de percentage, el resto de selector2
@@ -30,4 +30,5 @@ public class CompoundSelector implements Selector {
 		ans.addAll(selector2.select(chromosomes, k2));
 		return ans;
 	}
+	
 }

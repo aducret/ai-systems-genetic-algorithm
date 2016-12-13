@@ -1,7 +1,7 @@
 package algorithm.crossover;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.model.Pair;
+import model.chromosome.Chromosome;
+import structures.Pair;
 
 public interface CrossOverAlgorithm {
 	Pair<Chromosome, Chromosome> crossOver(Pair<Chromosome, Chromosome> pair);

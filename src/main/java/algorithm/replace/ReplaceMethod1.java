@@ -2,7 +2,7 @@ package algorithm.replace;
 
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
+import model.chromosome.Chromosome;
 
 public class ReplaceMethod1 implements ReplaceMethod {
 

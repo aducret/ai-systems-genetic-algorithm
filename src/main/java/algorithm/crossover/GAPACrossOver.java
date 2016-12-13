@@ -1,14 +1,13 @@
 package algorithm.crossover;
 
-import java.util.Arrays;
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.model.Pair;
-import algorithm.util.RandomUtils;
+import model.Person;
+import model.chromosome.Chromosome;
 import model.chromosome.GAPAChromosome;
 import structures.Node;
-import structures.Person;
+import structures.Pair;
+import util.RandomUtils;
 
 public class GAPACrossOver implements CrossOverAlgorithm {
 
@@ -22,11 +21,9 @@ public class GAPACrossOver implements CrossOverAlgorithm {
 		
 		GAPAChromosome gc1 = (GAPAChromosome) firstChild;
 		GAPAChromosome gc2 = (GAPAChromosome) secondChild;
-		int i = RandomUtils.randomBetween(0, gc1.getPeople().length - 1);
-		
-		List<Person> A = Arrays.asList(gc1.getPeople());
-		List<Person> B = Arrays.asList(gc2.getPeople());
-		
+		int i = RandomUtils.randomBetween(0, gc1.people.size() - 1);
+		List<Person> A = gc1.clonePeople();
+		List<Person> B = gc2.clonePeople();
 		if (B.contains(A.get(i))) {
 			if (A.contains(B.get(i))) {
 				//II
@@ -45,32 +42,74 @@ public class GAPACrossOver implements CrossOverAlgorithm {
 			}
 		}
 		
+		gc1.people = A;
+		gc2.people = B;
+		
+//		System.out.println(i);
+//		System.out.println(pair.first);
+//		System.out.println(pair.second);
+//		System.out.println(firstChild);
+//		System.out.println(secondChild);
+//		System.out.println("------------");
+//		try {
+//			Thread.sleep(5000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		return new Pair<>(firstChild, secondChild);
 	}
 	
 	private void II(List<Person> A, List<Person> B, int i) {
-		swapWorkingPlaces(A, i, A.indexOf(B.get(i)));
-		swapWorkingPlaces(B, i, B.indexOf(A.get(i)));
+		int a = indexOf(B.get(i).seat, A);
+		int b = indexOf(A.get(i).seat, B);
+		swapWorkingPlaces(A, i, a);
+		swapWorkingPlaces(B, i, b);
 	}
 	
 	private void IN(List<Person> A, List<Person> B, int i) {
-		A.get(i).workingSpace = B.get(i).workingSpace;
-		swapWorkingPlaces(B, i, B.indexOf(A.get(i)));
+		int b = indexOf(A.get(i).seat, B);
+		Person personA = A.get(i);
+		Person personB = B.get(i);
+		
+		Person newPersonA = personA.clone();
+		newPersonA.seat = personB.seat;
+		
+		A.set(i, newPersonA);
+		swapWorkingPlaces(B, i, b);
 	}
 	
 	private void NN(List<Person> A, List<Person> B, int i) {
 		crossOverWorkingPlace(A, B, i);
 	}
 	
+	private int indexOf(Node seat, List<Person> people) {
+		for (int i = 0; i < people.size(); i++) {
+			if (people.get(i).seat.equals(seat))
+				return i;
+		}
+		return -1;
+	}
+	
 	private static void swapWorkingPlaces(List<Person> people, int a, int b) {
-		Node aux = people.get(a).workingSpace;
-		people.get(a).workingSpace = people.get(b).workingSpace;
-		people.get(b).workingSpace = aux;
+		Person personA = people.get(a);
+		Person personB = people.get(b);
+		
+		Person newPersonA = personA.clone();
+		newPersonA.seat = personB.seat;
+		
+		Person newPersonB = personB.clone();
+		newPersonB.seat = personA.seat;
+		
+		people.set(a, newPersonA);
+		people.set(b, newPersonB);
 	}
 	
 	private static void crossOverWorkingPlace(List<Person> A, List<Person> B, int i) {
-		Node aux = A.get(i).workingSpace;
-		A.get(i).workingSpace = B.get(i).workingSpace;
-		B.get(i).workingSpace = aux;
+		Person personA = A.get(i);
+		Person personB = B.get(i);
+		
+		A.set(i, personA);
+		B.set(i, personB);
 	}
+	
 }

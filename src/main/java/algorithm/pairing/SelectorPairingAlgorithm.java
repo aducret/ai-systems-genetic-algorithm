@@ -2,9 +2,9 @@ package algorithm.pairing;
 
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.model.Pair;
 import algorithm.selector.Selector;
+import model.chromosome.Chromosome;
+import structures.Pair;
 
 public class SelectorPairingAlgorithm implements PairingAlgorithm {
 

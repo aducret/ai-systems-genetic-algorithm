@@ -1,4 +1,4 @@
-package algorithm.gene;
+package model.gene;
 
 public interface Gene {
 }

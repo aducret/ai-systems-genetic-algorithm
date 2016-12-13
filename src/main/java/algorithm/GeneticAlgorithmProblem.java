@@ -1,6 +1,6 @@
 package algorithm;
 
-import algorithm.chromosome.Chromosome;
+import model.chromosome.Chromosome;
 
 public interface GeneticAlgorithmProblem {
 	

@@ -1,9 +1,9 @@
-package algorithm.chromosome;
+package model.chromosome;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import algorithm.gene.Gene;
+import model.gene.Gene;
 
 public abstract class ListChromosome implements Chromosome {
 
@@ -58,4 +58,5 @@ public abstract class ListChromosome implements Chromosome {
 		}
 		return true;
 	}
+	
 }

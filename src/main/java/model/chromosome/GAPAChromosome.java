@@ -2,39 +2,25 @@ package model.chromosome;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import algorithm.chromosome.Chromosome;
-import algorithm.chromosome.ListChromosome;
-import algorithm.gene.Gene;
-import algorithm.model.Pair;
+import model.Person;
 import model.gene.GAPAGene;
+import model.gene.Gene;
 import structures.Node;
-import structures.NodeUtils;
-import structures.Person;
+import structures.Pair;
+import util.NodeUtils;
 import util.WorkingPlaceParser;
 
 public class GAPAChromosome extends ListChromosome {
 
-	private Person[] people;
-	private List<Pair<Integer, Integer>> restrictions;
+	public List<Person> people;
+	public List<Node> seats;
+	public List<Pair<Integer, Integer>> restrictions;
 	
-	/**
-	 * Used in GAPAMutationAlgorithm
-	 */
-	private List<Node> totalSeats;
-	
-	/**
-	 * 
-	 * @param people are the people from the company
-	 * @param restrictions is an Nx2 matrix containing N restrictions where each
-	 * restriction consists of 2 indexes: i1 & i2 meaning "the person at index i1 must be
-	 * close to the person at index i2"
-	 */
-	public GAPAChromosome(Person[] people, List<Pair<Integer, Integer>> restrictions, List<Node> totalSeats) {
+	public GAPAChromosome(List<Person> people, List<Pair<Integer, Integer>> restrictions, List<Node> totalSeats) {
 		super(createGenes(people));
 		this.people = people;
 		this.restrictions = restrictions;
-		this.totalSeats = totalSeats;
+		this.seats = totalSeats;
 	}
 
 	@Override
@@ -43,28 +29,48 @@ public class GAPAChromosome extends ListChromosome {
 		if (restrictions == null) return 1.0;
 		
 		int acum = 0;
-		
 		for (int i = 0; i < restrictions.size(); i++) {
 			int index1 = restrictions.get(i).first;
 			int index2 = restrictions.get(i).second;
-			Person p1 = people[index1];
-			Person p2 = people[index2];
-			acum += NodeUtils.distanceBetween(p1.workingSpace, p2.workingSpace);
+			Person p1 = people.get(index1);
+			Person p2 = people.get(index2);
+			acum += NodeUtils.distanceBetween(p1.seat, p2.seat);
 		}
 		
-		return 1.0/acum;
+		double factorB = 0; 
+		for (Person person: people) {
+			// Por ahora deberia dar un solo projecto
+			for (String project: person.projects) {
+				// Cantidad de lugares de trabajo de la mesa en la cual esta la persona
+				int space = person.seat.parent.childs.size();
+				int employeesOfSameProject = NodeUtils.findPeopleInSamePlace(person, people).size();
+				// Chequeo si el equipo entra en la mesa justo (0.25) si entra sobrado (0.1) o si no entra (0)
+				double mult = 0;
+				int projectSize = NodeUtils.getProjectSize(project, people);
+				if (space == projectSize) {
+					mult = 0.25f;
+				} else if (space > projectSize) {
+					mult = 0.1f;
+				}
+				factorB += mult * employeesOfSameProject;
+			}
+		}
+		
+		return (1.0 / acum) + factorB;
 	}
 
-	@Override
-	public Chromosome cloneChromosome() {
-		Person[] clone = new Person[people.length];
-		for (int i = 0; i < clone.length; i++) {
-			clone[i] = people[i].clone();
+	public List<Person> clonePeople() {
+		List<Person> clone = new ArrayList<>();
+		for (Person person: people) {
+			Person personClone = person.clone();
+			personClone.seat = person.seat;
+			clone.add(personClone);
 		}
-		return new GAPAChromosome(clone, restrictions, totalSeats);
+		
+		return clone;
 	}
 	
-	private static List<Gene> createGenes(Person[] people) {
+	private static List<Gene> createGenes(List<Person> people) {
 		List<Gene> genes = new ArrayList<>();
 		for (Person person: people) {
 			genes.add(new GAPAGene(person));
@@ -72,12 +78,13 @@ public class GAPAChromosome extends ListChromosome {
 		return genes;
 	}
 	
-	public Person[] getPeople() {
-		return people;
-	}
-	
-	public List<Node> getTotalSeats() {
-		return totalSeats;
+	@Override
+	public Chromosome cloneChromosome() {
+		List<Person> clone = new ArrayList<>();
+		for (int i = 0; i < people.size(); i++) {
+			clone.add(people.get(i));
+		}
+		return new GAPAChromosome(clone, restrictions, seats);
 	}
 	
 	public String toString() {
@@ -88,7 +95,7 @@ public class GAPAChromosome extends ListChromosome {
 			sb.append(separator);
 			sb.append("{");
 			
-			sb.append(person.id + " seats in " + WorkingPlaceParser.fullId(person.workingSpace));
+			sb.append(person.id + " seats in " + WorkingPlaceParser.fullId(person.seat));
 			
 			sb.append("}");
 			separator = ", ";
@@ -96,4 +103,5 @@ public class GAPAChromosome extends ListChromosome {
 		sb.append("}");
 		return sb.toString();
 	}
+	
 }

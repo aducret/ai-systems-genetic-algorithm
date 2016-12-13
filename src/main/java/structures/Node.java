@@ -3,7 +3,10 @@ package structures;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.WorkingPlaceParser;
+
 public class Node {
+	
 	public String id;
 	public Node parent;
 	public List<Node> childs;
@@ -13,18 +16,26 @@ public class Node {
 		this.childs = new ArrayList<>();
 		this.id = id;
 		this.parent = parent;
+		
 		if (parent != null) {
 			parent.childs.add(this);
 			this.height = parent.height + 1;
 		}
 	}
 	
+	public Node(String id, Node parent, int height) {
+		this.childs = new ArrayList<>();
+		this.id = id;
+		this.parent = parent;
+		this.height = height;
+		
+		if (parent != null) {
+			parent.childs.add(this);
+		}
+	}
+	
 	public boolean isLeaf() {
 		return childs.isEmpty();
-	}
-
-	public String toString() {
-		return id;
 	}
 	
 	@Override
@@ -37,7 +48,7 @@ public class Node {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) 
 			return true;
 		if (obj == null)
 			return false;
@@ -45,10 +56,12 @@ public class Node {
 			return false;
 		Node other = (Node) obj;
 		if (id == null) {
-			if (other.id != null)
+			if (other.id != null) {
 				return false;
-		} else if (!id.equals(other.id))
+			}
+		} else if (!WorkingPlaceParser.fullId(this).equals(WorkingPlaceParser.fullId(other)))
 			return false;
 		return true;
 	}
+	
 }

@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.concurrent.SynchronousQueue;
 
 import structures.Node;
 
 public class WorkingPlaceParser {
+	
 	public static Node generate(String filePath) {
 		return generate(new File(filePath));
 	}
@@ -17,9 +17,9 @@ public class WorkingPlaceParser {
 	public static Node generate(File file) {
 		try {
 			return generate(new Scanner(file));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (FileNotFoundException exception) {
+			System.err.println("File not found: " + file);
+			exception.printStackTrace();
 		}
 		return null;
 	}
@@ -27,7 +27,6 @@ public class WorkingPlaceParser {
 	public static Node generate(Scanner sc) {
 		Deque<Node> stack = new LinkedList<>();
 		Node root = new Node(sc.nextLine().trim(), null);
-		root.height = 0;
 		int previousLevel = 0;
 		stack.push(root);
 		while (sc.hasNext() && !stack.isEmpty()) {
@@ -39,8 +38,7 @@ public class WorkingPlaceParser {
 				while (!stack.isEmpty() && level <= stack.peek().height) stack.pop();
 			}
 			
-			Node nextNode = new Node(trimmed, stack.peek());
-			nextNode.height = level;
+			Node nextNode = new Node(trimmed, stack.peek(), level);
 			stack.push(nextNode);
 			previousLevel = level;
 		}
@@ -50,7 +48,12 @@ public class WorkingPlaceParser {
 	
 	public static String fullId(Node node) {
 		if (node == null) return "";
-		return fullId(node.parent) + "-" + node.id;
+		String fullId = fullId(node.parent);
+		if (fullId.length() == 0) {
+			return node.id;
+		} else {
+			return fullId + "-" + node.id;
+		}
 	}
 	
 }

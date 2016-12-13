@@ -3,9 +3,9 @@ package algorithm.selector;
 import java.util.ArrayList;
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.util.ChromosomeUtils;
-import algorithm.util.RandomUtils;
+import model.chromosome.Chromosome;
+import util.ChromosomeUtils;
+import util.RandomUtils;
 
 public class BoltzmannSelector implements Selector {
 

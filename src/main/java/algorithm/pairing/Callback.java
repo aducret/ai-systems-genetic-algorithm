@@ -1,7 +1,7 @@
 package algorithm.pairing;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.model.Pair;
+import model.chromosome.Chromosome;
+import structures.Pair;
 
 public interface Callback {
 	void onPairAvailable(Pair<Chromosome, Chromosome> parents);

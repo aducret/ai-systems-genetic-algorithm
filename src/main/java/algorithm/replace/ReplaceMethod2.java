@@ -2,8 +2,8 @@ package algorithm.replace;
 
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
 import algorithm.selector.Selector;
+import model.chromosome.Chromosome;
 
 public class ReplaceMethod2 implements ReplaceMethod {
 	

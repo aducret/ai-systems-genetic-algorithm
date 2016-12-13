@@ -2,7 +2,7 @@ package algorithm.pairing;
 
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
+import model.chromosome.Chromosome;
 
 public interface PairingAlgorithm {
 	

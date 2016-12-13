@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.chromosome.ChromosomeComparator;
-import algorithm.model.Pair;
-import algorithm.util.RandomPopper;
+import model.chromosome.Chromosome;
+import model.chromosome.ChromosomeComparator;
+import structures.Pair;
+import util.RandomPopper;
 
 public class AlphaPairingAlgorithm implements PairingAlgorithm {
 

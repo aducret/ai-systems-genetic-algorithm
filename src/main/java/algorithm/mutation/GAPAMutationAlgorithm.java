@@ -7,12 +7,12 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import algorithm.chromosome.Chromosome;
-import algorithm.util.RandomPopper;
-import algorithm.util.RandomUtils;
+import model.Person;
+import model.chromosome.Chromosome;
 import model.chromosome.GAPAChromosome;
 import structures.Node;
-import structures.Person;
+import util.RandomPopper;
+import util.RandomUtils;
 
 public class GAPAMutationAlgorithm implements MutationAlgorithm {
 
@@ -21,25 +21,29 @@ public class GAPAMutationAlgorithm implements MutationAlgorithm {
 		if (!(chromosome instanceof GAPAChromosome))
 			throw new IllegalStateException("GAPAMutationAlgorithm can only be used with GAPAChromosomes!");
 		GAPAChromosome gc = (GAPAChromosome) chromosome;
-		Set<Node> totalSeats = new HashSet<>(gc.getTotalSeats());
+		Set<Node> totalSeats = new HashSet<>(gc.seats);
 		List<Node> usedSeats = new ArrayList<>();
-		for (Person person: gc.getPeople()) {
-			usedSeats.add(person.workingSpace);
+		for (Person person: gc.people) {
+			usedSeats.add(person.seat);
 		}
 		Set<Node> remainingSeats = new HashSet<>();
 		Sets.difference(totalSeats, new HashSet<>(usedSeats)).copyInto(remainingSeats);
 		
-		//remainingSeats are all the seats that are not being used by this chromosome
+		// RemainingSeats are all the seats that are not being used by this chromosome
 		
-		//choose a person randomly to mutate (i.e: assign a new seat)
-		int i = RandomUtils.randomBetween(0, gc.getPeople().length - 1);
+		// Choose a person randomly to mutate (i.e: assign a new seat)
+		int i = RandomUtils.randomBetween(0, gc.people.size() - 1);
 		
-		//add his current seat to the seat, because it should be possible to receive the same seat again
-		remainingSeats.add(gc.getPeople()[i].workingSpace);
+		// Add his current seat to the seat, because it should be possible to receive the same seat again
+		remainingSeats.add(gc.people.get(i).seat);
 		
-		//create random popper with remainingSeats and poll one. This method can easily be extended
-		//to support K mutations
+		// Create random popper with remainingSeats and poll one. This method can easily be extended
+		// to support K mutations
 		RandomPopper<Node> rp = new RandomPopper<>(new ArrayList<>(remainingSeats));
-		gc.getPeople()[i].workingSpace = rp.randomPop();
+		Person personI = gc.people.get(i);
+		Person newPerson = new Person(personI.id, personI.projects);
+		newPerson.seat = rp.randomPop();
+		gc.people.set(i, newPerson);
 	}
+	
 }
