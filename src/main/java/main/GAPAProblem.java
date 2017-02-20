@@ -71,7 +71,7 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 		RandomPopper<Node> rp = new RandomPopper<>(seats);
 		Person[] people = new Person[employees.size()];
 		for (int i = 0; i < employees.size(); i++) {
-			people[i] = employees.get(i);
+			people[i] = employees.get(i).clone();
 			people[i].workingSpace = rp.randomPop();
 		}
 		return new GAPAChromosome(people, restrictions, seats);

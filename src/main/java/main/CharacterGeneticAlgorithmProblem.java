@@ -3,7 +3,6 @@ package main;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import algorithm.Configuration;
@@ -11,7 +10,6 @@ import algorithm.GeneticAlgorithmProblem;
 import algorithm.chromosome.Chromosome;
 import algorithm.gene.Gene;
 import model.Multipliers;
-import model.chromosome.CharacterListChromosome;
 import parser.ConfigurationParser;
 import parser.GeneParser;
 import parser.HeightParser;
