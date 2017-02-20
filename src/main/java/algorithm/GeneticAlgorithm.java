@@ -112,8 +112,12 @@ public class GeneticAlgorithm {
 	private List<Chromosome> generateRandomePopulation(int N) {
 		List<Chromosome> chromosomes = new ArrayList<>();
 		for (int i = 0; i < N; i++) {
-			chromosomes.add(problem.createRandom());
+			Chromosome randomChromosome = problem.createRandom();
+			chromosomes.add(randomChromosome);
 		}
+//		for (Chromosome chromosome : chromosomes) {
+//			System.out.println(chromosome);
+//		}
 		return chromosomes;
 	}
 }

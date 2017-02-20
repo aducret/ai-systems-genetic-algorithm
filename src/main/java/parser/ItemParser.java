@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
+import algorithm.gene.Gene;
 import model.gene.CharacterGene;
 import model.stats.Stats;
-import algorithm.gene.Gene;
 
 public class ItemParser implements GeneParser {
 	@Override

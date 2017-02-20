@@ -45,6 +45,6 @@ public class Person {
 	
 	@Override
 	public String toString() {
-		return id.toString() + "(" + projectSizes.toString() + ")";
+		return id.toString() + "(" + workingSpace + ")";
 	}
 }
