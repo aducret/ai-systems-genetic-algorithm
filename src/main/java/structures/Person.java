@@ -6,7 +6,8 @@ import java.util.Map;
 public class Person {
 	public final String id;
 	public Node workingSpace;
-	public Map<String, Integer> projectSizes = new HashMap<>(); 
+	public Map<String, Integer> projectSizes = new HashMap<>();
+	private Integer tmi;
 	
 	public Person(String id) {
 		this.id = id;
@@ -15,7 +16,21 @@ public class Person {
 	public Person clone() {
 		Person clone = new Person(id);
 		clone.workingSpace = this.workingSpace;
+		clone.projectSizes = projectSizes;
+		clone.tmi = tmi;
 		return clone;
+	}
+	
+	public int tmi() {
+		if (tmi != null) return tmi;
+		int acum = 0;
+		for (int value: projectSizes.values()) {
+			acum += value;
+		}
+		acum -= projectSizes.size();
+		acum++;
+		this.tmi = acum;
+		return acum;
 	}
 
 	@Override

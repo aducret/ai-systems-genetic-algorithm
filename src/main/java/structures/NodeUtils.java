@@ -33,4 +33,17 @@ public class NodeUtils {
 			leafs(child, leafs);
 		}
 	}
+	
+	public static void calculateCapacities(Node node) {
+		if (node.childs.isEmpty()) {
+			node.capacity = 1;
+			return;
+		}
+		int acum = 0;
+		for (Node child: node.childs) {
+			calculateCapacities(child);
+			acum += child.capacity;
+		}
+		node.capacity = acum;
+	}
 }

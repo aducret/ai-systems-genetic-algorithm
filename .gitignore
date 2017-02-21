@@ -1,6 +1,8 @@
 
 # Created by https://www.gitignore.io/api/java,eclipse,linux,windows
 
+doc/gapa/solution.txt
+
 ### Eclipse ###
 
 .metadata

@@ -5,13 +5,17 @@ import java.util.List;
 
 import algorithm.GeneticAlgorithm;
 import algorithm.GeneticAlgorithmProblem;
+import algorithm.chromosome.Chromosome;
 import algorithm.listener.GeneticAlgorithmListener;
 import algorithm.model.Pair;
 import algorithm.model.Triple;
+import model.chromosome.GAPAChromosome;
 import parser.OrganizationParser;
 import structures.Node;
 import structures.NodeUtils;
 import structures.Person;
+import util.GAPAUtils;
+import util.WorkingPlaceParser;
 
 public class Main {
 
@@ -31,6 +35,26 @@ public class Main {
 		// Setear listeners
 		GeneticAlgorithmListener loggerListener = new LoggerGeneticAlgorithmListener();
 		algorithm.addListener(loggerListener);
+		algorithm.addListener(new GeneticAlgorithmListener() {
+			
+			@Override
+			public void onNewGenerationReached(int newGeneration, List<Chromosome> generation, Chromosome bestChromosome) {
+			}
+			
+			@Override
+			public void onGeneticAlgorithmFinished(Chromosome currentBestChromosome, Chromosome bestChromosome) {
+				try {
+					GAPAUtils.writeSolution("doc/gapa/solution.txt", WorkingPlaceParser.generate("doc/gapa/ej2_org"), (GAPAChromosome) bestChromosome);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void onBestChromosomeUpdated(Chromosome bestChromosome) {
+			}
+		});
 //		PlotterListener plotterListener = new PlotterListener();
 //		algorithm.addListener(plotterListener);
 		
@@ -44,7 +68,7 @@ public class Main {
 	
 	private static GAPAProblem createGAPA() throws FileNotFoundException {
 		OrganizationParser op = new OrganizationParser();
-		Triple<List<Person>, Node, List<Pair<Integer, Integer>>> result = op.parse("./doc/gapa/ej1_org", "./doc/gapa/ej1_emp");
+		Triple<List<Person>, Node, List<Pair<Integer, Integer>>> result = op.parse("./doc/gapa/ej2_org", "./doc/gapa/ej2_emp");
 		
 		return new GAPAProblem(result.first, NodeUtils.leafs(result.second), result.third);
 	}

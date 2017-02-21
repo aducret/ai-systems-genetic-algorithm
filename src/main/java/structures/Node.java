@@ -8,6 +8,7 @@ public class Node {
 	public Node parent;
 	public List<Node> childs;
 	public int height;
+	public int capacity;
 	
 	public Node(String id, Node parent) {
 		this.childs = new ArrayList<>();

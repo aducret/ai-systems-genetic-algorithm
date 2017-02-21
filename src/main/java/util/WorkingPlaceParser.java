@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 import structures.Node;
+import structures.NodeUtils;
 
 public class WorkingPlaceParser {
 	public static Node generate(String filePath) {
@@ -44,6 +45,7 @@ public class WorkingPlaceParser {
 			previousLevel = level;
 		}
 		sc.close();
+		NodeUtils.calculateCapacities(root);
 		return root;
 	}
 	

@@ -35,8 +35,12 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 	 * @param restrictions look at {@link GAPAChromosome}
 	 */
 	public GAPAProblem(List<Person> employees, List<Node> seats, List<Pair<Integer, Integer>> restrictions) {
-		if  (seats.size() < employees.size())
-			throw new IllegalArgumentException("can't have fewer seats than people");
+		if  (seats.size() < employees.size()) {
+			for (Person person: employees) {
+				System.out.println(person.id);
+			}
+			throw new IllegalArgumentException(String.format("can't have fewer seats than people. has %d seats and %d people", seats.size(), employees.size()));
+		}
 		this.employees = employees;
 		this.seats = seats;
 		this.restrictions = restrictions;
@@ -45,20 +49,20 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 	@Override
 	public Configuration configuration() {
 		
-		int limit = 500;
+		int limit = 750;
 		int goal = 80;
 		double structureTolerance = 0.95;
-		int contentTolerance = 50;
+		int contentTolerance = 75;
 		
 		return new Configuration.Builder()
-				.withN(200)
-				.withK(100)
+				.withN(750)
+				.withK(325)
 //				.withSeed(2)
-				.withCrossOverSelector(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.05))
+				.withCrossOverSelector(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.15))
 				.withPairingAlgorithm(new RandomPairingAlgorithm())
 				.withCrossOverAlgorithm(new GAPACrossOver())
 				.withMutationAlgorithm(new GAPAMutationAlgorithm())
-				.withReplaceMethod(new ReplaceMethod2(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.05)))
+				.withReplaceMethod(new ReplaceMethod2(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.1)))
 				.addCuttingCondition(new MaxGenerationsCuttingCondition(limit))
 				.addCuttingCondition(new GoalReachedCuttingCondition(goal))
 				.addCuttingCondition(new StructureCuttingCondition(structureTolerance))

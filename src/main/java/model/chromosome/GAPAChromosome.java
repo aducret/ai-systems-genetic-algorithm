@@ -39,7 +39,30 @@ public class GAPAChromosome extends ListChromosome {
 
 	@Override
 	public double fitness() {
+		return 100*restrictionsFitness() + tmiFitness();
+	}
+	
+	private double tmiFitness() {
+		double acum = 0;
+		for (Person person: people) {
+			acum += tmiFitness(person);
+		}
 		
+		return acum;
+	}
+	
+	private double tmiFitness(Person person) {
+		double tmi = person.tmi();
+		Node node = person.workingSpace.parent;
+		double acum = 1;
+		while(node != null) {
+			acum *= (Math.min(tmi, node.capacity)/tmi);
+			node = node.parent;
+		}
+		return acum;
+	}
+	
+	private double restrictionsFitness() {
 		if (restrictions == null) return 1.0;
 		
 		int acum = 0;
