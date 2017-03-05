@@ -5,20 +5,20 @@ Floor
 			c2
 			c3
 		table2
-			c3
-			c4	
-			c5
-			c6			
+			c4
+			c5	
+			c6
+			c7			
 	room2	
 		table3
-			c6
-			c7
 			c8
-		table4
+			c9
 			c10
+		table4
 			c11
 			c12
 			c13
+			c14
 	room3
 		table5
 			c15
