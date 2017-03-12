@@ -2,12 +2,14 @@ package main;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import algorithm.GeneticAlgorithm;
 import algorithm.GeneticAlgorithmProblem;
 import algorithm.chromosome.Chromosome;
 import algorithm.listener.GeneticAlgorithmListener;
-import algorithm.model.Pair;
+import algorithm.listener.PlotterListener;
 import algorithm.model.Triple;
 import model.chromosome.GAPAChromosome;
 import parser.OrganizationParser;
@@ -55,8 +57,8 @@ public class Main {
 			public void onBestChromosomeUpdated(Chromosome bestChromosome) {
 			}
 		});
-//		PlotterListener plotterListener = new PlotterListener();
-//		algorithm.addListener(plotterListener);
+		PlotterListener plotterListener = new PlotterListener();
+		algorithm.addListener(plotterListener);
 		
 		algorithm.start();
 	}
@@ -68,7 +70,7 @@ public class Main {
 	
 	private static GAPAProblem createGAPA() throws FileNotFoundException {
 		OrganizationParser op = new OrganizationParser();
-		Triple<List<Person>, Node, List<Pair<Integer, Integer>>> result = op.parse("./doc/gapa/ej2_org", "./doc/gapa/ej2_emp");
+		Triple<List<Person>, Node, Map<Integer, Set<Integer>>> result = op.parse("./doc/gapa/ej2_org", "./doc/gapa/ej2_emp");
 		
 		return new GAPAProblem(result.first, NodeUtils.leafs(result.second), result.third);
 	}

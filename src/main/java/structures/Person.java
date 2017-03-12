@@ -1,13 +1,17 @@
 package structures;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Person {
 	public final String id;
 	public Node workingSpace;
-	public Map<String, Integer> projectSizes = new HashMap<>();
+	public Map<String, List<String>> projects;
 	private Integer tmi;
+	private List<Person> neighbors;
 	
 	public Person(String id) {
 		this.id = id;
@@ -16,21 +20,43 @@ public class Person {
 	public Person clone() {
 		Person clone = new Person(id);
 		clone.workingSpace = this.workingSpace;
-		clone.projectSizes = projectSizes;
+		clone.projects = projects;
 		clone.tmi = tmi;
 		return clone;
 	}
 	
 	public int tmi() {
 		if (tmi != null) return tmi;
-		int acum = 0;
-		for (int value: projectSizes.values()) {
-			acum += value;
-		}
+		List<Integer> projectSizes = projects.values().stream()
+				.filter(l->l.contains(id))
+				.map(l -> l.size())
+				.collect(Collectors.toList());
+		int acum = projectSizes.stream().mapToInt(i->i.intValue()).sum();
 		acum -= projectSizes.size();
 		acum++;
 		this.tmi = acum;
 		return acum;
+	}
+	
+	public List<Person> neighbors(Person[] people) {
+		if (neighbors != null) return neighbors;
+		List<Person> ans = new ArrayList<>();
+		
+		final Map<String,Person> map = new HashMap<>();
+		for (Person person: people) {
+			map.put(person.id, person);
+		}
+		
+		for (List<String> l: projects.values()) {
+			if (!l.contains(id)) continue;
+			ans.addAll(l.stream()
+					.map(s->map.get(s))
+					.filter(p->!id.equals(p.id))
+					.collect(Collectors.toList()));
+		}
+		
+		this.neighbors = ans;
+		return ans;
 	}
 
 	@Override

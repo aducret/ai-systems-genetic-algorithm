@@ -2,6 +2,8 @@ package model.chromosome;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.ListChromosome;
@@ -16,7 +18,7 @@ import util.WorkingPlaceParser;
 public class GAPAChromosome extends ListChromosome {
 
 	private Person[] people;
-	private List<Pair<Integer, Integer>> restrictions;
+	private Map<Integer, Set<Integer>> restrictions;
 	
 	/**
 	 * Used in GAPAMutationAlgorithm
@@ -30,7 +32,7 @@ public class GAPAChromosome extends ListChromosome {
 	 * restriction consists of 2 indexes: i1 & i2 meaning "the person at index i1 must be
 	 * close to the person at index i2"
 	 */
-	public GAPAChromosome(Person[] people, List<Pair<Integer, Integer>> restrictions, List<Node> totalSeats) {
+	public GAPAChromosome(Person[] people, Map<Integer, Set<Integer>> restrictions, List<Node> totalSeats) {
 		super(createGenes(people));
 		this.people = people;
 		this.restrictions = restrictions;
@@ -39,7 +41,7 @@ public class GAPAChromosome extends ListChromosome {
 
 	@Override
 	public double fitness() {
-		return 100*restrictionsFitness() + tmiFitness();
+		return 0.5*distanceFitness() + 0.5*tmiFitness();
 	}
 	
 	private double tmiFitness() {
@@ -48,7 +50,7 @@ public class GAPAChromosome extends ListChromosome {
 			acum += tmiFitness(person);
 		}
 		
-		return acum;
+		return acum/people.length;
 	}
 	
 	private double tmiFitness(Person person) {
@@ -62,20 +64,26 @@ public class GAPAChromosome extends ListChromosome {
 		return acum;
 	}
 	
-	private double restrictionsFitness() {
-		if (restrictions == null) return 1.0;
-		
-		int acum = 0;
-		
-		for (int i = 0; i < restrictions.size(); i++) {
-			int index1 = restrictions.get(i).first;
-			int index2 = restrictions.get(i).second;
-			Person p1 = people[index1];
-			Person p2 = people[index2];
-			acum += NodeUtils.distanceBetween(p1.workingSpace, p2.workingSpace);
+	private double distanceFitness() {
+		double acum = 0;
+		for (int i = 0; i < people.length; i++) {
+			acum += distanceFitness(i);
 		}
 		
-		return 1.0/acum;
+		return acum/people.length;
+	}
+	
+	private double distanceFitness(int i) {
+		if (restrictions == null) return 1.0;
+		
+		Set<Integer> A = restrictions.get(i);
+		double sum = A.stream().map(j -> {
+			int D = NodeUtils.distanceBetween(people[i].workingSpace, people[j].workingSpace);
+			return Math.log10(D)/Math.log10(2);
+		}).mapToDouble(f -> f.doubleValue()).sum();
+		double df = A.size()/sum;
+		
+		return df;
 	}
 
 	@Override
