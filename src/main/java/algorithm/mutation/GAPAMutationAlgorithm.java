@@ -20,6 +20,7 @@ public class GAPAMutationAlgorithm implements MutationAlgorithm {
 	public void mutate(Chromosome chromosome) {
 		if (!(chromosome instanceof GAPAChromosome))
 			throw new IllegalStateException("GAPAMutationAlgorithm can only be used with GAPAChromosomes!");
+		
 		GAPAChromosome gc = (GAPAChromosome) chromosome;
 		Set<Node> totalSeats = new HashSet<>(gc.getTotalSeats());
 		List<Node> usedSeats = new ArrayList<>();
@@ -31,11 +32,12 @@ public class GAPAMutationAlgorithm implements MutationAlgorithm {
 		
 		//remainingSeats are all the seats that are not being used by this chromosome
 		
+		if (remainingSeats.size() == 0) {
+			return;
+		}
+		
 		//choose a person randomly to mutate (i.e: assign a new seat)
 		int i = RandomUtils.randomBetween(0, gc.getPeople().length - 1);
-		
-		//add his current seat to the seat, because it should be possible to receive the same seat again
-		remainingSeats.add(gc.getPeople()[i].workingSpace);
 		
 		//create random popper with remainingSeats and poll one. This method can easily be extended
 		//to support K mutations
