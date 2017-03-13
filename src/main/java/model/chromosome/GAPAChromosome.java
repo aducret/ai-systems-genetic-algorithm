@@ -8,7 +8,6 @@ import java.util.Set;
 import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.ListChromosome;
 import algorithm.gene.Gene;
-import algorithm.model.Pair;
 import model.gene.GAPAGene;
 import structures.Node;
 import structures.NodeUtils;
@@ -17,6 +16,8 @@ import util.WorkingPlaceParser;
 
 public class GAPAChromosome extends ListChromosome {
 
+	private static final double ALPHA = 0.25;
+	
 	private Person[] people;
 	private Map<Integer, Set<Integer>> restrictions;
 	
@@ -24,6 +25,9 @@ public class GAPAChromosome extends ListChromosome {
 	 * Used in GAPAMutationAlgorithm
 	 */
 	private List<Node> totalSeats;
+	
+	private Double fitness;
+	private Double tmiFitness;
 	
 	/**
 	 * 
@@ -41,19 +45,22 @@ public class GAPAChromosome extends ListChromosome {
 
 	@Override
 	public double fitness() {
-		return 0.5*distanceFitness() + 0.5*tmiFitness();
+		if (fitness == null) fitness = ALPHA*distanceFitness() + (1 - ALPHA)*tmiFitness();
+		return fitness;
 	}
 	
-	private double tmiFitness() {
+	public double tmiFitness() {
+		if (tmiFitness != null) return tmiFitness;
 		double acum = 0;
 		for (Person person: people) {
 			acum += tmiFitness(person);
 		}
 		
-		return acum/people.length;
+		tmiFitness = acum/people.length;
+		return tmiFitness;
 	}
 	
-	private double tmiFitness(Person person) {
+	public double tmiFitness(Person person) {
 		double tmi = person.tmi();
 		Node node = person.workingSpace.parent;
 		double acum = 1;

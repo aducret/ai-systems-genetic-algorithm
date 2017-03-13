@@ -61,6 +61,19 @@ public class Main {
 		algorithm.addListener(plotterListener);
 		
 		algorithm.start();
+		
+//		int k = 250;
+//		double acum = 0;
+//		double perfectTimes = 0;
+//		for (int i = 0; i < k; i++) {
+//			GeneticAlgorithmProblem problem = createGAPA();
+//			GeneticAlgorithm algorithm = new GeneticAlgorithm(problem);
+//			algorithm.start();
+//			acum += algorithm.getBestChromosome().fitness();
+//			if (algorithm.getBestChromosome().fitness() == 1.0) perfectTimes++;
+//		}
+//		
+//		System.out.println("avg best fitness found: " + acum/k + ", perfect ratio: " + perfectTimes/k);
 	}
 	
 	private static boolean isRunningInEclipse() {

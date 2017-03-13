@@ -57,14 +57,14 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 		int contentTolerance = 50;
 		
 		return new Configuration.Builder()
-				.withN(750)
-				.withK(325)
+				.withN(500)
+				.withK(350)
 //				.withSeed(2)
-				.withCrossOverSelector(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.05))
+				.withCrossOverSelector(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.5))
 				.withPairingAlgorithm(new RandomPairingAlgorithm())
 				.withCrossOverAlgorithm(new GAPACrossOver())
 				.withMutationAlgorithm(new GAPAMutationAlgorithm())
-				.withReplaceMethod(new ReplaceMethod2(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.1)))
+				.withReplaceMethod(new ReplaceMethod2(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.5)))
 				.addCuttingCondition(new MaxGenerationsCuttingCondition(limit))
 				.addCuttingCondition(new GoalReachedCuttingCondition(goal))
 				.addCuttingCondition(new StructureCuttingCondition(structureTolerance))

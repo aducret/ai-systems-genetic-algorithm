@@ -5,6 +5,7 @@ import java.util.List;
 
 import algorithm.chromosome.Chromosome;
 import algorithm.model.Pair;
+import algorithm.util.ChromosomeUtils;
 import algorithm.util.RandomUtils;
 import model.chromosome.GAPAChromosome;
 import structures.Node;
@@ -23,6 +24,7 @@ public class GAPACrossOver implements CrossOverAlgorithm {
 		GAPAChromosome gc1 = (GAPAChromosome) firstChild;
 		GAPAChromosome gc2 = (GAPAChromosome) secondChild;
 		int i = RandomUtils.randomBetween(0, gc1.getPeople().length - 1);
+//		int i = tmiRouletteIndex(gc1, gc2);
 		
 		List<Person> A = Arrays.asList(gc1.getPeople());
 		List<Person> B = Arrays.asList(gc2.getPeople());
@@ -41,19 +43,36 @@ public class GAPACrossOver implements CrossOverAlgorithm {
 			}
 		}
 		
-//		 System.out.println(i);
-//		 System.out.println(pair.first);
-//		 System.out.println(pair.second);
-//		 System.out.println(firstChild);
-//		 System.out.println(secondChild);
-//		 System.out.println("------------");
-//		 try {
-//			 Thread.sleep(5000);
-//		 } catch (InterruptedException e) {
-//			 e.printStackTrace();
-//		 }
-		
 		return new Pair<>(firstChild, secondChild);
+	}
+	
+	private int tmiRouletteIndex(final GAPAChromosome c1, final GAPAChromosome c2) {
+		List<Person> A1 = Arrays.asList(c1.getPeople());
+		List<Person> A2 = Arrays.asList(c2.getPeople());
+//		final double totalTmi = A.stream()
+//				.map(p -> 2 - c.tmiFitness(p))
+//				.mapToDouble(v -> v.doubleValue())
+//				.sum();
+		double totalTmi = 0;
+		double[] relativeTmis = new double[A1.size()];
+		for (int i = 0; i < A1.size(); i++) {
+			relativeTmis[i] = (2 - c1.tmiFitness(A1.get(i)));
+			relativeTmis[i] += (2 - c2.tmiFitness(A2.get(i)));
+			totalTmi += relativeTmis[i];
+		}
+		for (int i = 0; i < A1.size(); i++) {
+			relativeTmis[i] /= totalTmi;
+		}
+		
+		double[] cumulativeTmis = new double[relativeTmis.length];
+		cumulativeTmis[0] = relativeTmis[0];
+		for (int i = 1; i < cumulativeTmis.length; i++) {
+			cumulativeTmis[i] = cumulativeTmis[i - 1] + relativeTmis[i];
+		}
+		
+		double number = RandomUtils.random();
+		int winnerIndex = ChromosomeUtils.getWinner(cumulativeTmis, number);
+		return winnerIndex;
 	}
 	
 	private void II(List<Person> A, List<Person> B, int i) {

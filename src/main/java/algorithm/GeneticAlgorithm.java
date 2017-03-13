@@ -20,6 +20,8 @@ public class GeneticAlgorithm {
 
 	private GeneticAlgorithmListener dispatcher;
 	private List<GeneticAlgorithmListener> listeners;
+	
+	private Chromosome bestChromosome;
 
 	public GeneticAlgorithm(GeneticAlgorithmProblem problem) {
 		this.problem = problem;
@@ -43,7 +45,7 @@ public class GeneticAlgorithm {
 	public void start() {
 		List<Chromosome> currentGeneration = generateRandomePopulation(configuration.N);
 		int generation = 1;
-		Chromosome bestChromosome = getBestChromosome(currentGeneration);
+		bestChromosome = getBestChromosome(currentGeneration);
 		Chromosome currentBestChromosome = getBestChromosome(currentGeneration);
 		dispatcher.onBestChromosomeUpdated(bestChromosome);
 		dispatcher.onNewGenerationReached(generation, currentGeneration, bestChromosome);
@@ -88,6 +90,10 @@ public class GeneticAlgorithm {
 			dispatcher.onNewGenerationReached(generation, currentGeneration, currentBestChromosome);
 		}
 		dispatcher.onGeneticAlgorithmFinished(currentBestChromosome, bestChromosome);
+	}
+	
+	public Chromosome getBestChromosome() {
+		return bestChromosome;
 	}
 
 	private Chromosome getBestChromosome(List<Chromosome> chromosomes) {
