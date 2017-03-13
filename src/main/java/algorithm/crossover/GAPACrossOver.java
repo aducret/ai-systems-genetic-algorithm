@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import algorithm.chromosome.Chromosome;
-import algorithm.model.Pair;
-import algorithm.util.RandomUtils;
-import model.chromosome.GAPAChromosome;
-import structures.Node;
-import structures.Person;
+import algorithm.chromosome.GAPAChromosome;
+import model.Node;
+import model.Pair;
+import model.Person;
+import util.RandomUtils;
 
 public class GAPACrossOver implements CrossOverAlgorithm {
 

@@ -3,8 +3,8 @@ package algorithm.pairing;
 import java.util.List;
 
 import algorithm.chromosome.Chromosome;
-import algorithm.model.Pair;
 import algorithm.selector.Selector;
+import model.Pair;
 
 public class SelectorPairingAlgorithm implements PairingAlgorithm {
 

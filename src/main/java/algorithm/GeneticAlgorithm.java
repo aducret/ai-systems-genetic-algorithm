@@ -9,9 +9,9 @@ import algorithm.chromosome.ChromosomeComparator;
 import algorithm.cuttingCondition.CuttingCondition;
 import algorithm.listener.DispatcherGeneticAlgorithmListener;
 import algorithm.listener.GeneticAlgorithmListener;
-import algorithm.model.Pair;
 import algorithm.pairing.Callback;
-import algorithm.util.RandomUtils;
+import model.Pair;
+import util.RandomUtils;
 
 public class GeneticAlgorithm {
 

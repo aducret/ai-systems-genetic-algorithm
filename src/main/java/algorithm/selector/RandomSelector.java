@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import algorithm.chromosome.Chromosome;
-import algorithm.util.RandomUtils;
+import util.RandomUtils;
 
 public class RandomSelector implements Selector {
 

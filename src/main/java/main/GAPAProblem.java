@@ -7,22 +7,21 @@ import java.util.Set;
 import algorithm.Configuration;
 import algorithm.GeneticAlgorithmProblem;
 import algorithm.chromosome.Chromosome;
+import algorithm.chromosome.GAPAChromosome;
 import algorithm.crossover.GAPACrossOver;
 import algorithm.cuttingCondition.ContentCuttingCondition;
 import algorithm.cuttingCondition.GoalReachedCuttingCondition;
 import algorithm.cuttingCondition.MaxGenerationsCuttingCondition;
 import algorithm.cuttingCondition.StructureCuttingCondition;
-import algorithm.model.Pair;
 import algorithm.mutation.GAPAMutationAlgorithm;
 import algorithm.pairing.RandomPairingAlgorithm;
 import algorithm.replace.ReplaceMethod2;
 import algorithm.selector.CompoundSelector;
 import algorithm.selector.EliteSelector;
 import algorithm.selector.RouletteSelector;
-import algorithm.util.RandomPopper;
-import model.chromosome.GAPAChromosome;
-import structures.Node;
-import structures.Person;
+import model.Node;
+import model.Person;
+import util.RandomPopper;
 
 public class GAPAProblem implements GeneticAlgorithmProblem {
 

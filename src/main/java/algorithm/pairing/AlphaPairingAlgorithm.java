@@ -6,8 +6,8 @@ import java.util.List;
 
 import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.ChromosomeComparator;
-import algorithm.model.Pair;
-import algorithm.util.RandomPopper;
+import model.Pair;
+import util.RandomPopper;
 
 public class AlphaPairingAlgorithm implements PairingAlgorithm {
 

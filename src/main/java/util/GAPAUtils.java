@@ -4,9 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-import model.chromosome.GAPAChromosome;
-import structures.Node;
-import structures.Person;
+import algorithm.chromosome.GAPAChromosome;
+import model.Node;
+import model.Person;
+import parser.WorkingPlaceParser;
 
 public class GAPAUtils {
 	public static void writeSolution(String path, Node workingPlace, GAPAChromosome chromosome) throws FileNotFoundException {

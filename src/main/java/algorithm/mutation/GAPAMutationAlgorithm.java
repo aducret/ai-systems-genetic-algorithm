@@ -8,11 +8,11 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import algorithm.chromosome.Chromosome;
-import algorithm.util.RandomPopper;
-import algorithm.util.RandomUtils;
-import model.chromosome.GAPAChromosome;
-import structures.Node;
-import structures.Person;
+import algorithm.chromosome.GAPAChromosome;
+import model.Node;
+import model.Person;
+import util.RandomPopper;
+import util.RandomUtils;
 
 public class GAPAMutationAlgorithm implements MutationAlgorithm {
 
