@@ -17,9 +17,11 @@ import util.RandomUtils;
 public class GAPAMutationAlgorithm implements MutationAlgorithm {
 
 	@Override
-	public void mutate(Chromosome chromosome) {
+	public void mutate(Chromosome chromosome, double p) {
 		if (!(chromosome instanceof GAPAChromosome))
 			throw new IllegalStateException("GAPAMutationAlgorithm can only be used with GAPAChromosomes!");
+		
+		if (p < RandomUtils.random()) { return; }
 		
 		GAPAChromosome gc = (GAPAChromosome) chromosome;
 		Set<Node> totalSeats = new HashSet<>(gc.getTotalSeats());

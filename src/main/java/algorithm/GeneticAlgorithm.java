@@ -63,8 +63,8 @@ public class GeneticAlgorithm {
 									.crossOver(parents);
 
 							// muto y agrego a la lista de hijos
-							configuration.mutationAlgorithm.mutate(childsPair.first);
-							configuration.mutationAlgorithm.mutate(childsPair.second);
+							configuration.mutationAlgorithm.mutate(childsPair.first, configuration.pm);
+							configuration.mutationAlgorithm.mutate(childsPair.second, configuration.pm);
 
 							childs.add(childsPair.first);
 							childs.add(childsPair.second);

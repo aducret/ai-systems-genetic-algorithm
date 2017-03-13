@@ -4,5 +4,5 @@ import algorithm.chromosome.Chromosome;
 
 public interface MutationAlgorithm {
 	
-	void mutate(Chromosome chromosome);
+	void mutate(Chromosome chromosome, double p);
 }
