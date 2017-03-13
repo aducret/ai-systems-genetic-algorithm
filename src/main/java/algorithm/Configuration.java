@@ -22,6 +22,7 @@ public class Configuration {
 	public CrossOverAlgorithm crossOverAlgorithm;
 	public MutationAlgorithm mutationAlgorithm;
 	public ReplaceMethod replaceMethod;
+	public double pm;
 	
 	public Configuration() {
 		cuttingConditions = new ArrayList<>();
@@ -79,15 +80,16 @@ public class Configuration {
 			return this;
 		}
 		
-		public Builder withMutationAlgorithm(MutationAlgorithm mutationAlgorithm) {
+		public Builder withMutationAlgorithm(MutationAlgorithm mutationAlgorithm, double pm) {
 			configuration.mutationAlgorithm = mutationAlgorithm;
+			configuration.pm = pm;
 			return this;
 		}
 		
 		public Builder withReplaceMethod(ReplaceMethod replaceMethod) {
 			configuration.replaceMethod = replaceMethod;
 			return this;
-		}
+		}	
 		
 		public Configuration build() {
 			return configuration;

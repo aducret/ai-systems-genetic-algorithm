@@ -9,9 +9,9 @@ import algorithm.chromosome.ChromosomeComparator;
 import algorithm.cuttingCondition.CuttingCondition;
 import algorithm.listener.DispatcherGeneticAlgorithmListener;
 import algorithm.listener.GeneticAlgorithmListener;
-import algorithm.model.Pair;
 import algorithm.pairing.Callback;
-import algorithm.util.RandomUtils;
+import model.Pair;
+import util.RandomUtils;
 
 public class GeneticAlgorithm {
 
@@ -65,8 +65,8 @@ public class GeneticAlgorithm {
 									.crossOver(parents);
 
 							// muto y agrego a la lista de hijos
-							configuration.mutationAlgorithm.mutate(childsPair.first);
-							configuration.mutationAlgorithm.mutate(childsPair.second);
+							configuration.mutationAlgorithm.mutate(childsPair.first, configuration.pm);
+							configuration.mutationAlgorithm.mutate(childsPair.second, configuration.pm);
 
 							childs.add(childsPair.first);
 							childs.add(childsPair.second);

@@ -8,16 +8,16 @@ import java.util.Set;
 import algorithm.GeneticAlgorithm;
 import algorithm.GeneticAlgorithmProblem;
 import algorithm.chromosome.Chromosome;
+import algorithm.chromosome.GAPAChromosome;
 import algorithm.listener.GeneticAlgorithmListener;
 import algorithm.listener.PlotterListener;
-import algorithm.model.Triple;
-import model.chromosome.GAPAChromosome;
+import model.Node;
+import model.NodeUtils;
+import model.Person;
+import model.Triple;
 import parser.OrganizationParser;
-import structures.Node;
-import structures.NodeUtils;
-import structures.Person;
+import parser.WorkingPlaceParser;
 import util.GAPAUtils;
-import util.WorkingPlaceParser;
 
 public class Main {
 

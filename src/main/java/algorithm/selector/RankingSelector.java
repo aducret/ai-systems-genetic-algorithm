@@ -6,8 +6,8 @@ import java.util.List;
 
 import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.ChromosomeComparator;
-import algorithm.util.ChromosomeUtils;
-import algorithm.util.RandomUtils;
+import util.ChromosomeUtils;
+import util.RandomUtils;
 
 public class RankingSelector implements Selector {
 	@Override

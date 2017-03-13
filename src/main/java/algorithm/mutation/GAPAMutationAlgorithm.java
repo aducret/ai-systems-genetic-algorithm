@@ -8,18 +8,20 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import algorithm.chromosome.Chromosome;
-import algorithm.util.RandomPopper;
-import algorithm.util.RandomUtils;
-import model.chromosome.GAPAChromosome;
-import structures.Node;
-import structures.Person;
+import algorithm.chromosome.GAPAChromosome;
+import model.Node;
+import model.Person;
+import util.RandomPopper;
+import util.RandomUtils;
 
 public class GAPAMutationAlgorithm implements MutationAlgorithm {
 
 	@Override
-	public void mutate(Chromosome chromosome) {
+	public void mutate(Chromosome chromosome, double p) {
 		if (!(chromosome instanceof GAPAChromosome))
 			throw new IllegalStateException("GAPAMutationAlgorithm can only be used with GAPAChromosomes!");
+		
+		if (p < RandomUtils.random()) { return; }
 		
 		GAPAChromosome gc = (GAPAChromosome) chromosome;
 		Set<Node> totalSeats = new HashSet<>(gc.getTotalSeats());

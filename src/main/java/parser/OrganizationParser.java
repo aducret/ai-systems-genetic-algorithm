@@ -15,11 +15,10 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import algorithm.model.Pair;
-import algorithm.model.Triple;
-import structures.Node;
-import structures.Person;
-import util.WorkingPlaceParser;
+import model.Node;
+import model.Pair;
+import model.Person;
+import model.Triple;
 
 public class OrganizationParser {
 

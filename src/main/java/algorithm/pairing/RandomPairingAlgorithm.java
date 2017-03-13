@@ -3,8 +3,8 @@ package algorithm.pairing;
 import java.util.List;
 
 import algorithm.chromosome.Chromosome;
-import algorithm.model.Pair;
-import algorithm.util.RandomPopper;
+import model.Pair;
+import util.RandomPopper;
 
 public class RandomPairingAlgorithm implements PairingAlgorithm {
 
