@@ -2,6 +2,7 @@ package util;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import algorithm.chromosome.GAPAChromosome;
@@ -26,7 +27,7 @@ public class GAPAUtils {
 	
 	private static void writeSolutionRec(PrintWriter writer, Node node, HashMap<String, String> map, int level) {
 		String spaces = new String(new char[4*level]).replace("\0", " ");
-		
+		if (node == null) throw new IllegalStateException("node can't be null");
 		if (node.childs.isEmpty()) {
 //			this is a leaf
 			writer.println(String.format("%s%s (%s)", spaces, node.id, map.get(WorkingPlaceParser.fullId(node))));

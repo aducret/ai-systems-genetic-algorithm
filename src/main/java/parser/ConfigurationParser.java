@@ -183,7 +183,8 @@ public class ConfigurationParser {
 
 	private static void handleMutationAlgorithm(Map<String, String> configurationMap, Configuration.Builder builder) {
 		String name = getValue(configurationMap, AM_ALGORITHM);
-		builder.withMutationAlgorithm(createMutationAlgorithm(name, configurationMap));
+//		FIXME: the following line was broken after resolving merge conflicts
+//		builder.withMutationAlgorithm(createMutationAlgorithm(name, configurationMap));
 	}
 
 	private static Selector getReplaceSelector(Map<String, String> configurationMap) {

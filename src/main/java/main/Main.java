@@ -46,7 +46,7 @@ public class Main {
 			@Override
 			public void onGeneticAlgorithmFinished(Chromosome currentBestChromosome, Chromosome bestChromosome) {
 				try {
-					GAPAUtils.writeSolution("doc/gapa/solution.txt", WorkingPlaceParser.generate("doc/gapa/ej2_org"), (GAPAChromosome) bestChromosome);
+					GAPAUtils.writeSolution("./doc/gapa/solution.txt", WorkingPlaceParser.generate("./doc/gapa/wolox"), (GAPAChromosome) bestChromosome);
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -83,8 +83,7 @@ public class Main {
 	
 	private static GAPAProblem createGAPA() throws FileNotFoundException {
 		OrganizationParser op = new OrganizationParser();
-		Triple<List<Person>, Node, Map<Integer, Set<Integer>>> result = op.parse("./doc/gapa/ej2_org", "./doc/gapa/ej2_emp");
-		
+		Triple<List<Person>, Node, Map<Integer, Set<Integer>>> result = op.parse("./doc/gapa/wolox", "./doc/gapa/employees");
 		return new GAPAProblem(result.first, NodeUtils.leafs(result.second), result.third);
 	}
 }

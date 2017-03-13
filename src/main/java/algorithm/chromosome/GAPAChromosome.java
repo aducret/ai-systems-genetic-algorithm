@@ -79,7 +79,7 @@ public class GAPAChromosome extends ListChromosome {
 	}
 	
 	private double distanceFitness(int i) {
-		if (restrictions == null) return 1.0;
+		if (restrictions == null || !restrictions.containsKey(i)) return 1.0;
 		
 		Set<Integer> A = restrictions.get(i);
 		double sum = A.stream().map(j -> {
