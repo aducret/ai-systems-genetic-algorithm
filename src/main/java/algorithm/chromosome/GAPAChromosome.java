@@ -60,7 +60,7 @@ public class GAPAChromosome extends ListChromosome {
 	
 	public double tmiFitness(Person person) {
 		double tmi = person.tmi();
-		Node node = person.workingSpace.parent;
+		Node node = person.getWorkingSpace().parent;
 		double acum = 1;
 		while(node != null) {
 			acum *= (Math.min(tmi, node.capacity)/tmi);
@@ -83,7 +83,7 @@ public class GAPAChromosome extends ListChromosome {
 		
 		Set<Integer> A = restrictions.get(i);
 		double sum = A.stream().map(j -> {
-			int D = NodeUtils.distanceBetween(people[i].workingSpace, people[j].workingSpace);
+			int D = NodeUtils.distanceBetween(people[i].getWorkingSpace(), people[j].getWorkingSpace());
 			return Math.log10(D)/Math.log10(2);
 		}).mapToDouble(f -> f.doubleValue()).sum();
 		double df = A.size()/sum;
@@ -124,7 +124,7 @@ public class GAPAChromosome extends ListChromosome {
 			sb.append(separator);
 			sb.append("{");
 			
-			sb.append(person.id + " seats in " + WorkingPlaceParser.fullId(person.workingSpace));
+			sb.append(person.id + " seats in " + WorkingPlaceParser.fullId(person.getWorkingSpace()));
 			
 			sb.append("}");
 			separator = ", ";

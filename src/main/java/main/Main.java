@@ -10,6 +10,7 @@ import algorithm.GeneticAlgorithmProblem;
 import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.GAPAChromosome;
 import algorithm.listener.GeneticAlgorithmListener;
+import algorithm.listener.GraphListener;
 import algorithm.listener.PlotterListener;
 import model.Node;
 import model.NodeUtils;
@@ -20,7 +21,9 @@ import parser.WorkingPlaceParser;
 import util.GAPAUtils;
 
 public class Main {
-
+	
+	public static Node root;
+	
 	public static void main(String[] args) throws FileNotFoundException {
 		String dirFilepath = isRunningInEclipse() ? "doc/data/" : "./";
 		if (args.length != 0) {
@@ -36,7 +39,9 @@ public class Main {
 
 		// Setear listeners
 		GeneticAlgorithmListener loggerListener = new LoggerGeneticAlgorithmListener();
+		GraphListener graphListener = new GraphListener(root);
 		algorithm.addListener(loggerListener);
+		algorithm.addListener(graphListener);
 		algorithm.addListener(new GeneticAlgorithmListener() {
 			
 			@Override
@@ -84,6 +89,7 @@ public class Main {
 	private static GAPAProblem createGAPA() throws FileNotFoundException {
 		OrganizationParser op = new OrganizationParser();
 		Triple<List<Person>, Node, Map<Integer, Set<Integer>>> result = op.parse("./doc/gapa/wolox", "./doc/gapa/employees");
+		root = result.second;
 		return new GAPAProblem(result.first, NodeUtils.leafs(result.second), result.third);
 	}
 }

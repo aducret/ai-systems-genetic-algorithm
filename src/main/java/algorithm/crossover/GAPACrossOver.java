@@ -29,14 +29,14 @@ public class GAPACrossOver implements CrossOverAlgorithm {
 		List<Person> A = Arrays.asList(gc1.getPeople());
 		List<Person> B = Arrays.asList(gc2.getPeople());
 		
-		if (contains(B, A.get(i).workingSpace)) {
-			if (contains(A, B.get(i).workingSpace)) {
+		if (contains(B, A.get(i).getWorkingSpace())) {
+			if (contains(A, B.get(i).getWorkingSpace())) {
 				II(A, B, i);
 			} else {
 				IN(A, B, i);
 			}
 		} else {
-			if (contains(A, B.get(i).workingSpace)) {
+			if (contains(A, B.get(i).getWorkingSpace())) {
 				IN(B, A, i);
 			} else {
 				NN(A, B, i);
@@ -76,8 +76,8 @@ public class GAPACrossOver implements CrossOverAlgorithm {
 	}
 	
 	private void II(List<Person> A, List<Person> B, int i) {
-		int a = indexOf(A, B.get(i).workingSpace);
-		int b = indexOf(B, A.get(i).workingSpace);
+		int a = indexOf(A, B.get(i).getWorkingSpace());
+		int b = indexOf(B, A.get(i).getWorkingSpace());
 //		System.out.println("A: (i=" + i + "j=" + a + ") " + B.get(i).workingSpace);
 //		System.out.println("B: (i=" + i + "j=" + b + ") " + A.get(i).workingSpace);
 //		System.out.println(A);
@@ -95,8 +95,8 @@ public class GAPACrossOver implements CrossOverAlgorithm {
 	}
 	
 	private void IN(List<Person> A, List<Person> B, int i) {
-		A.get(i).workingSpace = B.get(i).workingSpace;
-		swapWorkingPlaces(B, i, indexOf(B, A.get(i).workingSpace));
+		A.get(i).setWorkingSpace(B.get(i).getWorkingSpace());
+		swapWorkingPlaces(B, i, indexOf(B, A.get(i).getWorkingSpace()));
 	}
 	
 	private void NN(List<Person> A, List<Person> B, int i) {
@@ -109,7 +109,7 @@ public class GAPACrossOver implements CrossOverAlgorithm {
 //		System.out.println(workingSpace);
 		for (int i = 0; i < people.size(); i++) {
 //			System.out.println(people.get(i));
-			if (people.get(i).workingSpace.equals(workingSpace)) {
+			if (people.get(i).getWorkingSpace().equals(workingSpace)) {
 //				System.out.println(i);
 //				System.out.println("----------------------------");
 				return i;
@@ -123,14 +123,14 @@ public class GAPACrossOver implements CrossOverAlgorithm {
 	}
 	
 	private static void swapWorkingPlaces(List<Person> people, int a, int b) {
-		Node aux = people.get(a).workingSpace;
-		people.get(a).workingSpace = people.get(b).workingSpace;
-		people.get(b).workingSpace = aux;
+		Node aux = people.get(a).getWorkingSpace();
+		people.get(a).setWorkingSpace(people.get(b).getWorkingSpace());
+		people.get(b).setWorkingSpace(aux);
 	}
 	
 	private static void crossOverWorkingPlace(List<Person> A, List<Person> B, int i) {
-		Node aux = A.get(i).workingSpace;
-		A.get(i).workingSpace = B.get(i).workingSpace;
-		B.get(i).workingSpace = aux;
+		Node aux = A.get(i).getWorkingSpace();
+		A.get(i).setWorkingSpace(B.get(i).getWorkingSpace());
+		B.get(i).setWorkingSpace(aux);
 	}
 }

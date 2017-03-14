@@ -3,14 +3,24 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.knowm.xchart.internal.Utils;
+
+import algorithm.util.ChromosomeUtils;
+import parser.WorkingPlaceParser;
+
 public class Node {
+	private static int n = 0;
+	public int number; 
 	public String id;
 	public Node parent;
 	public List<Node> childs;
 	public int height;
 	public int capacity;
+	private String fullId = null;
 	
 	public Node(String id, Node parent) {
+		n++;
+		number = n;
 		this.childs = new ArrayList<>();
 		this.id = id;
 		this.parent = parent;
@@ -36,6 +46,13 @@ public class Node {
 		return result;
 	}
 
+	public String getFullId() {
+		if (fullId != null) return fullId;
+		
+		fullId = WorkingPlaceParser.fullId(this);
+		return fullId;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -45,10 +62,10 @@ public class Node {
 		if (getClass() != obj.getClass())
 			return false;
 		Node other = (Node) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (getFullId() == null) {
+			if (other.getFullId() != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!getFullId().equals(other.getFullId()))
 			return false;
 		return true;
 	}

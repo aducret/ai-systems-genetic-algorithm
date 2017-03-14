@@ -17,7 +17,7 @@ public class GAPAUtils {
 		
 		HashMap<String, String> map = new HashMap<>();
 		for (Person person: chromosome.getPeople()) {
-			map.put(WorkingPlaceParser.fullId(person.workingSpace), person.id);
+			map.put(WorkingPlaceParser.fullId(person.getWorkingSpace()), person.id);
 		}
 		
 		writeSolutionRec(writer, workingPlace, map, 0);

@@ -27,7 +27,7 @@ public class GAPAMutationAlgorithm implements MutationAlgorithm {
 		Set<Node> totalSeats = new HashSet<>(gc.getTotalSeats());
 		List<Node> usedSeats = new ArrayList<>();
 		for (Person person: gc.getPeople()) {
-			usedSeats.add(person.workingSpace);
+			usedSeats.add(person.getWorkingSpace());
 		}
 		Set<Node> remainingSeats = new HashSet<>();
 		Sets.difference(totalSeats, new HashSet<>(usedSeats)).copyInto(remainingSeats);
@@ -44,6 +44,6 @@ public class GAPAMutationAlgorithm implements MutationAlgorithm {
 		//create random popper with remainingSeats and poll one. This method can easily be extended
 		//to support K mutations
 		RandomPopper<Node> rp = new RandomPopper<>(new ArrayList<>(remainingSeats));
-		gc.getPeople()[i].workingSpace = rp.randomPop();
+		gc.getPeople()[i].setWorkingSpace(rp.randomPop());
 	}
 }

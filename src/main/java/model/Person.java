@@ -4,16 +4,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import parser.WorkingPlaceParser;
+
 public class Person {
+	public static int n = 0;
+	public int number = 0;
 	public final String id;
-	public Node workingSpace;
+	private Node workingSpace;
 	public Map<String, List<String>> projects;
 	private Integer tmi;
 	private List<Person> neighbors;
+	private String fullId = null;
 	
 	public Person(String id) {
+		n++;
+		number = n;
 		this.id = id;
 	}
 	
@@ -59,6 +67,36 @@ public class Person {
 		return ans;
 	}
 
+	public List<String> getAssignedProjects() {
+		List<String> assignedProjects = new ArrayList<>();
+		for (Entry<String, List<String>> entry: projects.entrySet()) {
+			if (entry.getValue().contains(id)) {
+				assignedProjects.add(entry.getKey());
+			}
+		}
+		return assignedProjects;
+	}
+	
+	public void setWorkingSpace(Node workingSpace) {
+		updateFullId();
+		this.workingSpace = workingSpace;
+	}
+	
+	public Node getWorkingSpace() {
+		return workingSpace;
+	}
+	
+	private void updateFullId() {
+		fullId = WorkingPlaceParser.fullId(workingSpace) + id;
+	}
+	
+	public String getFullId() {
+		if (fullId != null) return fullId;
+		
+		fullId = WorkingPlaceParser.fullId(workingSpace) + id;
+		return fullId;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -76,10 +114,10 @@ public class Person {
 		if (getClass() != obj.getClass())
 			return false;
 		Person other = (Person) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (getFullId() == null) {
+			if (other.getFullId() != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!getFullId().equals(other.getFullId()))
 			return false;
 		return true;
 	}
