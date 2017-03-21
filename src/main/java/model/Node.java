@@ -3,14 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.knowm.xchart.internal.Utils;
-
-import algorithm.util.ChromosomeUtils;
 import parser.WorkingPlaceParser;
 
 public class Node {
-	private static int n = 0;
-	public int number; 
 	public String id;
 	public Node parent;
 	public List<Node> childs;
@@ -19,8 +14,6 @@ public class Node {
 	private String fullId = null;
 	
 	public Node(String id, Node parent) {
-		n++;
-		number = n;
 		this.childs = new ArrayList<>();
 		this.id = id;
 		this.parent = parent;

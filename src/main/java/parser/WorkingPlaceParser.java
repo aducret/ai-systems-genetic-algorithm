@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 import model.Node;
-import model.NodeUtils;
+import util.NodeUtils;
 
 public class WorkingPlaceParser {
 	public static Node generate(String filePath) {

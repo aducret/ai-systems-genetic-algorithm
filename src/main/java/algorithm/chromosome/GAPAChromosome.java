@@ -8,9 +8,9 @@ import java.util.Set;
 import algorithm.gene.GAPAGene;
 import algorithm.gene.Gene;
 import model.Node;
-import model.NodeUtils;
 import model.Person;
 import parser.WorkingPlaceParser;
+import util.NodeUtils;
 
 public class GAPAChromosome extends ListChromosome {
 
