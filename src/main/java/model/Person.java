@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 import parser.WorkingPlaceParser;
 
 public class Person {
-	public static int n = 0;
-	public int number = 0;
 	public final String id;
 	private Node workingSpace;
 	public Map<String, List<String>> projects;
@@ -20,8 +18,6 @@ public class Person {
 	private String fullId = null;
 	
 	public Person(String id) {
-		n++;
-		number = n;
 		this.id = id;
 	}
 	
@@ -124,6 +120,6 @@ public class Person {
 	
 	@Override
 	public String toString() {
-		return id.toString() + "(" + workingSpace + ")";
+		return id.toString() +  " " + getAssignedProjects();
 	}
 }

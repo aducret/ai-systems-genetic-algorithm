@@ -13,12 +13,12 @@ import algorithm.listener.GeneticAlgorithmListener;
 import algorithm.listener.GraphListener;
 import algorithm.listener.PlotterListener;
 import model.Node;
-import model.NodeUtils;
 import model.Person;
 import model.Triple;
 import parser.OrganizationParser;
 import parser.WorkingPlaceParser;
 import util.GAPAUtils;
+import util.NodeUtils;
 
 public class Main {
 	
@@ -51,7 +51,7 @@ public class Main {
 			@Override
 			public void onGeneticAlgorithmFinished(Chromosome currentBestChromosome, Chromosome bestChromosome) {
 				try {
-					GAPAUtils.writeSolution("./doc/gapa/solution.txt", WorkingPlaceParser.generate("./doc/gapa/wolox"), (GAPAChromosome) bestChromosome);
+					GAPAUtils.writeSolution("./doc/gapa/solution.txt", WorkingPlaceParser.generate("./doc/gapa/ej1_org"), (GAPAChromosome) bestChromosome);
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -88,7 +88,7 @@ public class Main {
 	
 	private static GAPAProblem createGAPA() throws FileNotFoundException {
 		OrganizationParser op = new OrganizationParser();
-		Triple<List<Person>, Node, Map<Integer, Set<Integer>>> result = op.parse("./doc/gapa/wolox", "./doc/gapa/employees");
+		Triple<List<Person>, Node, Map<Integer, Set<Integer>>> result = op.parse("./doc/gapa/ej1_org", "./doc/gapa/ej1_emp");
 		root = result.second;
 		return new GAPAProblem(result.first, NodeUtils.leafs(result.second), result.third);
 	}

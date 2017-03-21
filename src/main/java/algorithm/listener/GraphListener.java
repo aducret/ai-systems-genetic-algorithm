@@ -1,6 +1,5 @@
 package algorithm.listener;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -14,20 +13,9 @@ import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
-import org.jgraph.JGraph;
-import org.jgraph.graph.AttributeMap;
-import org.jgraph.graph.CellView;
-import org.jgraph.graph.EdgeView;
-import org.jgraph.graph.GraphCell;
-import org.jgraph.graph.GraphConstants;
-import org.jgraph.graph.GraphLayoutCache;
-import org.jgrapht.Graph;
-import org.jgrapht.ext.JGraphModelAdapter;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
-
-import com.jgraph.layout.JGraphFacade;
-import com.jgraph.layout.hierarchical.JGraphHierarchicalLayout;
+import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
+import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.view.mxGraph;
 
 import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.GAPAChromosome;
@@ -38,7 +26,10 @@ import model.Person;
 public class GraphListener implements GeneticAlgorithmListener {
 
 	private Node root;
-	private Map<Integer, Either> eithers = new HashMap<>();
+	private Map<String, Object> nodes = new HashMap<>(); 
+			
+	private final mxGraph g = new mxGraph();
+	private Object parent = g.getDefaultParent();
 	
 	public GraphListener(Node root) {
 		this.root = root;
@@ -68,37 +59,26 @@ public class GraphListener implements GeneticAlgorithmListener {
 	}
 
 	private void graph(Node root, GAPAChromosome bestChromosome) {
-        Graph<Either, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
-        
         addNodesAndEdges(g, root, bestChromosome);
         
-        JGraph jg = new JGraph(new JGraphModelAdapter<Either, DefaultEdge>(g));
-        JGraphHierarchicalLayout hl = new JGraphHierarchicalLayout();
-        JGraphFacade gf = new JGraphFacade(jg);
-        hl.run(gf);
-        Map nm = gf.createNestedMap(true, true);
-        jg.getGraphLayoutCache().edit(nm);
-        removeEdgeLabels(jg);
-        if (!checkMultipleProjects(bestChromosome)) {
-	        Map<String, Color> colorDic = createColorDic(bestChromosome);
-	        if (colorDic != null ) {
-	        	setColors(jg, colorDic, bestChromosome.getPeople());
-	        }
-        }
-        
-        JFrame frame = new JFrame();
+        mxGraphComponent component = new mxGraphComponent(g);
+        createFrame(component);
+        mxHierarchicalLayout l = new mxHierarchicalLayout(g);
+		l.execute(parent);
+	}
+	
+	private JFrame createFrame(mxGraphComponent component) {
+		JFrame frame = new JFrame();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double height = screenSize.getHeight();
         double width = screenSize.getWidth();
-        frame.setSize((int) width, (int) height);
-        JScrollPane scroller = new JScrollPane(jg);
+        frame.setSize((int) width, (int) height - 50);
+        JScrollPane scroller = new JScrollPane(component);
         frame.add(scroller);
-        frame.pack();
-        // Por alguna razon el pack no funciona bien y corta 20 pixeles aprox.
-        frame.setSize(frame.getWidth(), frame.getHeight() + 25);
         frame.setLocationByPlatform(true);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		return frame;
 	}
 	
 	private boolean checkMultipleProjects(GAPAChromosome bestChromosome) {
@@ -110,39 +90,70 @@ public class GraphListener implements GeneticAlgorithmListener {
 		return false;
 	}
 	
-	private void addNodesAndEdges(Graph<Either, DefaultEdge> g, Node root, GAPAChromosome bestChromosome) {
-		Either e = new Either(root);
-		eithers.put(root.number, e);
-		g.addVertex(e);
+	private void addNodesAndEdges(mxGraph g, Node root, GAPAChromosome bestChromosome) {
+		g.getModel().beginUpdate();
+		try {
+			nodes.put(root.getFullId(), g.insertVertex(parent, null, root.toString(), 0, 0, 0, 0, defaultStyle));
+		} finally {
+		   g.getModel().endUpdate();
+		}
 		Person[] people = bestChromosome.getPeople();
-		addNodes(g, root, people);
+		Map<String, String> colorDic = null;
+		if (!checkMultipleProjects(bestChromosome)) {
+	        colorDic = createColorDic(bestChromosome);
+        }
+		addNodes(g, root, people, colorDic);
 		addEdges(g, root, people);
+		resizeNodes();
 	}
-	
-	private void addNodes(Graph<Either, DefaultEdge> g, Node node, Person[] people) {
-		for (Node child: node.childs) {
-			if (child.isLeaf()) {
-				Person person = getPersonForNode(child, people);
-				if (person != null) {
-					Either e = new Either(person);
-					System.out.println(person.number + "/"+ e);
-					eithers.put(person.number, e);
-					g.addVertex(e);
-				} else {
-					Either e = new Either(child);
-					System.out.println(child.number + "/"+ e);
-					eithers.put(child.number, e);
-					g.addVertex(e);
-				}
-			} else {
-				Either e = new Either(child);
-				System.out.println(child.number + "/"+ e);
-				eithers.put(child.number, e);
-				g.addVertex(e);
+
+	private void resizeNodes() {
+		g.getModel().beginUpdate();
+		g.setAutoSizeCells(true);
+		g.setAutoOrigin(true);
+		try {
+			for (Object node: nodes.values()) {
+				g.updateCellSize(node);
 			}
-			addNodes(g, child, people);
+		} finally {
+			g.getModel().endUpdate();
 		}
 	}
+
+	private void addNodes(mxGraph g, Node node, Person[] people, Map<String, String> colors) {
+		g.getModel().beginUpdate();
+		try {
+			for (Node child: node.childs) {
+				if (child.isLeaf()) {
+					Person person = getPersonForNode(child, people);
+					if (person != null) {
+						String style = getStyle(person, colors);
+						nodes.put(person.getFullId(), g.insertVertex(parent, null, person.toString(), 0, 0, 0, 0, style));
+					} else {
+						nodes.put(child.getFullId(), g.insertVertex(parent, null, child.toString(), 0, 0, 0, 0, defaultStyle));
+					}
+				} else {
+					nodes.put(child.getFullId(), g.insertVertex(parent, null, child.toString(), 0, 0, 0, 0, defaultStyle));
+				}
+				addNodes(g, child, people, colors);
+			}
+		} finally {
+			g.getModel().endUpdate();
+		}
+	}
+	
+	// Para mas informacion sobre estilo
+	// https://jgraph.github.io/mxgraph/docs/js-api/files/util/mxConstants-js.html#mxConstants.FONT_BOLD
+	private String getStyle(Person person, Map<String, String> colors) {
+		String key = person.getAssignedProjects().get(0);
+		if (colors != null && colors.containsKey(key)) {
+			String color = colors.get(key);
+			return "strokeWidth=5;strokeColor=" + color + ";fontColor=black;fontSize=15;spacingTop=4;fontStyle=1";
+		}
+		return "";
+	}
+	
+	private String defaultStyle = "fontColor=black;fontSize=15;spacingTop=4;fontStyle=1";
 	
 	private Person getPersonForNode(Node node, Person[] people) {
 		for(Person person: people) {
@@ -153,45 +164,50 @@ public class GraphListener implements GeneticAlgorithmListener {
 		return null;
 	}
 	
-	private void addEdges(Graph<Either, DefaultEdge> g, Node node, Person[] people) {
-		for (Node child: node.childs) {
-			if (child.isLeaf()) {
-				Person person = getPersonForNode(child, people);
-				if (person != null) {
-					System.out.println(eithers.get(node.number) + " - " + eithers.get(person.number));
-					g.addEdge(eithers.get(node.number), eithers.get(person.number));
+	private void addEdges(mxGraph g, Node node, Person[] people) {
+		g.getModel().beginUpdate();
+		try
+		{
+			for (Node child: node.childs) {
+				if (child.isLeaf()) {
+					Person person = getPersonForNode(child, people);
+					if (person != null) {
+						g.insertEdge(parent, null, "", nodes.get(node.getFullId()), nodes.get(person.getFullId()));
+					} else {
+						g.insertEdge(parent, null, "", nodes.get(node.getFullId()), nodes.get(child.getFullId()));
+					}
 				} else {
-					System.out.println(eithers.get(node.number) + " - " + eithers.get(child.number));
-					g.addEdge(eithers.get(node.number), eithers.get(child.number));
+					g.insertEdge(parent, null, "", nodes.get(node.getFullId()), nodes.get(child.getFullId()));
+					addEdges(g, child, people);
 				}
-			} else {
-				System.out.println(eithers.get(node.number) + " - " + eithers.get(child.number));
-				g.addEdge(eithers.get(node.number), eithers.get(child.number));
-				addEdges(g, child, people);
 			}
+		}
+		finally
+		{
+			g.getModel().endUpdate();
 		}
 	}
 	
-	private Map<String, Color> createColorDic(GAPAChromosome bestChromosome) {
-		List<Color> colors = new ArrayList<>(Arrays.asList((new Color[] { 
-				Color.BLACK,
-				Color.RED,
-				Color.BLUE,
-				Color.MAGENTA,
-				Color.DARK_GRAY,
-				Color.ORANGE,
-				Color.GREEN,
-				Color.cyan
+	private Map<String, String> createColorDic(GAPAChromosome bestChromosome) {
+		List<String> colors = new ArrayList<>(Arrays.asList((new String[] { 
+				"black",
+				"red",
+				"blue",
+				"green",
+				"#FF00FF",
+				"#a9a9a9",
+				"#FFA500",
+				"#00FFFF"
 		})));
-		RandomPopper<Color> colorPopper = new RandomPopper<>(colors);
+		RandomPopper<String> colorPopper = new RandomPopper<>(colors);
 		Set<String> projects = getProjects(bestChromosome);
-		Map<String, Color> dic = new HashMap<>();
+		Map<String, String> dic = new HashMap<>();
 		if (projects.size() > colors.size()) {
-			System.out.println("There aren't enough colors.");
+			System.err.println("There aren't enough colors.");
 			return null;
 		}
 		for (String project: projects) {
-			Color color = colorPopper.randomPop();
+			String color = colorPopper.randomPop();
 			dic.put(project, color);
 		}
 		
@@ -206,73 +222,6 @@ public class GraphListener implements GeneticAlgorithmListener {
 		}
 		
 		return s;
-	}
-	
-	private void setColors(JGraph jg, Map<String, Color> dic, Person[] people) {
-		GraphLayoutCache cache = jg.getGraphLayoutCache();
-		for (Object item : jg.getRoots()) {
-			GraphCell cell = (GraphCell) item;
-			CellView view = cache.getMapping(cell, true);
-			AttributeMap map = view.getAttributes();
-			String id = item.toString();
-			Person person = getPerson(id, people);
-			String key = person == null ? item.toString() : person.getAssignedProjects().get(0);
-			if (dic.containsKey(key)) {
-				Color color = dic.get(key);
-				map.applyValue(GraphConstants.BACKGROUND, color);
-			}
-		}
-		cache.reload();
-		jg.repaint();
-	}
-	
-	private Person getPerson(String id, Person[] people) {
-		for(Person person: people) {
-			if (person.id == id) {
-				return person;
-			}
-		}
-		return null;
-	}
-	
-	private void removeEdgeLabels(JGraph jg) {
-		GraphLayoutCache cache = jg.getGraphLayoutCache();
-		CellView[] cells = cache.getCellViews();
-		for (CellView cell : cells) {
-			if (cell instanceof EdgeView) {
-				EdgeView ev = (EdgeView) cell;
-				org.jgraph.graph.DefaultEdge eval = (org.jgraph.graph.DefaultEdge) ev.getCell();
-				eval.setUserObject("");
-			}
-		}
-		cache.reload();
-		jg.repaint();
-	}
-	
-	public class Either {
-		private Person person = null;
-		private Node node = null;
-		
-		public Either(Person person) {
-			this.person = person;
-		}
-		
-		public Either(Node node) {
-			this.node = node;
-		}
-		
-		public Node getNode() {
-			return node;
-		}
-		
-		public Person getPerson() {
-			return person;
-		}
-		
-		@Override
-		public String toString() {
-			return person == null ? node.id : person.id;
-		}
 	}
 	
 }
