@@ -11,9 +11,8 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 
-import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
+import com.mxgraph.layout.mxCompactTreeLayout;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
@@ -28,11 +27,13 @@ public class GraphListener implements GeneticAlgorithmListener {
 	private Node root;
 	private Map<String, Object> nodes = new HashMap<>(); 
 			
-	private final mxGraph g = new mxGraph();
-	private Object parent = g.getDefaultParent();
+	private final mxGraph g;
+	private Object parent;
 	
 	public GraphListener(Node root) {
 		this.root = root;
+		g = new mxGraph();
+		parent = g.getDefaultParent();
 	}
 	
 	@Override
@@ -62,9 +63,11 @@ public class GraphListener implements GeneticAlgorithmListener {
         addNodesAndEdges(g, root, bestChromosome);
         
         mxGraphComponent component = new mxGraphComponent(g);
-        createFrame(component);
-        mxHierarchicalLayout l = new mxHierarchicalLayout(g);
+        mxCompactTreeLayout l = new mxCompactTreeLayout(g, false);
 		l.execute(parent);
+		g.setCellsMovable(false);
+		g.setCellsLocked(true);
+		createFrame(component);
 	}
 	
 	private JFrame createFrame(mxGraphComponent component) {
@@ -72,11 +75,11 @@ public class GraphListener implements GeneticAlgorithmListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double height = screenSize.getHeight();
         double width = screenSize.getWidth();
-        frame.setSize((int) width, (int) height - 50);
-        JScrollPane scroller = new JScrollPane(component);
-        frame.add(scroller);
+        frame.add(component);
+        frame.setPreferredSize(new Dimension((int) width, (int) height - 50));
         frame.setLocationByPlatform(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
 		frame.setVisible(true);
 		return frame;
 	}
@@ -93,7 +96,7 @@ public class GraphListener implements GeneticAlgorithmListener {
 	private void addNodesAndEdges(mxGraph g, Node root, GAPAChromosome bestChromosome) {
 		g.getModel().beginUpdate();
 		try {
-			nodes.put(root.getFullId(), g.insertVertex(parent, null, root.toString(), 0, 0, 0, 0, defaultStyle));
+			nodes.put(root.getFullId(), g.insertVertex(parent, root.getFullId(), root.toString(), 0, 0, 0, 0, defaultStyle));
 			Person[] people = bestChromosome.getPeople();
 			Map<String, String> colorDic = null;
 			if (!checkMultipleProjects(bestChromosome)) {
@@ -126,12 +129,12 @@ public class GraphListener implements GeneticAlgorithmListener {
 				Person person = getPersonForNode(child, people);
 				if (person != null) {
 					String style = getStyle(person, colors);
-					nodes.put(person.getFullId(), g.insertVertex(parent, null, person.toString(), 0, 0, 0, 0, style));
+					nodes.put(person.getFullId(), g.insertVertex(parent, person.getFullId(), person.toString(), 0, 0, 0, 0, style));
 				} else {
-					nodes.put(child.getFullId(), g.insertVertex(parent, null, child.toString(), 0, 0, 0, 0, defaultStyle));
+					nodes.put(child.getFullId(), g.insertVertex(parent, child.getFullId(), child.toString(), 0, 0, 0, 0, defaultStyle));
 				}
 			} else {
-				nodes.put(child.getFullId(), g.insertVertex(parent, null, child.toString(), 0, 0, 0, 0, defaultStyle));
+				nodes.put(child.getFullId(), g.insertVertex(parent, child.getFullId(), child.toString(), 0, 0, 0, 0, defaultStyle));
 			}
 			addNodes(g, child, people, colors);
 		}
@@ -145,7 +148,7 @@ public class GraphListener implements GeneticAlgorithmListener {
 			String color = colors.get(key);
 			return "strokeWidth=5;strokeColor=" + color + ";fontColor=black;fontSize=15;spacingTop=4;fontStyle=1";
 		}
-		return "";
+		return defaultStyle;
 	}
 	
 	private String defaultStyle = "fontColor=black;fontSize=15;spacingTop=4;fontStyle=1";
