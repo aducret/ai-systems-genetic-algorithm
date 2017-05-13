@@ -58,6 +58,16 @@ public class Person {
 		this.neighbors = ans;
 		return ans;
 	}
+	
+	public List<String> personalProjects() {
+		List<String> ans = new ArrayList<>();
+		for (String projectName: projects.keySet()) {
+			if (projects.get(projectName).contains(id)) {
+				ans.add(projectName);
+			}
+		}
+		return ans;
+	}
 
 	@Override
 	public int hashCode() {
@@ -86,6 +96,6 @@ public class Person {
 	
 	@Override
 	public String toString() {
-		return id.toString() + "(" + workingSpace + ")";
+		return id.toString() + " " + personalProjects().toString();
 	}
 }

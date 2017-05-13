@@ -58,7 +58,7 @@ public class Main {
 			}
 		});
 		PlotterListener plotterListener = new PlotterListener();
-		algorithm.addListener(plotterListener);
+//		algorithm.addListener(plotterListener);
 		
 		algorithm.start();
 		

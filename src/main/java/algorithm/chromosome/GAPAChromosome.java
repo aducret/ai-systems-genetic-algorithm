@@ -84,7 +84,8 @@ public class GAPAChromosome extends ListChromosome {
 		Set<Integer> A = restrictions.get(i);
 		double sum = A.stream().map(j -> {
 			int D = NodeUtils.distanceBetween(people[i].workingSpace, people[j].workingSpace);
-			return Math.log10(D)/Math.log10(2);
+			return D/2.0;
+//			return Math.log10(D)/Math.log10(2);
 		}).mapToDouble(f -> f.doubleValue()).sum();
 		double df = A.size()/sum;
 		
