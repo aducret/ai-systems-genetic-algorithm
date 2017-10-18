@@ -12,6 +12,7 @@ public class Node {
 	public int height;
 	public int capacity;
 	private String fullId = null;
+	public boolean used;
 	
 	public Node(String id, Node parent) {
 		this.childs = new ArrayList<>();
@@ -20,6 +21,25 @@ public class Node {
 		if (parent != null) {
 			parent.childs.add(this);
 			this.height = parent.height + 1;
+		}
+	}
+	
+	public void use() {
+		used = true;
+		decNode();
+	}
+	
+	public void decNode() {
+		capacity--;
+		//recalculate height
+		int max = 0;
+		for (Node child: childs) {
+			if (child.isLeaf() && child.used) continue;
+			max = Math.max(max, child.height);
+		}
+		height = max + 1;
+		if (parent != null) {
+			parent.decNode();
 		}
 	}
 	

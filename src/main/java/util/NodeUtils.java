@@ -20,15 +20,15 @@ public class NodeUtils {
 		return 2 + distanceBetween(node1.parent, node2.parent);
 	}
 	
-	public static List<Node> leafs(Node root) {
-		List<Node> leafs = new LinkedList<>();
+	public static LinkedList<Node> leafs(Node root) {
+		LinkedList<Node> leafs = new LinkedList<>();
 		leafs(root, leafs);
 		return leafs;
 	}
 	
 	private static void leafs(Node node, List<Node> leafs) {
 		if (node.isLeaf()) {
-			leafs.add(node);
+			if (!node.used) leafs.add(node);
 			return;
 		}
 		for (Node child: node.childs) {

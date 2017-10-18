@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,6 +14,7 @@ public class Person {
 	public final String id;
 	private Node workingSpace;
 	public Map<String, List<String>> projects;
+	public Map<String, HashSet<String>> projects2;
 	private Integer tmi;
 	private List<Person> neighbors;
 	private String fullId = null;
@@ -64,13 +66,31 @@ public class Person {
 	}
 
 	public List<String> getAssignedProjects() {
+		syncProjects();
 		List<String> assignedProjects = new ArrayList<>();
-		for (Entry<String, List<String>> entry: projects.entrySet()) {
+		for (Entry<String, HashSet<String>> entry: projects2.entrySet()) {
 			if (entry.getValue().contains(id)) {
 				assignedProjects.add(entry.getKey());
 			}
 		}
 		return assignedProjects;
+	}
+	
+	private void syncProjects () {
+		if (projects != null && projects2 != null) return;
+		if (projects == null && projects2 == null) return;
+		if (projects != null) {
+			projects2 = new HashMap<String, HashSet<String>>();
+			for (String project: projects.keySet()) {
+				projects2.put(project, new HashSet<>(projects.get(project)));
+			}
+		}
+		if (projects2 != null) {
+			projects = new HashMap<String, List<String>>();
+			for (String project: projects.keySet()) {
+				projects.put(project, new ArrayList<>(projects2.get(project)));
+			}
+		}
 	}
 	
 	public void setWorkingSpace(Node workingSpace) {
@@ -120,6 +140,7 @@ public class Person {
 	
 	@Override
 	public String toString() {
-		return id.toString() +  " " + getAssignedProjects();
+		return id.toString();
+//		return id.toString() +  " " + getAssignedProjects();
 	}
 }

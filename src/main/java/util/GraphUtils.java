@@ -1,4 +1,4 @@
-package algorithm.listener;
+package util;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -16,51 +16,20 @@ import com.mxgraph.layout.mxCompactTreeLayout;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
-import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.GAPAChromosome;
 import model.Node;
 import model.Person;
-import util.RandomPopper;
 
-public class GraphListener implements GeneticAlgorithmListener {
-
-	private Node root;
-	private Map<String, Object> nodes = new HashMap<>(); 
-			
-	private final mxGraph g;
-	private Object parent;
+public class GraphUtils {
 	
-	public GraphListener(Node root) {
-		this.root = root;
-		g = new mxGraph();
-		parent = g.getDefaultParent();
-	}
-	
-	@Override
-	public void onNewGenerationReached(int newGeneration, List<Chromosome> generation, Chromosome bestChromosome) {
-	}
+	private static final String DEFAULT_STYLE = "fontColor=black;fontSize=15;spacingTop=4;fontStyle=1";
 
-	@Override
-	public void onBestChromosomeUpdated(Chromosome bestChromosome) {
-	}
-
-	@Override
-	public void onGeneticAlgorithmFinished(Chromosome currentBestChromosome, Chromosome bestChromosome) {
-		if (root == null) {
-			System.err.println("The root node wasn't setted");
-			return;
-		}
+	public static void graph(Node root, GAPAChromosome bestChromosome) {
+		mxGraph g = new mxGraph();
+		Object parent = g.getDefaultParent();
+		Map<String, Object> nodes = new HashMap<>(); 
 		
-		if (!(bestChromosome instanceof GAPAChromosome)) {
-			System.err.println("The bestChromosome isn't a GAPAChromosome.");
-			return;
-		}
-		
-		graph(root, (GAPAChromosome)bestChromosome);
-	}
-
-	private void graph(Node root, GAPAChromosome bestChromosome) {
-        addNodesAndEdges(g, root, bestChromosome);
+        addNodesAndEdges(g, root, bestChromosome, nodes);
         
         mxGraphComponent component = new mxGraphComponent(g);
         mxCompactTreeLayout l = new mxCompactTreeLayout(g, false);
@@ -70,7 +39,7 @@ public class GraphListener implements GeneticAlgorithmListener {
 		createFrame(component);
 	}
 	
-	private JFrame createFrame(mxGraphComponent component) {
+	private static JFrame createFrame(mxGraphComponent component) {
 		JFrame frame = new JFrame();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double height = screenSize.getHeight();
@@ -84,7 +53,7 @@ public class GraphListener implements GeneticAlgorithmListener {
 		return frame;
 	}
 	
-	private boolean checkMultipleProjects(GAPAChromosome bestChromosome) {
+	private static boolean checkMultipleProjects(GAPAChromosome bestChromosome) {
 		for (Person person: bestChromosome.getPeople()) {
 			if (person.getAssignedProjects().size() > 1) {
 				return true;
@@ -93,24 +62,24 @@ public class GraphListener implements GeneticAlgorithmListener {
 		return false;
 	}
 	
-	private void addNodesAndEdges(mxGraph g, Node root, GAPAChromosome bestChromosome) {
+	private static void addNodesAndEdges(mxGraph g, Node root, GAPAChromosome bestChromosome, Map<String, Object> nodes) {
 		g.getModel().beginUpdate();
 		try {
-			nodes.put(root.getFullId(), g.insertVertex(parent, root.getFullId(), root.toString(), 0, 0, 0, 0, defaultStyle));
+			nodes.put(root.getFullId(), g.insertVertex(g.getDefaultParent(), root.getFullId(), root.toString(), 0, 0, 0, 0, DEFAULT_STYLE));
 			Person[] people = bestChromosome.getPeople();
 			Map<String, String> colorDic = null;
 			if (!checkMultipleProjects(bestChromosome)) {
 		        colorDic = createColorDic(bestChromosome);
 	        }
-			addNodes(g, root, people, colorDic);
-			addEdges(g, root, people);
-		resizeNodes();
+			addNodes(g, root, people, colorDic, nodes);
+			addEdges(g, root, people, nodes);
+		resizeNodes(g, nodes);
 		} finally {
 			g.getModel().endUpdate();
 		}
 	}
 
-	private void resizeNodes() {
+	private static void resizeNodes(mxGraph g, Map<String, Object> nodes) {
 		g.getModel().beginUpdate();
 		g.setAutoSizeCells(true);
 		g.setAutoOrigin(true);
@@ -123,37 +92,35 @@ public class GraphListener implements GeneticAlgorithmListener {
 		}
 	}
 
-	private void addNodes(mxGraph g, Node node, Person[] people, Map<String, String> colors) {
+	private static void addNodes(mxGraph g, Node node, Person[] people, Map<String, String> colors, Map<String, Object> nodes) {
 		for (Node child: node.childs) {
 			if (child.isLeaf()) {
 				Person person = getPersonForNode(child, people);
 				if (person != null) {
 					String style = getStyle(person, colors);
-					nodes.put(person.getFullId(), g.insertVertex(parent, person.getFullId(), person.toString(), 0, 0, 0, 0, style));
+					nodes.put(person.getFullId(), g.insertVertex(g.getDefaultParent(), person.getFullId(), person.toString(), 0, 0, 0, 0, style));
 				} else {
-					nodes.put(child.getFullId(), g.insertVertex(parent, child.getFullId(), child.toString(), 0, 0, 0, 0, defaultStyle));
+					nodes.put(child.getFullId(), g.insertVertex(g.getDefaultParent(), child.getFullId(), child.toString(), 0, 0, 0, 0, DEFAULT_STYLE));
 				}
 			} else {
-				nodes.put(child.getFullId(), g.insertVertex(parent, child.getFullId(), child.toString(), 0, 0, 0, 0, defaultStyle));
+				nodes.put(child.getFullId(), g.insertVertex(g.getDefaultParent(), child.getFullId(), child.toString(), 0, 0, 0, 0, DEFAULT_STYLE));
 			}
-			addNodes(g, child, people, colors);
+			addNodes(g, child, people, colors, nodes);
 		}
 	}
 	
 	// Para mas informacion sobre estilo
 	// https://jgraph.github.io/mxgraph/docs/js-api/files/util/mxConstants-js.html#mxConstants.FONT_BOLD
-	private String getStyle(Person person, Map<String, String> colors) {
+	private static String getStyle(Person person, Map<String, String> colors) {
 		String key = person.getAssignedProjects().get(0);
 		if (colors != null && colors.containsKey(key)) {
 			String color = colors.get(key);
 			return "strokeWidth=5;strokeColor=" + color + ";fontColor=black;fontSize=15;spacingTop=4;fontStyle=1";
 		}
-		return defaultStyle;
+		return DEFAULT_STYLE;
 	}
 	
-	private String defaultStyle = "fontColor=black;fontSize=15;spacingTop=4;fontStyle=1";
-	
-	private Person getPersonForNode(Node node, Person[] people) {
+	private static Person getPersonForNode(Node node, Person[] people) {
 		for(Person person: people) {
 			if (person.getWorkingSpace().equals(node)) {
 				return person;
@@ -162,23 +129,23 @@ public class GraphListener implements GeneticAlgorithmListener {
 		return null;
 	}
 	
-	private void addEdges(mxGraph g, Node node, Person[] people) {
+	private static void addEdges(mxGraph g, Node node, Person[] people, Map<String, Object> nodes) {
 		for (Node child: node.childs) {
 			if (child.isLeaf()) {
 				Person person = getPersonForNode(child, people);
 				if (person != null) {
-					g.insertEdge(parent, null, "", nodes.get(node.getFullId()), nodes.get(person.getFullId()));
+					g.insertEdge(g.getDefaultParent(), null, "", nodes.get(node.getFullId()), nodes.get(person.getFullId()));
 				} else {
-					g.insertEdge(parent, null, "", nodes.get(node.getFullId()), nodes.get(child.getFullId()));
+					g.insertEdge(g.getDefaultParent(), null, "", nodes.get(node.getFullId()), nodes.get(child.getFullId()));
 				}
 			} else {
-				g.insertEdge(parent, null, "", nodes.get(node.getFullId()), nodes.get(child.getFullId()));
-				addEdges(g, child, people);
+				g.insertEdge(g.getDefaultParent(), null, "", nodes.get(node.getFullId()), nodes.get(child.getFullId()));
+				addEdges(g, child, people, nodes);
 			}
 		}
 	}
 	
-	private Map<String, String> createColorDic(GAPAChromosome bestChromosome) {
+	private static Map<String, String> createColorDic(GAPAChromosome bestChromosome) {
 		List<String> colors = new ArrayList<>(Arrays.asList((new String[] { 
 				"black",
 				"red",
@@ -205,14 +172,13 @@ public class GraphListener implements GeneticAlgorithmListener {
         return dic;
 	}
 	
-	private Set<String> getProjects(GAPAChromosome bestChromosome) {
+	private static Set<String> getProjects(GAPAChromosome bestChromosome) {
 		Set<String> s = new HashSet<>();
 		
 		for (Person p: bestChromosome.getPeople()) {
-			s.addAll(p.projects.keySet());
+			s.addAll(p.projects2.keySet());
 		}
 		
 		return s;
 	}
-	
 }

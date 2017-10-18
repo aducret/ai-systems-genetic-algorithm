@@ -9,13 +9,11 @@ import algorithm.mutation.MutationAlgorithm;
 import algorithm.pairing.PairingAlgorithm;
 import algorithm.replace.ReplaceMethod;
 import algorithm.selector.Selector;
-import model.Multipliers;
 
 public class Configuration {
 	public int N;
 	public int k;
 	public Long seed = null;
-	public Multipliers multipliers;
 	public List<CuttingCondition> cuttingConditions;
 	public Selector crossOverSelector;
 	public PairingAlgorithm pairingAlgorithm;
@@ -52,11 +50,6 @@ public class Configuration {
 		
 		public Builder withSeed(long seed) {
 			configuration.seed = seed;
-			return this;
-		}
-		
-		public Builder withMultipliers(Multipliers multipliers) {
-			configuration.multipliers = multipliers;
 			return this;
 		}
 		

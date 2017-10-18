@@ -78,7 +78,38 @@ public class OrganizationParser {
 //		return root;
 //	}
 	
-	private Pair<List<Person>, Map<Integer, Set<Integer> > > parseEmployees(String employeesPath) throws FileNotFoundException {
+	public TreeMap<String, HashSet<String>> parseProjects(String employeesPath) throws FileNotFoundException {
+		InputStream inputStream = new FileInputStream(employeesPath);
+		Scanner scanner = new Scanner(inputStream);
+		scanner.useLocale(Locale.US);
+		
+		List<Person> employees = new ArrayList<>();
+		TreeMap<String, HashSet<String>> projects = new TreeMap<>();
+//		Map<String, HashSet<String>> projects2 = new TreeMap<>();
+		while(scanner.hasNext()) {
+			String line = scanner.nextLine();
+			String[] components = line.trim().split(" ");
+			Person employee = new Person(components[0]);
+			employees.add(employee);
+			String[] tags = Arrays.copyOfRange(components, 1, components.length);
+			
+			for(String projectName: tags) {
+				if (projects.containsKey(projectName)) {
+					projects.get(projectName).add(employee.id);
+				} else {
+//					List<Person> newProject = new ArrayList<>();
+//					newProject.add(employee);
+					projects.put(projectName, new HashSet<>());
+					projects.get(projectName).add(employee.id);
+				}
+			}
+		}
+		
+		scanner.close();
+		return projects;
+	}
+	
+	public Pair<List<Person>, Map<Integer, Set<Integer> > > parseEmployees(String employeesPath) throws FileNotFoundException {
 		InputStream inputStream = new FileInputStream(employeesPath);
 		Scanner scanner = new Scanner(inputStream);
 		scanner.useLocale(Locale.US);
@@ -103,7 +134,7 @@ public class OrganizationParser {
 //				employee.projectSizes.put(projectName, 0);
 			}
 		}
-		
+		System.out.println(projects);
 		Map<Integer, Set<Integer>> restrictions = new HashMap<>();
 		for(List<Person> project: projects.values()) {
 			for(int i = 0; i < project.size(); i++) {
