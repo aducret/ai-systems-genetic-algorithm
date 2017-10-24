@@ -106,3 +106,7 @@ $RECYCLE.BIN/
 hs_err_pid*
 
 /target/
+
+# IntelliJ
+.idea/
+ai_systems_genetic_algorithm.iml
