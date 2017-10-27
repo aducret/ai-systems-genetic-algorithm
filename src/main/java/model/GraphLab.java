@@ -1,9 +1,12 @@
 package model;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -12,6 +15,8 @@ import parser.OrganizationParser;
 import parser.WorkingPlaceParser;
 import util.GraphUtils;
 import util.NodeUtils;
+import util.RandomPopper;
+import util.RandomUtils;
 
 public class GraphLab {
 
@@ -19,54 +24,182 @@ public class GraphLab {
 
 		final String orgPath = "./doc/gapa/wolox";
 		final String empPath = "./doc/gapa/employees";
+		// final String orgPath = "./doc/gapa/ej1_org";
+		// final String empPath = "./doc/gapa/ej1_emp";
 
 		Node root = WorkingPlaceParser.generate(orgPath);
 		Node rootCopy = WorkingPlaceParser.generate(orgPath);
-		
+
 		OrganizationParser op = new OrganizationParser();
-		Map<String, HashSet<String>> projects = op.parseProjects(empPath);
-		Map<String, HashSet<String>> copyProjects = op.parseProjects(empPath);
+		TreeMap<String, HashSet<String>> projects = op.parseProjects(empPath);
+		TreeMap<String, HashSet<String>> copyProjects = op.parseProjects(empPath);
 		Map<String, HashSet<String>> people = buildPeople(projects);
 		Map<Integer, String> projectMappings = buildProjectMappings(projects);
-		
+
 		int[] values = buildValues(projects);
 		int[][] weights = buildWeights(projects);
 
-		 int[] order = pargmaxOrder(weights, values);
-		 System.out.println(Arrays.toString(order));
-		 Person[] personArray = new Person[people.size()];
-		 int k = 0;
-		 for (int projectId: order) {
-			 String project = projectMappings.get(projectId);
-			 HashSet<String> peopleToSit = projects.get(project);
-			 Node bestRoot = bestRoot(peopleToSit.size(), root, null);
-			 if (bestRoot == null) throw new IllegalStateException("no space for these people!");
-			 LinkedList<Node> leafs = NodeUtils.leafs(bestRoot);
-			 for (String personToSit: peopleToSit) {
-				 Node leaf = leafs.removeFirst();
-				 personArray[k] = new Person(personToSit);
-				 personArray[k].projects2 = copyProjects;
-				 personArray[k++].setWorkingSpace(leaf);
-//				 leaf.used = true;
-				 leaf.use();
-			 }
-			 removeProject(project, projects, people);
-		 }
-		 
-		 GraphUtils.graph(rootCopy, new GAPAChromosome(personArray, null, null));
+		int[] order = pargmaxOrder(weights, values);
+		System.out.println(Arrays.toString(order));
+		Person[] personArray = new Person[people.size()];
+		int k = 0;
+		for (int projectId : order) {
+			String project = projectMappings.get(projectId);
+			HashSet<String> peopleToSit = projects.get(project);
+			Node bestRoot = bestRoot(peopleToSit.size(), root, (Node) null);
+			if (bestRoot == null)
+				throw new IllegalStateException("no space for these people!");
+			LinkedList<Node> leafs = NodeUtils.leafs(bestRoot);
+			for (String personToSit : peopleToSit) {
+				Node leaf = leafs.removeFirst();
+				personArray[k] = new Person(personToSit);
+				personArray[k].projects2 = copyProjects;
+				personArray[k++].setWorkingSpace(leaf);
+				leaf.use();
+			}
+			removeProject(project, projects, people);
+		}
+
+		GraphUtils.graph(rootCopy, new GAPAChromosome(personArray, null, null));
+	}
+
+	public static Person[] seatPeopleWithOrderAndAffinities(String orgPath, String empPath, int[] order, int[][] affinities) {
+		
+		Node root = WorkingPlaceParser.generate(orgPath);
+		
+//		root.print();
+		
+		OrganizationParser op = new OrganizationParser();
+		Map<String, HashSet<String>> projects = null;
+		TreeMap<String, HashSet<String>> copyProjects = null;
+		try {
+			projects = op.parseProjects(empPath);
+			copyProjects = op.parseProjects(empPath);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Map<String, HashSet<String>> people = buildPeople(projects);
+		Map<Integer, String> projectMappings = buildProjectMappings(projects);
+		
+		
+		Person[] ans = new Person[people.size()];
+		HashSet<Integer> alreadyPlaced = new HashSet<>();
+		HashMap<Integer, Node> rootsChosen = new HashMap<>();
+		int q = 0;
+		for (int i = 0; i < order.length; i++) {
+			int projectId = order[i];
+			int affinityWith = -1;
+			
+			String project = projectMappings.get(projectId);
+			HashSet<String> peopleToSit = projects.get(project);
+			
+			List<Node> bestRoots = new ArrayList<>();
+			bestRoot(peopleToSit.size(), root, bestRoots);
+			
+			//iterate though bestRoots and choose the best
+			Node bestRoot = null;
+			for (int k = 0; affinities[projectId][k] != projectId; k++) {
+				if (alreadyPlaced.contains(affinities[projectId][k])) {
+					affinityWith = affinities[projectId][k];
+					break;
+				}
+			}
+			
+			if (affinityWith == -1) {
+				bestRoot = bestRoots.get(RandomUtils.randomBetween(0, bestRoots.size()-1));
+			} else {
+				Node affinityNode = rootsChosen.get(affinityWith);
+				bestRoot = bestRoots.get(0);
+				for (Node rootNode: bestRoots) {
+					if (NodeUtils.distanceBetween(affinityNode, rootNode) < NodeUtils.distanceBetween(affinityNode, bestRoot)) {
+						bestRoot = rootNode;
+					}
+				}
+			}
+			
+			LinkedList<Node> leafs = NodeUtils.leafs(bestRoot);
+			for (String personToSit : peopleToSit) {
+				Node leaf = leafs.removeFirst();
+				ans[q] = new Person(personToSit);
+				ans[q].projects2 = copyProjects;
+				ans[q++].setWorkingSpace(leaf);
+				leaf.use();
+			}
+			removeProject(project, projects, people);
+			alreadyPlaced.add(projectId);
+			rootsChosen.put(projectId, bestRoot);
+		}
+		
+		return ans;
 	}
 	
+	public static Map<String, Node> seats(String orgPath, String empPath) throws FileNotFoundException {
+
+		HashMap<String, Node> ans = new HashMap<>();
+
+		Node root = WorkingPlaceParser.generate(orgPath);
+
+		OrganizationParser op = new OrganizationParser();
+		Map<String, HashSet<String>> projects = op.parseProjects(empPath);
+		Map<String, HashSet<String>> people = buildPeople(projects);
+		Map<Integer, String> projectMappings = buildProjectMappings(projects);
+
+		Integer[] order = new Integer[projects.size()];
+		Arrays.setAll(order, i -> i);
+		RandomPopper<Integer> popper = new RandomPopper<>(Arrays.asList(order));
+
+		while (!popper.isEmpty()) {
+			int projectId = popper.randomPop();
+			String project = projectMappings.get(projectId);
+			HashSet<String> peopleToSit = projects.get(project);
+			Node bestRoot = bestRoot(peopleToSit.size(), root, (Node) null);
+			if (bestRoot == null)
+				throw new IllegalStateException("no space for these people!");
+			LinkedList<Node> leafs = NodeUtils.leafs(bestRoot);
+			for (String personToSit : peopleToSit) {
+				Node leaf = leafs.removeFirst();
+				ans.put(personToSit, leaf);
+				leaf.use();
+			}
+			removeProject(project, projects, people);
+		}
+
+		return ans;
+	}
+
 	public static Node bestRoot(int size, Node node, Node best) {
-		if (node.capacity < size) return best;
+		if (node.capacity < size)
+			return best;
+
+		Node currentBest = best;
+		if (best == null || node.height < best.height) {
+			currentBest = node;
+		}
 		
-		Node currentBest = node;
-		for (Node child: node.childs) {
+		for (Node child : node.childs) {
 			Node childBest = bestRoot(size, child, currentBest);
 			if (childBest.height < currentBest.height) {
 				currentBest = childBest;
 			}
 		}
 		return currentBest;
+	}
+	
+	public static void bestRoot(int size, Node node, List<Node> bestList) {
+		if (node.capacity < size)
+			return;
+
+		if (bestList.isEmpty() || node.height < bestList.get(0).height) {
+			bestList.clear();
+			bestList.add(node);
+		} else if (node.height == bestList.get(0).height) {
+			bestList.add(node);
+		}
+		
+		for (Node child : node.childs) {
+			bestRoot(size, child, bestList);
+		}
 	}
 
 	public static void removeProject(String project, Map<String, HashSet<String>> projects,
@@ -136,7 +269,7 @@ public class GraphLab {
 		return weights;
 	}
 
-	public static int[] buildValues(Map<String, HashSet<String>> projects) {
+	public static int[] buildValues(TreeMap<String, HashSet<String>> projects) {
 		int[] values = new int[projects.size()];
 		int i = 0;
 		for (String p1 : projects.keySet()) {

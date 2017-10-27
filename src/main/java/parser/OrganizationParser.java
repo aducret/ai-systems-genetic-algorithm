@@ -22,9 +22,9 @@ import model.Triple;
 
 public class OrganizationParser {
 
-	public Triple<List<Person>, Node, Map<Integer, Set<Integer>>> parse(String organizationPath, String employeesPath) throws FileNotFoundException {
+	public Triple<List<Person>, Node, Map<String, Set<String>>> parse(String organizationPath, String employeesPath) throws FileNotFoundException {
 		Node root = WorkingPlaceParser.generate(organizationPath);
-		Pair<List<Person>, Map<Integer, Set<Integer>> > employeesWithRestrictions = parseEmployees(employeesPath);
+		Pair<List<Person>, Map<String, Set<String>> > employeesWithRestrictions = parseEmployees(employeesPath);
 		return new Triple<>(employeesWithRestrictions.first, root, employeesWithRestrictions.second); 
 	}
 	
@@ -109,7 +109,7 @@ public class OrganizationParser {
 		return projects;
 	}
 	
-	public Pair<List<Person>, Map<Integer, Set<Integer> > > parseEmployees(String employeesPath) throws FileNotFoundException {
+	public Pair<List<Person>, Map<String, Set<String> > > parseEmployees(String employeesPath) throws FileNotFoundException {
 		InputStream inputStream = new FileInputStream(employeesPath);
 		Scanner scanner = new Scanner(inputStream);
 		scanner.useLocale(Locale.US);
@@ -135,16 +135,16 @@ public class OrganizationParser {
 			}
 		}
 		System.out.println(projects);
-		Map<Integer, Set<Integer>> restrictions = new HashMap<>();
+		Map<String, Set<String>> restrictions = new HashMap<>();
 		for(List<Person> project: projects.values()) {
 			for(int i = 0; i < project.size(); i++) {
 				int indexOfI = employees.indexOf(project.get(i));
 				for (int j = 0; j < project.size(); j++) {
 					if (i == j) continue;
-					if (!restrictions.containsKey(indexOfI)) {
-						restrictions.put(indexOfI, new HashSet<Integer>());
+					if (!restrictions.containsKey(project.get(i).id)) {
+						restrictions.put(project.get(i).id, new HashSet<String>());
 					}
-					restrictions.get(indexOfI).add(employees.indexOf(project.get(j)));
+					restrictions.get(project.get(i).id).add(project.get(j).id);
 //					Pair<Integer, Integer> restriction = new Pair<>(employees.indexOf(project.get(i)), employees.indexOf(project.get(j)));
 //					restrictions.add(restriction);
 				}
@@ -162,12 +162,12 @@ public class OrganizationParser {
 		}
 		
 		scanner.close();
-		return new Pair<List<Person>, Map<Integer, Set<Integer>> >(employees, restrictions);
+		return new Pair<List<Person>, Map<String, Set<String>> >(employees, restrictions);
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		OrganizationParser op = new OrganizationParser();
-		Triple<List<Person>, Node, Map<Integer, Set<Integer>>> result = op.parse("./doc/gapa/ej1_org", "./doc/gapa/ej1_emp");
+		Triple<List<Person>, Node, Map<String, Set<String>>> result = op.parse("./doc/gapa/ej1_org", "./doc/gapa/ej1_emp");
 		System.out.println("Employees: ");
 		System.out.println(result.first);
 		System.out.println("Restrictions: ");

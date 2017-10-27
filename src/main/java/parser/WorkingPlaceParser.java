@@ -27,7 +27,7 @@ public class WorkingPlaceParser {
 	public static Node generate(Scanner sc) {
 		Deque<Node> stack = new LinkedList<>();
 		Node root = new Node(sc.nextLine().trim(), null);
-		root.height = 0;
+		root.level = 0;
 		int previousLevel = 0;
 		stack.push(root);
 		while (sc.hasNext() && !stack.isEmpty()) {
@@ -36,11 +36,11 @@ public class WorkingPlaceParser {
 			int level = line.indexOf(trimmed);
 			
 			if (level <= previousLevel) {
-				while (!stack.isEmpty() && level <= stack.peek().height) stack.pop();
+				while (!stack.isEmpty() && level <= stack.peek().level) stack.pop();
 			}
 			
 			Node nextNode = new Node(trimmed, stack.peek());
-			nextNode.height = level;
+			nextNode.level = level;
 			stack.push(nextNode);
 			previousLevel = level;
 		}

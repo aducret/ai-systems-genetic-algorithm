@@ -4,13 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-import algorithm.chromosome.GAPAChromosome;
+import algorithm.chromosome.GAPAChromosome2;
 import model.Node;
 import model.Person;
 import parser.WorkingPlaceParser;
 
 public class GAPAUtils {
-	public static void writeSolution(String path, Node workingPlace, GAPAChromosome chromosome) throws FileNotFoundException {
+	public static void writeSolution(String path, Node workingPlace, GAPAChromosome2 chromosome) throws FileNotFoundException {
 	
 		PrintWriter writer = new PrintWriter(path);
 		

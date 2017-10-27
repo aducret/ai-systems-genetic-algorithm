@@ -21,6 +21,8 @@ public class GAPACrossOver implements CrossOverAlgorithm {
 		if (!(firstChild instanceof GAPAChromosome) || !(secondChild instanceof GAPAChromosome))
 			throw new IllegalStateException("GAPACrossOver can only be used with GAPAChromosomes!");
 		
+		if (true) return new Pair<>(firstChild, secondChild);
+		
 		GAPAChromosome gc1 = (GAPAChromosome) firstChild;
 		GAPAChromosome gc2 = (GAPAChromosome) secondChild;
 		int i = RandomUtils.randomBetween(0, gc1.getPeople().length - 1);

@@ -21,7 +21,8 @@ public class GAPAMutationAlgorithm implements MutationAlgorithm {
 		if (!(chromosome instanceof GAPAChromosome))
 			throw new IllegalStateException("GAPAMutationAlgorithm can only be used with GAPAChromosomes!");
 		
-		if (p < RandomUtils.random()) { return; }
+//		if (p < RandomUtils.random()) { return; }
+		if (true) return;
 		
 		GAPAChromosome gc = (GAPAChromosome) chromosome;
 		Set<Node> totalSeats = new HashSet<>(gc.getTotalSeats());

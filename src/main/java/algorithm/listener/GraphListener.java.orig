@@ -25,8 +25,12 @@ import com.mxgraph.util.mxEventSource;
 import com.mxgraph.view.mxGraph;
 
 import algorithm.chromosome.Chromosome;
-import com.mxgraph.view.mxGraphSelectionModel;
+<<<<<<< HEAD
 import algorithm.chromosome.GAPAChromosome2;
+=======
+import algorithm.chromosome.GAPAChromosome;
+import com.mxgraph.view.mxGraphSelectionModel;
+>>>>>>> 9508eb22a9e0c03274dfbd47f72a513e96466055
 import model.Node;
 import model.Person;
 import oracle.jrockit.jfr.JFR;
@@ -40,7 +44,7 @@ public class GraphListener implements GeneticAlgorithmListener {
 	private final mxGraph g;
 	private Object parent;
 
-	public GAPAChromosome2 bestChromosome = null;
+	public GAPAChromosome bestChromosome = null;
 
 	public GraphListener(Node root) {
 		this.root = root;
@@ -86,8 +90,12 @@ public class GraphListener implements GeneticAlgorithmListener {
 			return;
 		}
 		
-        this.bestChromosome = (GAPAChromosome2) bestChromosome;
+<<<<<<< HEAD
 		graph(root, (GAPAChromosome2)bestChromosome);
+=======
+		graph(root, (GAPAChromosome)bestChromosome);
+        this.bestChromosome = (GAPAChromosome)bestChromosome;
+>>>>>>> 9508eb22a9e0c03274dfbd47f72a513e96466055
 	}
 
 	private void graph(Node root, GAPAChromosome2 bestChromosome) {

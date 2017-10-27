@@ -14,9 +14,12 @@ public class NodeUtils {
 	 * @return distancia entre las hojas del arbol
 	 */
 	public static int distanceBetween(Node node1, Node node2) {
+//		System.out.println(node1 + ", " + node2);
+//		System.out.println(node1.level + ", " + node2.level);
+//		System.out.println();
 		if (node1 == node2) return 0;
-		if (node1.height > node2.height) return 1 + distanceBetween(node1.parent, node2);
-		if (node2.height > node1.height) return 1 + distanceBetween(node1, node2.parent);
+		if (node1.level > node2.level) return 1 + distanceBetween(node1.parent, node2);
+		if (node2.level > node1.level) return 1 + distanceBetween(node1, node2.parent);
 		return 2 + distanceBetween(node1.parent, node2.parent);
 	}
 	
@@ -39,13 +42,17 @@ public class NodeUtils {
 	public static void calculateCapacities(Node node) {
 		if (node.childs.isEmpty()) {
 			node.capacity = 1;
+			node.height = 0;
 			return;
 		}
-		int acum = 0;
+		int capacityAcum = 0;
+		int maxHeight = 0;
 		for (Node child: node.childs) {
 			calculateCapacities(child);
-			acum += child.capacity;
+			capacityAcum += child.capacity;
+			maxHeight = Math.max(maxHeight, child.height+1);
 		}
-		node.capacity = acum;
+		node.capacity = capacityAcum;
+		node.height = maxHeight;
 	}
 }

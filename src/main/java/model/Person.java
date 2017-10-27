@@ -27,12 +27,14 @@ public class Person {
 		Person clone = new Person(id);
 		clone.workingSpace = this.workingSpace;
 		clone.projects = projects;
+		clone.projects2 = projects2;
 		clone.tmi = tmi;
 		return clone;
 	}
 	
 	public int tmi() {
 		if (tmi != null) return tmi;
+		syncProjects();
 		List<Integer> projectSizes = projects.values().stream()
 				.filter(l->l.contains(id))
 				.map(l -> l.size())
@@ -76,7 +78,7 @@ public class Person {
 		return assignedProjects;
 	}
 	
-	private void syncProjects () {
+	public void syncProjects () {
 		if (projects != null && projects2 != null) return;
 		if (projects == null && projects2 == null) return;
 		if (projects != null) {

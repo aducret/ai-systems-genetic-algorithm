@@ -10,6 +10,7 @@ public class Node {
 	public Node parent;
 	public List<Node> childs;
 	public int height;
+	public int level;
 	public int capacity;
 	private String fullId = null;
 	public boolean used;
@@ -47,6 +48,13 @@ public class Node {
 		return childs.isEmpty();
 	}
 
+	public void print() {
+		System.out.println(getFullId() + ", height: " + height);
+		for (Node child: childs) {
+			child.print();
+		}
+	}
+	
 	public String toString() {
 		return id;
 	}

@@ -2,23 +2,17 @@ package main;
 
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import algorithm.GeneticAlgorithm;
 import algorithm.GeneticAlgorithmProblem;
 import algorithm.chromosome.Chromosome;
-import algorithm.chromosome.GAPAChromosome;
+import algorithm.chromosome.GAPAChromosome2;
 import algorithm.listener.GeneticAlgorithmListener;
 import algorithm.listener.GraphListener;
 import algorithm.listener.PlotterListener;
 import model.Node;
-import model.Person;
-import model.Triple;
-import parser.OrganizationParser;
 import parser.WorkingPlaceParser;
 import util.GAPAUtils;
-import util.NodeUtils;
 
 public class Main {
 
@@ -35,8 +29,10 @@ public class Main {
 
 		// Paths
 		final String solutionPath = "./doc/gapa/solution.txt";
+//		final String orgPath = "./doc/gapa/ej1_org";
+		final String empPath = "./doc/gapa/ej3_emp";
 		final String orgPath = "./doc/gapa/wolox";
-		final String empPath = "./doc/gapa/employees";
+//		final String empPath = "./doc/gapa/employees";
 
 		// Setear listeners
 		GeneticAlgorithmListener loggerListener = new LoggerGeneticAlgorithmListener();
@@ -52,7 +48,7 @@ public class Main {
 			public void onGeneticAlgorithmFinished(Chromosome currentBestChromosome, Chromosome bestChromosome) {
 				try {
 					GAPAUtils.writeSolution(solutionPath, WorkingPlaceParser.generate(orgPath),
-							(GAPAChromosome) bestChromosome);
+							(GAPAChromosome2) bestChromosome);
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -64,14 +60,16 @@ public class Main {
 			}
 		};
 		
-		GeneticAlgorithmProblem problem = createGAPA(orgPath, empPath);
+//		GeneticAlgorithmProblem problem = createGAPA(orgPath, empPath);
+		GeneticAlgorithmProblem problem = new GAPAProblem(orgPath, empPath);
+		
 		GeneticAlgorithm algorithm = new GeneticAlgorithm(problem);
-//		algorithm.addListener(writeSolutionListener);
-//		algorithm.addListener(loggerListener);
+		algorithm.addListener(writeSolutionListener);
+		algorithm.addListener(loggerListener);
 		GraphListener graphListener = new GraphListener(root);
 		algorithm.addListener(graphListener);
-//		PlotterListener plotterListener = new PlotterListener();
-//		algorithm.addListener(plotterListener);
+		PlotterListener plotterListener = new PlotterListener();
+		algorithm.addListener(plotterListener);
 		algorithm.start();
 		
 //		int k = 3;
@@ -117,10 +115,10 @@ public class Main {
 		return !Main.class.getResource("Main.class").toString().contains("jar:");
 	}
 
-	private static GAPAProblem createGAPA(String orgPath, String empPath) throws FileNotFoundException {
-		OrganizationParser op = new OrganizationParser();
-		Triple<List<Person>, Node, Map<Integer, Set<Integer>>> result = op.parse(orgPath, empPath);
-		root = result.second;
-		return new GAPAProblem(result.first, NodeUtils.leafs(result.second), result.third);
-	}
+//	private static GAPAProblem createGAPA(String orgPath, String empPath) throws FileNotFoundException {
+//		OrganizationParser op = new OrganizationParser();
+//		Triple<List<Person>, Node, Map<Integer, Set<Integer>>> result = op.parse(orgPath, empPath);
+//		root = result.second;
+//		return new GAPAProblem(result.first, NodeUtils.leafs(result.second), result.third);
+//	}
 }

@@ -1,5 +1,8 @@
 package main;
 
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,12 +11,13 @@ import algorithm.Configuration;
 import algorithm.GeneticAlgorithmProblem;
 import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.GAPAChromosome;
-import algorithm.crossover.GAPACrossOver;
+import algorithm.chromosome.GAPAChromosome2;
+import algorithm.crossover.GAPACrossOver2;
 import algorithm.cuttingCondition.ContentCuttingCondition;
 import algorithm.cuttingCondition.GoalReachedCuttingCondition;
 import algorithm.cuttingCondition.MaxGenerationsCuttingCondition;
 import algorithm.cuttingCondition.StructureCuttingCondition;
-import algorithm.mutation.GAPAMutationAlgorithm;
+import algorithm.mutation.GAPAMutationAlgorithm2;
 import algorithm.pairing.RandomPairingAlgorithm;
 import algorithm.replace.ReplaceMethod2;
 import algorithm.selector.CompoundSelector;
@@ -21,13 +25,22 @@ import algorithm.selector.EliteSelector;
 import algorithm.selector.RouletteSelector;
 import model.Node;
 import model.Person;
-import util.RandomPopper;
+import model.Triple;
+import parser.OrganizationParser;
+import util.NodeUtils;
+import util.VectorUtils;
 
 public class GAPAProblem implements GeneticAlgorithmProblem {
 
 	private List<Person> employees;
 	private List<Node> seats;
-	private Map<Integer, Set<Integer>> restrictions;
+	private Map<String, Set<String>> restrictions;
+	private Map<String, HashSet<String>> projects;
+	
+	
+	//second version of problem state
+	private String orgPath;
+	private String empPath;
 	
 	/**
 	 * TODO: move parameters to a configuration file and receive file name as parameter
@@ -44,25 +57,44 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 		}
 		this.employees = employees;
 		this.seats = seats;
-		this.restrictions = restrictions;
+//		this.restrictions = restrictions;
+	}
+	
+	public GAPAProblem(String orgPath, String empPath) throws FileNotFoundException {
+		this.orgPath = orgPath;
+		this.empPath = empPath;
+		
+		//TODO: change this, add parameters at GAPAChromosome2 constructor
+		GAPAChromosome2.orgPath = orgPath;
+		GAPAChromosome2.empPath = empPath;
+		
+		OrganizationParser op = new OrganizationParser();
+		Triple<List<Person>, Node, Map<String, Set<String>>> info = op.parse(orgPath, empPath);
+		
+		this.employees = info.first;
+		this.seats = NodeUtils.leafs(info.second);
+		this.restrictions = info.third;
+		this.projects = op.parseProjects(empPath);
+		
+		Main.root = info.second;
 	}
 	
 	@Override
 	public Configuration configuration() {
 		
-		int limit = 500;
+		int limit = 100;
 		double goal = 1.0;
 		double structureTolerance = 0.95;
-		int contentTolerance = 50;
+		int contentTolerance = 30;
 		
 		return new Configuration.Builder()
-				.withN(500)
-				.withK(350)
-//				.withSeed(2)
-				.withCrossOverSelector(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.5))
+				.withN(400)
+				.withK(200)
+				.withSeed(4)
+				.withCrossOverSelector(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.15))
 				.withPairingAlgorithm(new RandomPairingAlgorithm())
-				.withCrossOverAlgorithm(new GAPACrossOver())
-				.withMutationAlgorithm(new GAPAMutationAlgorithm(), 0.2)
+				.withCrossOverAlgorithm(new GAPACrossOver2())
+				.withMutationAlgorithm(new GAPAMutationAlgorithm2(), 0.4)
 				.withReplaceMethod(new ReplaceMethod2(new CompoundSelector(new EliteSelector(), new RouletteSelector(), 0.5)))
 				.addCuttingCondition(new MaxGenerationsCuttingCondition(limit))
 				.addCuttingCondition(new GoalReachedCuttingCondition(goal))
@@ -73,12 +105,50 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 
 	@Override
 	public Chromosome createRandom() {
-		RandomPopper<Node> rp = new RandomPopper<>(seats);
-		Person[] people = new Person[employees.size()];
-		for (int i = 0; i < employees.size(); i++) {
-			people[i] = employees.get(i).clone();
-			people[i].setWorkingSpace(rp.randomPop());
+//		RandomPopper<Node> rp = new RandomPopper<>(seats);
+//		Person[] people = new Person[employees.size()];
+//		for (int i = 0; i < employees.size(); i++) {
+//			people[i] = employees.get(i).clone();
+//			people[i].setWorkingSpace(rp.randomPop());
+//		}
+//		return new GAPAChromosome(people, restrictions, seats);
+		
+//		Map<String, Node> bestSeats = null;
+//		try {
+//			bestSeats = GraphLab.seats(orgPath, empPath);
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		Person[] people = new Person[employees.size()];
+//		for (int i = 0; i < employees.size(); i++) {
+//			people[i] = employees.get(i).clone();
+////			people[i].setWorkingSpace(rp.randomPop());
+//			
+//			Node bestSeat = bestSeats.get(people[i].id);
+////			System.out.println(bestSeat.getFullId());
+//			for (Node seat: seats) {
+//				if (seat.getFullId().equals(bestSeat.getFullId())) {
+//					people[i].setWorkingSpace(seat);
+//					break;
+//				}
+//			}
+////			people[i].setWorkingSpace();
+//		}
+		//TODO: add restrictions and seats
+		int[] order = new int[projects.size()];
+		Arrays.setAll(order, i -> i);
+		VectorUtils.shuffleArray(order);
+		
+		int[][] affinities = new int[projects.size()][];
+		for (int i = 0; i < affinities.length; i++) {
+			int[] row = new int[projects.size()];
+			Arrays.setAll(row, k -> k);
+			VectorUtils.shuffleArray(row);
+			affinities[i] = row;
 		}
-		return new GAPAChromosome(people, restrictions, seats);
+		
+		return new GAPAChromosome2(order, affinities, restrictions, seats);
 	}
 }
