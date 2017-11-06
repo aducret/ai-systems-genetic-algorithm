@@ -2,6 +2,8 @@ package algorithm.listener;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,16 +12,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.JFrame;
+import javax.swing.*;
+import javax.swing.text.JTextComponent;
 
 import com.mxgraph.layout.mxCompactTreeLayout;
+import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.swing.util.mxMouseAdapter;
+import com.mxgraph.util.mxEvent;
+import com.mxgraph.util.mxEventObject;
+import com.mxgraph.util.mxEventSource;
 import com.mxgraph.view.mxGraph;
 
 import algorithm.chromosome.Chromosome;
 import algorithm.chromosome.GAPAChromosome;
+import com.mxgraph.view.mxGraphSelectionModel;
 import model.Node;
 import model.Person;
+import oracle.jrockit.jfr.JFR;
 import util.RandomPopper;
 
 public class GraphListener implements GeneticAlgorithmListener {
@@ -29,10 +39,30 @@ public class GraphListener implements GeneticAlgorithmListener {
 			
 	private final mxGraph g;
 	private Object parent;
-	
+
+	public GAPAChromosome bestChromosome = null;
+
 	public GraphListener(Node root) {
 		this.root = root;
-		g = new mxGraph();
+		g = new mxGraph() {
+            public String getToolTipForCell(Object o) {
+                if (bestChromosome == null)
+                    return "";
+
+                if (o instanceof mxCell) {
+                    mxCell cell = (mxCell) o;
+                    String name = cell.getValue().toString();
+                    Person[] people = bestChromosome.getPeople();
+                    for (Person person: people) {
+                        if (person.id == name) {
+                            return person.getAssignedProjects().toString();
+                        }
+                    }
+                    return "";
+                }
+                return "";
+            }
+        };
 		parent = g.getDefaultParent();
 	}
 	
@@ -57,17 +87,19 @@ public class GraphListener implements GeneticAlgorithmListener {
 		}
 		
 		graph(root, (GAPAChromosome)bestChromosome);
+        this.bestChromosome = (GAPAChromosome)bestChromosome;
 	}
 
 	private void graph(Node root, GAPAChromosome bestChromosome) {
         addNodesAndEdges(g, root, bestChromosome);
         
         mxGraphComponent component = new mxGraphComponent(g);
+        component.setToolTips(true);
         mxCompactTreeLayout l = new mxCompactTreeLayout(g, false);
 		l.execute(parent);
 		g.setCellsMovable(false);
 		g.setCellsLocked(true);
-		createFrame(component);
+		JFrame frame = createFrame(component);
 	}
 	
 	private JFrame createFrame(mxGraphComponent component) {
