@@ -1,0 +1,56 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Archivo de configuracion DEFAULT para el trabajo practico especial 3, Algoritmos Geneticos %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% 1 - Valores globales
+N = 1000
+k = 250
+seed = 15
+
+% 2 - Condiciones de corte
+cc_limite_generaciones = 500
+cc_objetivo = 80
+cc_estructura = 0.8
+cc_contenido = 15
+
+% 3 - Metodo de seleccion para la cruza
+% opciones = {elite, roulette, ranking, universal, torneo_probabilistico, torneo_deterministico, random}
+sc_compuesto = true
+sc_primero = elite
+sc_segundo = roulette
+sc_porcentaje = 0.3
+sc_torneo_deterministico_m = 3
+sc_boltzmann_temperatura_inicial = 1000
+
+% 4 - Algoritmo de apareamiento
+% opciones = {alpha, random, selector}
+aa_algoritmo = random
+aa_compuesto = true
+aa_primero = elite
+aa_segundo = roulette
+aa_porcentaje = 0.3
+aa_torneo_deterministico_m = 3
+aa_boltzmann_temperatura_inicial = 1000
+
+% 5 - Tipo de cruza
+% opciones = {cruza1}
+tc_tipo = cruza1
+tc_pc = 0.75
+
+% 6 - Algoritmo de mutacion
+% opciones = {mutacion1}
+am_algoritmo = mutacion1
+am_pm = 0.01
+
+% 7 - Metodo de seleccion para el reemplazo
+% opciones = {elite, roulette, ranking, universal, torneo_probabilistico, torneo_deterministico, boltzmann, random}
+sr_compuesto = true
+sr_primero = elite
+sr_segundo = roulette
+sr_porcentaje = 0.3
+sr_torneo_deterministico_m = 3
+sr_boltzmann_temperatura_inicial = 500
+
+% 8 - Metodo de reemplazo
+% opciones = {metodo1, metodo2, metodo3}
+mr_metodo = metodo2

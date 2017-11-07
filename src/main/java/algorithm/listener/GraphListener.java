@@ -54,7 +54,8 @@ public class GraphListener implements GeneticAlgorithmListener {
                     String name = cell.getValue().toString();
                     Person[] people = bestChromosome.getPeople();
                     for (Person person: people) {
-                        if (person.id == name) {
+                        if (person.id.equals(name)) {
+                            System.out.println("Projects: " + person.getAssignedProjects().toString());
                             return person.getAssignedProjects().toString();
                         }
                     }

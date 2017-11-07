@@ -21,7 +21,8 @@ public class Configuration {
 	public MutationAlgorithm mutationAlgorithm;
 	public ReplaceMethod replaceMethod;
 	public double pm;
-	
+	public double pc;
+
 	public Configuration() {
 		cuttingConditions = new ArrayList<>();
 		initializeDefaults();
@@ -63,8 +64,9 @@ public class Configuration {
 			return this;
 		}
 		
-		public Builder withCrossOverAlgorithm(CrossOverAlgorithm crossOverAlgorithm) {
+		public Builder withCrossOverAlgorithm(CrossOverAlgorithm crossOverAlgorithm, double pc) {
 			configuration.crossOverAlgorithm = crossOverAlgorithm;
+			configuration.pc = pc;
 			return this;
 		}
 		
