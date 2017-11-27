@@ -14,7 +14,7 @@ cd sia-2016-08
 ## Build JAR
 You need to install maven and then build the jar.
 ```
-sudo apt-get -y install maven 
+sudo apt-get -y install maven
 mvn clean package
 ```
 Move the jar where you want and copy the tsv and txt files (configuration files, multipliers, heights and items).
@@ -28,7 +28,7 @@ The first argument indicates the directory where the tsv and txt files are. The 
 
 ```
 cd ~
-java -jar ./ai_systems_genetic_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.jar 
+java -jar ./ai_systems_genetic_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 ## Configuration file
@@ -41,4 +41,3 @@ The implementation approach of this problem is generic, so you can change the ch
 
 - [Ducret, Argentino](https://github.com/aducret)
 - [Gutierrez, Ignacio](https://github.com/goodengineer)
-- [Prudhomme, Franco](https://github.com/francoprud)

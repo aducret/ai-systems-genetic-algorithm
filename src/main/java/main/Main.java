@@ -1,7 +1,10 @@
 package main;
 
 import java.io.FileNotFoundException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import algorithm.GeneticAlgorithm;
 import algorithm.GeneticAlgorithmProblem;
@@ -10,7 +13,9 @@ import algorithm.chromosome.GAPAChromosome2;
 import algorithm.listener.GeneticAlgorithmListener;
 import algorithm.listener.GraphListener;
 import algorithm.listener.PlotterListener;
+import model.GraphLab;
 import model.Node;
+import parser.OrganizationParser;
 import parser.WorkingPlaceParser;
 import util.GAPAUtils;
 
@@ -47,7 +52,10 @@ public class Main {
 			@Override
 			public void onGeneticAlgorithmFinished(Chromosome currentBestChromosome, Chromosome bestChromosome) {
 				try {
-					GAPAUtils.writeSolution(solutionPath, WorkingPlaceParser.generate(orgPath),
+					OrganizationParser op = new OrganizationParser();
+					TreeMap<String, HashSet<String>> projects = op.parseProjects(empPath);
+					Map<String, HashSet<String>> people = GraphLab.buildPeople(projects);
+					GAPAUtils.writeSolution(solutionPath, WorkingPlaceParser.generate(orgPath), people,
 							(GAPAChromosome2) bestChromosome);
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
