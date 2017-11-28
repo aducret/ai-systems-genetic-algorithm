@@ -24,20 +24,24 @@ public class Main {
 	public static Node root;
 
 	public static void main(String[] args) throws FileNotFoundException {
-		String dirFilepath = isRunningInEclipse() ? "doc/data/" : "./";
-		if (args.length != 0) {
-			dirFilepath = args[0];
-			if (dirFilepath.lastIndexOf('/') != dirFilepath.length()) {
-				dirFilepath += "/";
-			}
+		String dirFilepath = isRunningInEclipse() ? "doc/gapa/" : "./";
+		String org = dirFilepath  + "org.txt";
+		String emp = dirFilepath + "emp.txt";
+
+		if (args.length >= 1) {
+			org = args[0];
+		}
+
+		if (args.length >= 2) {
+			emp = args[1];
 		}
 
 		// Paths
-		final String solutionPath = "./doc/gapa/solution.txt";
-//		final String orgPath = "./doc/gapa/ej1_org";
-		final String empPath = "./doc/gapa/ej3_emp";
-		final String orgPath = "./doc/gapa/wolox";
-//		final String empPath = "./doc/gapa/employees";
+		final String solutionPath = dirFilepath + "solution.txt";
+//		final String orgPath = dirFilepath  + "ej1_org";
+		final String empPath = emp;
+		final String orgPath = org;
+//		final String empPath = dirFilepath + "emp.txt";
 
 		// Setear listeners
 		GeneticAlgorithmListener loggerListener = new LoggerGeneticAlgorithmListener();
@@ -69,7 +73,7 @@ public class Main {
 		};
 		
 //		GeneticAlgorithmProblem problem = createGAPA(orgPath, empPath);
-		GeneticAlgorithmProblem problem = new GAPAProblem(orgPath, empPath);
+		GeneticAlgorithmProblem problem = new GAPAProblem(dirFilepath, orgPath, empPath);
 		
 		GeneticAlgorithm algorithm = new GeneticAlgorithm(problem);
 		algorithm.addListener(writeSolutionListener);

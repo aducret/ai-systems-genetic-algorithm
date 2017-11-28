@@ -225,7 +225,7 @@ public class RandomOrganizationGenerator {
 	
 	public static void main(String[] args) throws IOException {
 		RandomOrganizationGenerator rog = new RandomOrganizationGenerator();
-		rog.createRandomOrganization("./org.txt", "./emp.txt");
+		rog.createRandomOrganization("./org.txt.txt", "./emp.txt.txt");
 	}
 	
 }

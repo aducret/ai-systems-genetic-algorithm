@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Archivo de configuracion para el trabajo practico especial 3, Algoritmos Geneticos %%
+%% Archivo de configuracion %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -88,8 +88,10 @@ am_pm = 0.1
 
 % opciones = {elite, roulette, ranking, universal, torneo_probabilistico, torneo_deterministico, boltzmann, random}
 % la configuracion es analoga a la seccion 3
-sr_compuesto = false
-sr_primero = roulette
+sr_compuesto = true
+sr_primero = elite
+sr_segundo = roulette
+sr_porcentaje = 0.15
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% 8 - Metodo de reemplazo %%%%

@@ -17,7 +17,7 @@ public class VectorUtils {
 		return result;
 	}
 
-	// Implementing Fisher–Yates shuffle
+	// Implementing FisherYates shuffle
 	public static void shuffleArray(int[] ar) {
 		// If running on Java 6 or older, use `new Random()` on RHS here
 		for (int i = ar.length - 1; i > 0; i--) {

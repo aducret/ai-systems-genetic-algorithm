@@ -2,8 +2,6 @@ package algorithm.listener;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,23 +11,16 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 
 import com.mxgraph.layout.mxCompactTreeLayout;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.swing.util.mxMouseAdapter;
-import com.mxgraph.util.mxEvent;
-import com.mxgraph.util.mxEventObject;
-import com.mxgraph.util.mxEventSource;
 import com.mxgraph.view.mxGraph;
 
 import algorithm.chromosome.Chromosome;
-import com.mxgraph.view.mxGraphSelectionModel;
 import algorithm.chromosome.GAPAChromosome2;
 import model.Node;
 import model.Person;
-import oracle.jrockit.jfr.JFR;
 import util.RandomPopper;
 
 public class GraphListener implements GeneticAlgorithmListener {

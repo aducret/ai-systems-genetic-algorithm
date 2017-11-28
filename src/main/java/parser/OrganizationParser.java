@@ -145,7 +145,7 @@ public class OrganizationParser {
 						restrictions.put(project.get(i).id, new HashSet<String>());
 					}
 					restrictions.get(project.get(i).id).add(project.get(j).id);
-//					Pair<Integer, Integer> restriction = new Pair<>(employees.indexOf(project.get(i)), employees.indexOf(project.get(j)));
+//					Pair<Integer, Integer> restriction = new Pair<>(emp.txt.indexOf(project.get(i)), emp.txt.indexOf(project.get(j)));
 //					restrictions.add(restriction);
 				}
 			}

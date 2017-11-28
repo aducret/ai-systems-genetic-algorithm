@@ -51,7 +51,7 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 
 	/**
 	 * TODO: move parameters to a configuration file and receive file name as parameter
-	 * @param employees list of employees ids
+	 * @param employees list of emp.txt ids
 	 * @param seats should be a call to NodeUtils.leafs(root)
 	 * @param restrictions look at {@link GAPAChromosome}
 	 */
@@ -67,7 +67,8 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 //		this.restrictions = restrictions;
 	}
 	
-	public GAPAProblem(String orgPath, String empPath) throws FileNotFoundException {
+	public GAPAProblem(String dirFilepath, String orgPath, String empPath) throws FileNotFoundException {
+		this.dirFilepath = dirFilepath;
 		this.orgPath = orgPath;
 		this.empPath = empPath;
 		
@@ -114,9 +115,9 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 	@Override
 	public Chromosome createRandom() {
 //		RandomPopper<Node> rp = new RandomPopper<>(seats);
-//		Person[] people = new Person[employees.size()];
-//		for (int i = 0; i < employees.size(); i++) {
-//			people[i] = employees.get(i).clone();
+//		Person[] people = new Person[emp.txt.size()];
+//		for (int i = 0; i < emp.txt.size(); i++) {
+//			people[i] = emp.txt.get(i).clone();
 //			people[i].setWorkingSpace(rp.randomPop());
 //		}
 //		return new GAPAChromosome(people, restrictions, seats);
@@ -129,9 +130,9 @@ public class GAPAProblem implements GeneticAlgorithmProblem {
 //			e.printStackTrace();
 //		}
 //		
-//		Person[] people = new Person[employees.size()];
-//		for (int i = 0; i < employees.size(); i++) {
-//			people[i] = employees.get(i).clone();
+//		Person[] people = new Person[emp.txt.size()];
+//		for (int i = 0; i < emp.txt.size(); i++) {
+//			people[i] = emp.txt.get(i).clone();
 ////			people[i].setWorkingSpace(rp.randomPop());
 //			
 //			Node bestSeat = bestSeats.get(people[i].id);

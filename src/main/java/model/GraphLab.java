@@ -22,8 +22,8 @@ public class GraphLab {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		final String orgPath = "./doc/gapa/wolox";
-		final String empPath = "./doc/gapa/employees";
+		final String orgPath = "./doc/gapa/org.txt";
+		final String empPath = "./doc/gapa/emp.txt";
 		// final String orgPath = "./doc/gapa/ej1_org";
 		// final String empPath = "./doc/gapa/ej1_emp";
 
